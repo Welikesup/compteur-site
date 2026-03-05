@@ -44,6 +44,7 @@ apiKey: "AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+console.log("Firebase chargé correctement");
 
 const passwords = {
   "medine": "Le Havre",
@@ -173,4 +174,5 @@ window.decrement = async function(item){
 
 </body>
 </html>
+
 
