@@ -85,14 +85,14 @@ window.login = async function() {
 
 async function loadData(){
   const ref = doc(db, "global", "objectifs");
-  const snap = await getDoc(ref);
+  const snap =  getDoc(ref);
 
   if(snap.exists()){
     globalData = snap.data();
   } else {
     globalData = { totalClicks: 0 };
     itemsList.forEach(item => globalData[item] = 0);
-    await setDoc(ref, globalData);
+     setDoc(ref, globalData);
   }
 
   displayItems();
@@ -136,7 +136,9 @@ window.setObjective = async function(item){
   if(!isNaN(val)){
     globalData[item] = val;
 
-    await updateDoc(doc(db, "global", "objectifs"), {
+    await setDoc(doc(db, "global", "objectifs"), {
+  [item]: val
+}, { merge: true });
       [item]: val
     });
 
@@ -157,7 +159,10 @@ window.decrement = async function(item){
   globalData[item]--;
   globalData.totalClicks++;
 
-  await updateDoc(doc(db, "global", "objectifs"), {
+  await setDoc(doc(db, "global", "objectifs"), {
+  [item]: globalData[item],
+  totalClicks: globalData.totalClicks
+}, { merge: true });
     [item]: globalData[item],
     totalClicks: globalData.totalClicks
   });
@@ -169,5 +174,6 @@ window.decrement = async function(item){
 </body>
 
 </>
+
 
 
