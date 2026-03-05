@@ -8,6 +8,20 @@
 body { font-family: Arial; text-align:center; background:#f4f4f4; }
 .container { margin-top:40px; }
 .item { background:white; padding:15px; margin:10px; border-radius:8px; display:inline-block; width:230px; }
+.item.success {
+  background: #e6f9ed;
+  border: 2px solid #28a745;
+}
+
+.item.success h3,
+.item.success p {
+  color: #28a745;
+}
+
+button.disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
 button { padding:6px 12px; margin-top:8px; cursor:pointer; }
 .hidden { display:none; }
 input { padding:5px; width:100px; text-align:center; }
@@ -139,31 +153,59 @@ async function initData(){
 
   onSnapshot(ref, (docSnap) => {
     globalData = docSnap.data();
-    display();
+function display(){
+  document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
+
+  const itemsContainer = document.getElementById("items");
+  itemsContainer.innerHTML = "";
+
+  const adminInputs = document.getElementById("adminInputs");
+  adminInputs.innerHTML = "";
+
+  itemsList.forEach(item=>{
+
+    const remaining = globalData[item] || 0;
+    const personalValue =
+      globalData.personal?.[currentUser]?.[item] || 0;
+
+    const div = document.createElement("div");
+    div.className = "item";
+
+    let buttonHTML = `
+      <button onclick="decrement('${item}')">
+        Valider une vente
+      </button>
+    `;
+
+    if(remaining === 0){
+      div.classList.add("success");
+      buttonHTML = `
+        <button class="disabled" disabled>
+          Objectif atteint
+        </button>
+      `;
+    }
+
+    div.innerHTML = `
+      <h3>${item}</h3>
+      <p>Objectif restant: <strong>${remaining}</strong></p>
+      <div class="personal-line">
+        Mes ventes aujourd'hui : <strong>${personalValue}</strong>
+      </div>
+      ${buttonHTML}
+    `;
+
+    itemsContainer.appendChild(div);
+
+    if(currentUser === "Mariama"){
+      const inputLine = document.createElement("div");
+      inputLine.innerHTML = `
+        ${item} :
+        <input type="number" id="input-${item}" value="${remaining}">
+      `;
+      adminInputs.appendChild(inputLine);
+    }
   });
-}
-
-async function checkDailyReset(){
-  const snap = await getDoc(ref);
-  const data = snap.data();
-  const today = getToday();
-
-  if(data.lastPersonalReset !== today){
-
-    let resetPersonal = {};
-
-    Object.values(passwords).forEach(user=>{
-      resetPersonal[user] = {};
-      itemsList.forEach(item=>{
-        resetPersonal[user][item] = 0;
-      });
-    });
-
-    await setDoc(ref, {
-      personal: resetPersonal,
-      lastPersonalReset: today
-    }, { merge:true });
-  }
 }
 
 function display(){
@@ -253,3 +295,4 @@ window.resetAll = async function(){
 
 </body>
 </html>
+
