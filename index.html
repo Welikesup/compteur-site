@@ -7,7 +7,16 @@
 <style>
 body { font-family: Arial; text-align:center; background:#f4f4f4; }
 .container { margin-top:40px; }
-.item { background:white; padding:15px; margin:10px; border-radius:8px; display:inline-block; width:230px; }
+
+.item {
+  background:white;
+  padding:15px;
+  margin:10px;
+  border-radius:8px;
+  display:inline-block;
+  width:230px;
+}
+
 .item.success {
   background: #e6f9ed;
   border: 2px solid #28a745;
@@ -22,10 +31,15 @@ button.disabled {
   background: #ccc;
   cursor: not-allowed;
 }
+
 button { padding:6px 12px; margin-top:8px; cursor:pointer; }
+
 .hidden { display:none; }
+
 input { padding:5px; width:100px; text-align:center; }
+
 .admin-panel { margin-bottom:20px; }
+
 .personal-line {
   font-size:14px;
   margin-top:6px;
@@ -45,7 +59,6 @@ input { padding:5px; width:100px; text-align:center; }
 
 <div id="app" class="hidden">
 <h2 id="welcome"></h2>
-
 <p>Total équipe : <strong id="totalClicks">0</strong></p>
 
 <div id="adminPanel" class="admin-panel hidden">
@@ -77,6 +90,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const ref = doc(db, "global", "objectifs");
 
 const passwords = {
   "medine": "Le Havre",
@@ -101,7 +115,6 @@ const itemsList = [
 
 let currentUser = "";
 let globalData = {};
-let ref = doc(db, "global", "objectifs");
 
 function getToday(){
   const d = new Date();
@@ -153,6 +166,33 @@ async function initData(){
 
   onSnapshot(ref, (docSnap) => {
     globalData = docSnap.data();
+    display();
+  });
+}
+
+async function checkDailyReset(){
+  const snap = await getDoc(ref);
+  const data = snap.data();
+  const today = getToday();
+
+  if(data.lastPersonalReset !== today){
+
+    let resetPersonal = {};
+
+    Object.values(passwords).forEach(user=>{
+      resetPersonal[user] = {};
+      itemsList.forEach(item=>{
+        resetPersonal[user][item] = 0;
+      });
+    });
+
+    await setDoc(ref, {
+      personal: resetPersonal,
+      lastPersonalReset: today
+    }, { merge:true });
+  }
+}
+
 function display(){
   document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
 
@@ -208,44 +248,6 @@ function display(){
   });
 }
 
-function display(){
-  document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
-
-  const itemsContainer = document.getElementById("items");
-  itemsContainer.innerHTML = "";
-
-  const adminInputs = document.getElementById("adminInputs");
-  adminInputs.innerHTML = "";
-
-  itemsList.forEach(item=>{
-    const div = document.createElement("div");
-    div.className = "item";
-
-    const personalValue =
-      globalData.personal?.[currentUser]?.[item] || 0;
-
-    div.innerHTML = `
-      <h3>${item}</h3>
-      <p>Objectif restant: <strong>${globalData[item] || 0}</strong></p>
-      <div class="personal-line">
-        Mes ventes aujourd'hui : <strong>${personalValue}</strong>
-      </div>
-      <button onclick="decrement('${item}')">Valider une vente</button>
-    `;
-
-    itemsContainer.appendChild(div);
-
-    if(currentUser === "Mariama"){
-      const inputLine = document.createElement("div");
-      inputLine.innerHTML = `
-        ${item} :
-        <input type="number" id="input-${item}" value="${globalData[item] || 0}">
-      `;
-      adminInputs.appendChild(inputLine);
-    }
-  });
-}
-
 window.decrement = async function(item){
 
   if((globalData[item] || 0) <= 0){
@@ -295,4 +297,3 @@ window.resetAll = async function(){
 
 </body>
 </html>
-
