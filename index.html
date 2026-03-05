@@ -31,10 +31,10 @@ input { padding:5px; width:120px; }
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
+  apiKey: "AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
   authDomain: "compteur-stn.firebaseapp.com",
   projectId: "compteur-stn",
   storageBucket: "compteur-stn.firebasestorage.app",
@@ -44,7 +44,6 @@ apiKey: "AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-console.log("Firebase chargé correctement");
 
 const passwords = {
   "medine": "Le Havre",
@@ -78,34 +77,31 @@ window.login = async function() {
     document.getElementById("login").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("welcome").innerText = "Bienvenue " + currentUser;
-    await loadData();
+    await initData();
   } else {
     document.getElementById("error").innerText = "Mot de passe incorrect";
   }
 }
 
-async function loadData(){
+async function initData(){
   const ref = doc(db, "global", "objectifs");
   const snap = await getDoc(ref);
 
-  if(snap.exists()){
-    globalData = snap.data();
-  } else {
-    globalData = { totalClicks: 0 };
-    itemsList.forEach(item => globalData[item] = 0);
-    await setDoc(ref, globalData);
+  if(!snap.exists()){
+    let initialData = { totalClicks: 0 };
+    itemsList.forEach(item => initialData[item] = 0);
+    await setDoc(ref, initialData);
   }
 
-  if(!globalData.totalClicks) globalData.totalClicks = 0;
-  itemsList.forEach(item=>{
-    if(!globalData[item]) globalData[item] = 0;
+  // 🔥 TEMPS RÉEL
+  onSnapshot(ref, (docSnap) => {
+    globalData = docSnap.data();
+    displayItems();
   });
-
-  displayItems();
 }
 
 function displayItems(){
-  document.getElementById("totalClicks").innerText = globalData.totalClicks;
+  document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
   const container = document.getElementById("items");
   container.innerHTML = "";
 
@@ -126,7 +122,7 @@ function displayItems(){
 
     div.innerHTML = `
       <h3>${item}</h3>
-      <p>Restant: <strong>${globalData[item]}</strong></p>
+      <p>Restant: <strong>${globalData[item] || 0}</strong></p>
       ${adminControls}
       <button onclick="decrement('${item}')">Valider une vente</button>
     `;
@@ -141,18 +137,14 @@ window.setObjective = async function(item){
   const val = parseInt(document.getElementById("input-"+item).value);
   if(isNaN(val)) return;
 
-  globalData[item] = val;
-
   await setDoc(doc(db, "global", "objectifs"), {
     [item]: val
   }, { merge: true });
-
-  displayItems();
 }
 
 window.decrement = async function(item){
 
-  if(globalData[item] <= 0){
+  if((globalData[item] || 0) <= 0){
     alert("Objectif atteint !");
     return;
   }
@@ -160,19 +152,12 @@ window.decrement = async function(item){
   const confirmation = confirm("Confirmer cette action ?");
   if(!confirmation) return;
 
-  globalData[item]--;
-  globalData.totalClicks++;
-
   await setDoc(doc(db, "global", "objectifs"), {
-    [item]: globalData[item],
-    totalClicks: globalData.totalClicks
+    [item]: globalData[item] - 1,
+    totalClicks: (globalData.totalClicks || 0) + 1
   }, { merge: true });
-
-  displayItems();
 }
 </script>
 
 </body>
 </html>
-
-
