@@ -56,22 +56,22 @@ const passwords = {
 };
 
 const itemsList = [
-"Broadband",
-"Socle Mobiles",
-"MEV",
-"Terminaux",
-"Assurances",
-"Cyber",
-"MP",
-"Pros"
+  "Broadband",
+  "Socle Mobiles",
+  "MEV",
+  "Terminaux",
+  "Assurances",
+  "Cyber",
+  "MP",
+  "Pros"
 ];
 
 let currentUser = "";
-let userData = {};
+let globalData = {};
 
 window.login = async function() {
   const pass = document.getElementById("password").value;
-  
+
   if(passwords[pass]){
     currentUser = passwords[pass];
     document.getElementById("login").classList.add("hidden");
@@ -84,19 +84,22 @@ window.login = async function() {
 }
 
 async function loadData(){
-  const ref = doc(db, "users", currentUser);
+  const ref = doc(db, "global", "objectifs");
   const snap = await getDoc(ref);
 
   if(snap.exists()){
-    userData = snap.data();
+    globalData = snap.data();
   } else {
-    userData = { totalClicks: 0 };
-    itemsList.forEach(item => userData[item] = 0);
-    await setDoc(ref, userData);
+    globalData = { totalClicks: 0 };
+    itemsList.forEach(item => globalData[item] = 0);
+    await setDoc(ref, globalData);
   }
 
+  displayItems();
+}
+
 function displayItems(){
-  document.getElementById("totalClicks").innerText = userData.totalClicks;
+  document.getElementById("totalClicks").innerText = globalData.totalClicks;
   const container = document.getElementById("items");
   container.innerHTML = "";
 
@@ -117,7 +120,7 @@ function displayItems(){
 
     div.innerHTML = `
       <h3>${item}</h3>
-      <p>Restant: <strong>${userData[item]}</strong></p>
+      <p>Restant: <strong>${globalData[item]}</strong></p>
       ${adminControls}
       <button onclick="decrement('${item}')">Valider une vente</button>
     `;
@@ -127,11 +130,13 @@ function displayItems(){
 }
 
 window.setObjective = async function(item){
+  if(currentUser !== "Mariama") return;
+
   const val = parseInt(document.getElementById("input-"+item).value);
   if(!isNaN(val)){
-    userData[item] = val;
+    globalData[item] = val;
 
-    await updateDoc(doc(db, "users", currentUser), {
+    await updateDoc(doc(db, "global", "objectifs"), {
       [item]: val
     });
 
@@ -141,28 +146,28 @@ window.setObjective = async function(item){
 
 window.decrement = async function(item){
 
-  if(userData[item] <= 0){
-    alert("Objectif déjà atteint !");
+  if(globalData[item] <= 0){
+    alert("Objectif atteint !");
     return;
   }
 
   const confirmation = confirm("Confirmer cette action ?");
   if(!confirmation) return;
 
-  userData[item]--;
-  userData.totalClicks++;
+  globalData[item]--;
+  globalData.totalClicks++;
 
-  await updateDoc(doc(db, "users", currentUser), {
-    [item]: userData[item],
-    totalClicks: userData.totalClicks
+  await updateDoc(doc(db, "global", "objectifs"), {
+    [item]: globalData[item],
+    totalClicks: globalData.totalClicks
   });
 
   displayItems();
-}
 }
 </script>
 
 </body>
 
-</html>
+</>
+
 
