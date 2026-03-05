@@ -95,9 +95,6 @@ async function loadData(){
     await setDoc(ref, userData);
   }
 
-  displayItems();
-}
-
 function displayItems(){
   document.getElementById("totalClicks").innerText = userData.totalClicks;
   const container = document.getElementById("items");
@@ -106,39 +103,66 @@ function displayItems(){
   itemsList.forEach(item=>{
     const div = document.createElement("div");
     div.className = "item";
+
+    let adminControls = "";
+
+    if(currentUser === "Mariama"){
+      adminControls = `
+        <input type="number" placeholder="Nouvel objectif" id="input-${item}">
+        <br>
+        <button onclick="setObjective('${item}')">Définir objectif</button>
+        <br><br>
+      `;
+    }
+
     div.innerHTML = `
       <h3>${item}</h3>
       <p>Restant: <strong>${userData[item]}</strong></p>
-      <input type="number" placeholder="Objectif" id="input-${item}">
-      <br>
-      <button onclick="decrement('${item}')">Clique</button>
+      ${adminControls}
+      <button onclick="decrement('${item}')">Valider une vente</button>
     `;
+
     container.appendChild(div);
   });
 }
 
-window.decrement = async function(item){
-  if(userData[item] === 0){
-    const val = parseInt(document.getElementById("input-"+item).value);
-    if(!isNaN(val)){
-      userData[item] = val;
-    }
-  }
+window.setObjective = async function(item){
+  const val = parseInt(document.getElementById("input-"+item).value);
+  if(!isNaN(val)){
+    userData[item] = val;
 
-  if(userData[item] > 0){
-    userData[item]--;
-    userData.totalClicks++;
-    
     await updateDoc(doc(db, "users", currentUser), {
-      [item]: userData[item],
-      totalClicks: userData.totalClicks
+      [item]: val
     });
 
     displayItems();
   }
+}
+
+window.decrement = async function(item){
+
+  if(userData[item] <= 0){
+    alert("Objectif déjà atteint !");
+    return;
+  }
+
+  const confirmation = confirm("Confirmer cette action ?");
+  if(!confirmation) return;
+
+  userData[item]--;
+  userData.totalClicks++;
+
+  await updateDoc(doc(db, "users", currentUser), {
+    [item]: userData[item],
+    totalClicks: userData.totalClicks
+  });
+
+  displayItems();
+}
 }
 </script>
 
 </body>
 
 </html>
+
