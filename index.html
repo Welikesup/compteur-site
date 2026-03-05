@@ -5,45 +5,107 @@
 <title>Compteur Managers</title>
 
 <style>
-body { font-family: Arial; text-align:center; background:#f4f4f4; }
-.container { margin-top:40px; }
+body {
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: white;
+  margin: 0;
+  text-align: center;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+#items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
 
 .item {
-  background:white;
-  padding:15px;
-  margin:10px;
-  border-radius:8px;
-  display:inline-block;
-  width:230px;
+  background: #ff7a00;
+  padding: 20px;
+  margin: 15px;
+  border-radius: 16px;
+  width: 260px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
 }
 
 .item.success {
-  background: #e6f9ed;
-  border: 2px solid #28a745;
+  background: #1e7e34;
 }
 
-.item.success h3,
-.item.success p {
-  color: #28a745;
+button {
+  padding: 10px 15px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:not(.disabled) {
+  background: white;
+  color: black;
 }
 
 button.disabled {
-  background: #ccc;
+  background: #444;
+  color: #999;
   cursor: not-allowed;
 }
 
-button { padding:6px 12px; margin-top:8px; cursor:pointer; }
+input {
+  padding: 6px;
+  width: 90px;
+  border-radius: 6px;
+  border: none;
+  text-align: center;
+}
 
 .hidden { display:none; }
 
-input { padding:5px; width:100px; text-align:center; }
+.progress-container {
+  background: rgba(255,255,255,0.3);
+  border-radius: 20px;
+  height: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
 
-.admin-panel { margin-bottom:20px; }
+.progress-bar {
+  height: 100%;
+  background: white;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.item.success .progress-bar {
+  background: #00ff88;
+}
 
 .personal-line {
-  font-size:14px;
-  margin-top:6px;
-  color:#444;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .item {
+    width: 90%;
+  }
 }
 </style>
 </head>
@@ -60,17 +122,6 @@ input { padding:5px; width:100px; text-align:center; }
 <div id="app" class="hidden">
 <h2 id="welcome"></h2>
 <p>Total équipe : <strong id="totalClicks">0</strong></p>
-
-<div id="adminPanel" class="admin-panel hidden">
-<h3>Définition des objectifs</h3>
-<div id="adminInputs"></div>
-<button onclick="saveAllObjectives()">Valider tous les objectifs</button>
-<br><br>
-<button onclick="resetAll()" style="background:#d9534f;color:white;">
-Reset hebdomadaire
-</button>
-<hr>
-</div>
 
 <div id="items"></div>
 </div>
@@ -115,25 +166,20 @@ const itemsList = [
 
 let currentUser = "";
 let globalData = {};
+let initialObjectives = {};
 
 function getToday(){
   const d = new Date();
   return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
 }
 
-window.login = async function() {
+window.login = async function(){
   const pass = document.getElementById("password").value;
-
   if(passwords[pass]){
     currentUser = passwords[pass];
     document.getElementById("login").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     document.getElementById("welcome").innerText = "Bienvenue " + currentUser;
-
-    if(currentUser === "Mariama"){
-      document.getElementById("adminPanel").classList.remove("hidden");
-    }
-
     await initData();
   } else {
     document.getElementById("error").innerText = "Mot de passe incorrect";
@@ -164,8 +210,13 @@ async function initData(){
 
   await checkDailyReset();
 
-  onSnapshot(ref, (docSnap) => {
+  onSnapshot(ref, (docSnap)=>{
     globalData = docSnap.data();
+    itemsList.forEach(item=>{
+      if(!initialObjectives[item]){
+        initialObjectives[item] = globalData[item];
+      }
+    });
     display();
   });
 }
@@ -176,9 +227,7 @@ async function checkDailyReset(){
   const today = getToday();
 
   if(data.lastPersonalReset !== today){
-
     let resetPersonal = {};
-
     Object.values(passwords).forEach(user=>{
       resetPersonal[user] = {};
       itemsList.forEach(item=>{
@@ -186,49 +235,56 @@ async function checkDailyReset(){
       });
     });
 
-    await setDoc(ref, {
+    await setDoc(ref,{
       personal: resetPersonal,
       lastPersonalReset: today
-    }, { merge:true });
+    },{ merge:true });
   }
 }
 
+function animateCounter(element, start, end){
+  let current = start;
+  const increment = (end - start) / 20;
+  const interval = setInterval(()=>{
+    current += increment;
+    if((increment > 0 && current >= end) || (increment < 0 && current <= end)){
+      current = end;
+      clearInterval(interval);
+    }
+    element.innerText = Math.floor(current);
+  },20);
+}
+
 function display(){
-  document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
+  const totalEl = document.getElementById("totalClicks");
+  animateCounter(totalEl, parseInt(totalEl.innerText)||0, globalData.totalClicks || 0);
 
   const itemsContainer = document.getElementById("items");
   itemsContainer.innerHTML = "";
 
-  const adminInputs = document.getElementById("adminInputs");
-  adminInputs.innerHTML = "";
-
   itemsList.forEach(item=>{
-
     const remaining = globalData[item] || 0;
-    const personalValue =
-      globalData.personal?.[currentUser]?.[item] || 0;
+    const initial = initialObjectives[item] || remaining;
+    const percent = initial > 0 ? ((initial - remaining)/initial)*100 : 100;
+
+    const personalValue = globalData.personal?.[currentUser]?.[item] || 0;
 
     const div = document.createElement("div");
     div.className = "item";
 
-    let buttonHTML = `
-      <button onclick="decrement('${item}')">
-        Valider une vente
-      </button>
-    `;
+    let buttonHTML = `<button onclick="decrement('${item}')">Valider une vente</button>`;
 
     if(remaining === 0){
       div.classList.add("success");
-      buttonHTML = `
-        <button class="disabled" disabled>
-          Objectif atteint
-        </button>
-      `;
+      buttonHTML = `<button class="disabled" disabled>Objectif atteint</button>`;
     }
 
     div.innerHTML = `
       <h3>${item}</h3>
       <p>Objectif restant: <strong>${remaining}</strong></p>
+      <div class="progress-container">
+        <div class="progress-bar" style="width:${percent}%"></div>
+      </div>
       <div class="personal-line">
         Mes ventes aujourd'hui : <strong>${personalValue}</strong>
       </div>
@@ -236,62 +292,27 @@ function display(){
     `;
 
     itemsContainer.appendChild(div);
-
-    if(currentUser === "Mariama"){
-      const inputLine = document.createElement("div");
-      inputLine.innerHTML = `
-        ${item} :
-        <input type="number" id="input-${item}" value="${remaining}">
-      `;
-      adminInputs.appendChild(inputLine);
-    }
   });
 }
 
 window.decrement = async function(item){
+  if((globalData[item] || 0) <= 0) return;
 
-  if((globalData[item] || 0) <= 0){
-    alert("Objectif atteint !");
-    return;
-  }
+  if(!confirm("Confirmer cette vente ?")) return;
 
-  const confirmation = confirm("Confirmer cette vente ?");
-  if(!confirmation) return;
+  const currentPersonal = globalData.personal[currentUser][item] || 0;
 
-  const currentPersonal =
-    globalData.personal[currentUser][item] || 0;
-
-  await setDoc(ref, {
+  await setDoc(ref,{
     [item]: globalData[item] - 1,
     totalClicks: (globalData.totalClicks || 0) + 1,
-    personal: {
+    personal:{
       ...globalData.personal,
-      [currentUser]: {
+      [currentUser]:{
         ...globalData.personal[currentUser],
         [item]: currentPersonal + 1
       }
     }
-  }, { merge:true });
-}
-
-window.saveAllObjectives = async function(){
-  let updates = {};
-  itemsList.forEach(item=>{
-    updates[item] = parseInt(document.getElementById("input-"+item).value) || 0;
-  });
-  await setDoc(ref, updates, { merge:true });
-}
-
-window.resetAll = async function(){
-  const confirm1 = confirm("Confirmer le reset hebdomadaire ?");
-  if(!confirm1) return;
-  const confirm2 = confirm("Êtes-vous absolument sûre ?");
-  if(!confirm2) return;
-
-  let resetData = { totalClicks: 0 };
-  itemsList.forEach(item => resetData[item] = 0);
-
-  await setDoc(ref, resetData, { merge:true });
+  },{ merge:true });
 }
 </script>
 
