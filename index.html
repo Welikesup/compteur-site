@@ -12,6 +12,14 @@ button { padding:6px 12px; margin-top:8px; cursor:pointer; }
 .hidden { display:none; }
 input { padding:5px; width:100px; text-align:center; }
 .admin-panel { margin-bottom:20px; }
+.personal-box {
+  background:#222;
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  display:inline-block;
+  margin-bottom:20px;
+}
 </style>
 </head>
 <body>
@@ -26,7 +34,12 @@ input { padding:5px; width:100px; text-align:center; }
 
 <div id="app" class="hidden">
 <h2 id="welcome"></h2>
-<p>Total clics : <strong id="totalClicks">0</strong></p>
+
+<div class="personal-box">
+Mes ventes aujourd'hui : <strong id="personalCount">0</strong>
+</div>
+
+<p>Total équipe : <strong id="totalClicks">0</strong></p>
 
 <div id="adminPanel" class="admin-panel hidden">
 <h3>Définition des objectifs</h3>
@@ -83,6 +96,11 @@ let currentUser = "";
 let globalData = {};
 let ref = doc(db, "global", "objectifs");
 
+function getToday(){
+  const d = new Date();
+  return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+}
+
 window.login = async function() {
   const pass = document.getElementById("password").value;
 
@@ -106,10 +124,19 @@ async function initData(){
   const snap = await getDoc(ref);
 
   if(!snap.exists()){
-    let initialData = { totalClicks: 0 };
+    let initialData = { 
+      totalClicks: 0, 
+      personal: {},
+      lastPersonalReset: getToday()
+    };
     itemsList.forEach(item => initialData[item] = 0);
+    Object.values(passwords).forEach(user => {
+      initialData.personal[user] = 0;
+    });
     await setDoc(ref, initialData);
   }
+
+  await checkDailyReset();
 
   onSnapshot(ref, (docSnap) => {
     globalData = docSnap.data();
@@ -117,8 +144,32 @@ async function initData(){
   });
 }
 
+async function checkDailyReset(){
+  const snap = await getDoc(ref);
+  const data = snap.data();
+  const today = getToday();
+
+  if(data.lastPersonalReset !== today){
+
+    let resetPersonal = {};
+    Object.values(passwords).forEach(user=>{
+      resetPersonal[user] = 0;
+    });
+
+    await setDoc(ref, {
+      personal: resetPersonal,
+      lastPersonalReset: today
+    }, { merge:true });
+  }
+}
+
 function display(){
   document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
+
+  if(globalData.personal && globalData.personal[currentUser] !== undefined){
+    document.getElementById("personalCount").innerText =
+      globalData.personal[currentUser];
+  }
 
   const itemsContainer = document.getElementById("items");
   itemsContainer.innerHTML = "";
@@ -127,8 +178,6 @@ function display(){
   adminInputs.innerHTML = "";
 
   itemsList.forEach(item=>{
-
-    // Partie affichage classique
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
@@ -138,7 +187,6 @@ function display(){
     `;
     itemsContainer.appendChild(div);
 
-    // Partie admin
     if(currentUser === "Mariama"){
       const inputLine = document.createElement("div");
       inputLine.innerHTML = `
@@ -147,20 +195,7 @@ function display(){
       `;
       adminInputs.appendChild(inputLine);
     }
-
   });
-}
-
-window.saveAllObjectives = async function(){
-
-  let updates = {};
-
-  itemsList.forEach(item=>{
-    const val = parseInt(document.getElementById("input-"+item).value) || 0;
-    updates[item] = val;
-  });
-
-  await setDoc(ref, updates, { merge: true });
 }
 
 window.decrement = async function(item){
@@ -170,27 +205,39 @@ window.decrement = async function(item){
     return;
   }
 
-  const confirmation = confirm("Confirmer cette action ?");
+  const confirmation = confirm("Confirmer cette vente ?");
   if(!confirmation) return;
+
+  let personalCount = globalData.personal[currentUser] || 0;
 
   await setDoc(ref, {
     [item]: globalData[item] - 1,
-    totalClicks: (globalData.totalClicks || 0) + 1
+    totalClicks: (globalData.totalClicks || 0) + 1,
+    personal: {
+      ...globalData.personal,
+      [currentUser]: personalCount + 1
+    }
   }, { merge: true });
 }
 
-window.resetAll = async function(){
+window.saveAllObjectives = async function(){
+  let updates = {};
+  itemsList.forEach(item=>{
+    updates[item] = parseInt(document.getElementById("input-"+item).value) || 0;
+  });
+  await setDoc(ref, updates, { merge: true });
+}
 
+window.resetAll = async function(){
   const confirm1 = confirm("Confirmer le reset hebdomadaire ?");
   if(!confirm1) return;
-
   const confirm2 = confirm("Êtes-vous absolument sûre ?");
   if(!confirm2) return;
 
   let resetData = { totalClicks: 0 };
   itemsList.forEach(item => resetData[item] = 0);
 
-  await setDoc(ref, resetData);
+  await setDoc(ref, resetData, { merge: true });
 }
 </script>
 
