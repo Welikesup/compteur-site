@@ -7,18 +7,15 @@
 <style>
 body { font-family: Arial; text-align:center; background:#f4f4f4; }
 .container { margin-top:40px; }
-.item { background:white; padding:15px; margin:10px; border-radius:8px; display:inline-block; width:220px; }
+.item { background:white; padding:15px; margin:10px; border-radius:8px; display:inline-block; width:230px; }
 button { padding:6px 12px; margin-top:8px; cursor:pointer; }
 .hidden { display:none; }
 input { padding:5px; width:100px; text-align:center; }
 .admin-panel { margin-bottom:20px; }
-.personal-box {
-  background:#222;
-  color:white;
-  padding:10px;
-  border-radius:8px;
-  display:inline-block;
-  margin-bottom:20px;
+.personal-line {
+  font-size:14px;
+  margin-top:6px;
+  color:#444;
 }
 </style>
 </head>
@@ -34,10 +31,6 @@ input { padding:5px; width:100px; text-align:center; }
 
 <div id="app" class="hidden">
 <h2 id="welcome"></h2>
-
-<div class="personal-box">
-Mes ventes aujourd'hui : <strong id="personalCount">0</strong>
-</div>
 
 <p>Total équipe : <strong id="totalClicks">0</strong></p>
 
@@ -124,15 +117,21 @@ async function initData(){
   const snap = await getDoc(ref);
 
   if(!snap.exists()){
-    let initialData = { 
-      totalClicks: 0, 
+    let initialData = {
+      totalClicks: 0,
       personal: {},
       lastPersonalReset: getToday()
     };
+
     itemsList.forEach(item => initialData[item] = 0);
-    Object.values(passwords).forEach(user => {
-      initialData.personal[user] = 0;
+
+    Object.values(passwords).forEach(user=>{
+      initialData.personal[user] = {};
+      itemsList.forEach(item=>{
+        initialData.personal[user][item] = 0;
+      });
     });
+
     await setDoc(ref, initialData);
   }
 
@@ -152,8 +151,12 @@ async function checkDailyReset(){
   if(data.lastPersonalReset !== today){
 
     let resetPersonal = {};
+
     Object.values(passwords).forEach(user=>{
-      resetPersonal[user] = 0;
+      resetPersonal[user] = {};
+      itemsList.forEach(item=>{
+        resetPersonal[user][item] = 0;
+      });
     });
 
     await setDoc(ref, {
@@ -166,11 +169,6 @@ async function checkDailyReset(){
 function display(){
   document.getElementById("totalClicks").innerText = globalData.totalClicks || 0;
 
-  if(globalData.personal && globalData.personal[currentUser] !== undefined){
-    document.getElementById("personalCount").innerText =
-      globalData.personal[currentUser];
-  }
-
   const itemsContainer = document.getElementById("items");
   itemsContainer.innerHTML = "";
 
@@ -180,11 +178,19 @@ function display(){
   itemsList.forEach(item=>{
     const div = document.createElement("div");
     div.className = "item";
+
+    const personalValue =
+      globalData.personal?.[currentUser]?.[item] || 0;
+
     div.innerHTML = `
       <h3>${item}</h3>
-      <p>Restant: <strong>${globalData[item] || 0}</strong></p>
+      <p>Objectif restant: <strong>${globalData[item] || 0}</strong></p>
+      <div class="personal-line">
+        Mes ventes aujourd'hui : <strong>${personalValue}</strong>
+      </div>
       <button onclick="decrement('${item}')">Valider une vente</button>
     `;
+
     itemsContainer.appendChild(div);
 
     if(currentUser === "Mariama"){
@@ -208,16 +214,20 @@ window.decrement = async function(item){
   const confirmation = confirm("Confirmer cette vente ?");
   if(!confirmation) return;
 
-  let personalCount = globalData.personal[currentUser] || 0;
+  const currentPersonal =
+    globalData.personal[currentUser][item] || 0;
 
   await setDoc(ref, {
     [item]: globalData[item] - 1,
     totalClicks: (globalData.totalClicks || 0) + 1,
     personal: {
       ...globalData.personal,
-      [currentUser]: personalCount + 1
+      [currentUser]: {
+        ...globalData.personal[currentUser],
+        [item]: currentPersonal + 1
+      }
     }
-  }, { merge: true });
+  }, { merge:true });
 }
 
 window.saveAllObjectives = async function(){
@@ -225,7 +235,7 @@ window.saveAllObjectives = async function(){
   itemsList.forEach(item=>{
     updates[item] = parseInt(document.getElementById("input-"+item).value) || 0;
   });
-  await setDoc(ref, updates, { merge: true });
+  await setDoc(ref, updates, { merge:true });
 }
 
 window.resetAll = async function(){
@@ -237,7 +247,7 @@ window.resetAll = async function(){
   let resetData = { totalClicks: 0 };
   itemsList.forEach(item => resetData[item] = 0);
 
-  await setDoc(ref, resetData, { merge: true });
+  await setDoc(ref, resetData, { merge:true });
 }
 </script>
 
