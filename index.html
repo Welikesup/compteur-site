@@ -159,7 +159,7 @@ button{font-size:18px;padding:14px;}
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot, runTransaction, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
@@ -359,19 +359,9 @@ if(!confirm("Confirmer cette vente ?")) return;
 
 cancelTimers[item]=Date.now()+20000;
 
-await runTransaction(db,async(transaction)=>{
-
-const snap=await transaction.get(ref);
-const data=snap.data();
-
-const remaining=data[item]||0;
-const personalValue=data.personal[currentUser][item]||0;
-
-transaction.update(ref,{
-[item]:remaining-1,
-[`personal.${currentUser}.${item}`]:personalValue+1
-});
-
+await updateDoc(ref,{
+[item]:increment(-1),
+[`personal.${currentUser}.${item}`]:increment(1)
 });
 
 }
@@ -380,19 +370,9 @@ window.cancelSale=async function(item){
 
 if(!cancelTimers[item]||Date.now()>cancelTimers[item]) return;
 
-await runTransaction(db,async(transaction)=>{
-
-const snap=await transaction.get(ref);
-const data=snap.data();
-
-const remaining=data[item]||0;
-const personalValue=data.personal[currentUser][item]||0;
-
-transaction.update(ref,{
-[item]:remaining+1,
-[`personal.${currentUser}.${item}`]:personalValue-1
-});
-
+await updateDoc(ref,{
+[item]:increment(1),
+[`personal.${currentUser}.${item}`]:increment(-1)
 });
 
 cancelTimers[item]=null;
