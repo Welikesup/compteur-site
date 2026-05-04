@@ -393,6 +393,7 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
    <div id="adminInputs"></div>
    <button onclick="saveObjectives()">Valider tous les objectifs</button>
    <button onclick="resetWeekly()">Réinitialiser les objectifs</button>
+   <button id="saveDailyBtn" onclick="saveDailyObjective()" class="hidden" style="background:#ffd700;color:#000;margin-left:8px;">Valider objectif journalier</button>
  </div>
 
  <div id="rankingPanel" class="ranking-panel hidden">
@@ -1298,6 +1299,8 @@ function renderAdmin(){
    const boutiqueObjectives    = globalData.boutiqueObjectives?.[currentStore] || {};
    const currentDailyObjective = globalData.dailyObjective?.[currentStore] || 0;
 
+   document.getElementById("saveDailyBtn").classList.remove("hidden");
+
    div.innerHTML += `
      <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #444;">
        🎯 Objectif journalier (total placements) :
@@ -1336,12 +1339,10 @@ window.saveObjectives = async function(){
    const cBO = globalData.boutiqueObjectives || {};
    const cBI = globalData.boutiqueInitial    || {};
    const cBP = globalData.boutiqueProgress   || {};
-   const cDO = globalData.dailyObjective     || {};
 
    const updatedObj  = { ...(cBO[currentStore] || {}) };
    const updatedInit = { ...(cBI[currentStore] || {}) };
    const resetProg   = { ...(cBP[currentStore] || {}) };
-   const dailyVal    = parseInt(document.getElementById("obj-daily").value) || 0;
 
    boutiqueDisplayList.forEach(item => {
      const val = parseInt(document.getElementById("obj-" + item).value) || 0;
@@ -1353,10 +1354,24 @@ window.saveObjectives = async function(){
    await setDoc(ref, {
      boutiqueObjectives: { ...cBO, [currentStore]: updatedObj },
      boutiqueInitial:    { ...cBI, [currentStore]: updatedInit },
-     boutiqueProgress:   { ...cBP, [currentStore]: resetProg },
-     dailyObjective:     { ...cDO, [currentStore]: dailyVal }
+     boutiqueProgress:   { ...cBP, [currentStore]: resetProg }
    }, { merge:true });
  }
+};
+
+/* =====================================================================
+  SAVE DAILY OBJECTIVE (bouton séparé — ne remet pas les KPI à zéro)
+  ===================================================================== */
+window.saveDailyObjective = async function(){
+ if(!isManager()) return;
+ if(!confirm("Valider l'objectif journalier ?")) return;
+
+ const dailyVal = parseInt(document.getElementById("obj-daily").value) || 0;
+ const cDO = globalData.dailyObjective || {};
+
+ await setDoc(ref, {
+   dailyObjective: { ...cDO, [currentStore]: dailyVal }
+ }, { merge:true });
 };
 
 window.resetWeekly = async function(){
