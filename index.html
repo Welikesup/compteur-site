@@ -1587,8 +1587,6 @@ function renderAdmin(){
     const boutiqueObjectives = globalData.boutiqueObjectives?.[currentStore] || {};
     const currentDailyObjective = globalData.dailyObjective?.[currentStore] || 0;
 
-    document.getElementById("saveDailyBtn").classList.remove("hidden");
-
     div.innerHTML += `
       <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #444;">
         🎯 Objectif journalier (total placements) :
