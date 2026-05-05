@@ -393,8 +393,6 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
 <div id="app" class="hidden">
   <h2 id="welcome"></h2>
 
-  <!-- Panneau admin (admin secteur + manager) -->
-
   <div id="adminPanel" class="admin-panel hidden">
     <h3 id="adminTitle">Administration</h3>
     <div id="adminInputs"></div>
@@ -402,14 +400,10 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
     <button onclick="resetWeekly()">Réinitialiser les objectifs</button>
   </div>
 
-  <!-- Classement (admin secteur + manager) -->
-
   <div id="rankingPanel" class="ranking-panel hidden">
     <h3 id="rankingTitle">Classement du jour</h3>
     <div id="rankingContent"></div>
   </div>
-
-  <!-- Tuiles KPI (store + manager + admin secteur) -->
 
   <div id="items"></div>
 
@@ -418,32 +412,24 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
     <div id="globalSummaryContent" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
   </div>
 
-  <!-- Taux de transformation (store + manager) -->
-
   <div id="txPanel" class="store-panel hidden">
     <div id="txContent"></div>
   </div>
-
-  <!-- Suivi boutique (store + manager) -->
 
   <div id="storeTrackingPanel" class="store-panel hidden">
     <h3 id="storeTrackingTitle">Suivi boutique</h3>
     <div id="storeTrackingContent" class="store-progress-list"></div>
   </div>
 
-  <!-- Vue directeur -->
-
   <div id="directorPanel" class="hidden">
+    <div style="padding:20px 20px 0 20px;">
+      <div style="background:#1c1c1c;border-radius:15px;padding:16px 20px;">
+        <div style="font-size:13px;font-weight:700;color:#ff7a00;letter-spacing:1px;margin-bottom:12px;">📊 Semaine DCR Normandie-Centre</div>
+        <div id="directorSummary" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+      </div>
+    </div>
 
 ```
-<!-- Synthèse globale S1+S2 -->
-<div style="padding:20px 20px 0 20px;">
-  <div style="background:#1c1c1c;border-radius:15px;padding:16px 20px;">
-    <div style="font-size:13px;font-weight:700;color:#ff7a00;letter-spacing:1px;margin-bottom:12px;">📊 Semaine DCR Normandie-Centre</div>
-    <div id="directorSummary" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
-  </div>
-</div>
-
 <div class="director-grid">
   <div class="director-sector">
     <h2>⚡ Secteur Terres Normandes — Mariama</h2>
