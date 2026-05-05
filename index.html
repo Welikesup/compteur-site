@@ -928,6 +928,7 @@ async function initData(){
   await ensureDataStructure();
   if(unsubscribeSnapshot){ unsubscribeSnapshot(); unsubscribeSnapshot = null; }
 
+  let adminRendered = false;
   unsubscribeSnapshot = onSnapshot(ref, (docSnap) => {
     globalData = docSnap.data() || {};
 
@@ -935,7 +936,10 @@ async function initData(){
       renderDirector();
     } else {
       display();
-      if(isAdmin() || isManager()){ renderAdmin(); renderRanking(); }
+      if(isAdmin() || isManager()){
+        if(!adminRendered){ renderAdmin(); adminRendered = true; }
+        renderRanking();
+      }
       if(isAdmin()){ renderGlobalSummary(); }
       if(isStore() || isManager()){ renderStoreTracking(); renderTx(); }
     }
@@ -1556,6 +1560,11 @@ window.catchUpSale = async function(item){
 function renderAdmin(){
   const div   = document.getElementById("adminInputs");
   const title = document.getElementById("adminTitle");
+
+  /* Ne pas re-rendre si un input est en cours de saisie */
+  const activeEl = document.activeElement;
+  if(activeEl && activeEl.closest && activeEl.closest("#adminInputs")) return;
+
   div.innerHTML = "";
 
   if(isAdmin()){
