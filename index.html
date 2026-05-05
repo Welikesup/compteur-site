@@ -777,7 +777,6 @@ async function initData(){
 
   unsubscribeSnapshot = onSnapshot(ref, (docSnap) => {
     globalData = docSnap.data() || {};
-
     if(isDirector()){
       renderDirector();
     } else {
@@ -793,7 +792,6 @@ async function initData(){
 function renderRanking(){
   const rankingContent = document.getElementById("rankingContent");
   if(!rankingContent) return;
-
   const sectorStores = getCurrentSectorStores();
   const rankingData = sectorStores.map(name => {
     let total = 0;
@@ -801,13 +799,8 @@ function renderRanking(){
     return { name, total };
   });
   rankingData.sort((a,b) => b.total !== a.total ? b.total - a.total : a.name.localeCompare(b.name,"fr"));
-
   const hasSales = rankingData.some(r => r.total > 0);
-  if(!hasSales){
-    rankingContent.innerHTML = `<div style="opacity:0.8;">Aucune vente aujourd'hui</div>`;
-    return;
-  }
-
+  if(!hasSales){ rankingContent.innerHTML = `<div style="opacity:0.8;">Aucune vente aujourd'hui</div>`; return; }
   rankingContent.innerHTML = rankingData.map((row,index) => {
     let extraClass = "", medal = "";
     if(index === 0){ extraClass = "top1"; medal = "🥇"; }
@@ -832,25 +825,19 @@ function display(){
 
   itemsList.forEach(item => {
     const hasObjective = !itemsWithoutObjective.includes(item);
-
     const sectorTotal  = globalData.sectorTotals?.[currentSector]?.[item] || 0;
     const weeklySector = globalData.weeklySectorTotals?.[currentSector]?.[item] || 0;
-
     let todaySectorValue = 0;
     sectorStores.forEach(name => todaySectorValue += globalData.personal?.[name]?.[item] || 0);
-
     const storeTodayValue = currentStore ? (globalData.personal?.[currentStore]?.[item] || 0) : 0;
     const storeWeekValue  = currentStore ? (globalData.weeklyPersonal?.[currentStore]?.[item] || 0) : 0;
-
     const sectorInitial = globalData.sectorInitial?.[currentSector]?.[item] || 0;
     const diff          = sectorInitial - sectorTotal;
     const percentBar    = Math.min(sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0, 100);
     const percentText   = sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0;
-
     let percentColor = "#ff7a00";
     if(percentText >= 100 && percentText < 120) percentColor = "#66cc88";
     if(percentText >= 120) percentColor = "#1e7e34";
-
     let leaderValue = 0, leaders = [];
     sectorStores.forEach(name => {
       const val = globalData.personal?.[name]?.[item] || 0;
@@ -859,15 +846,12 @@ function display(){
     });
     const leaderKey = leaderValue > 0 ? `${leaders.join("|")}::${leaderValue}` : "";
     nextLeaderKeys[item] = leaderKey;
-
     let leaderHTML = "";
     if(hasTileOverview() && leaderValue > 0){
-      const leaderNames = leaders.join(" / ");
       leaderHTML = `<div style="font-size:13px;margin-top:6px;font-weight:700;color:#FFD700;
         text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-        🏆 Boutique leader : ${leaderNames} (${leaderValue})</div>`;
+        🏆 Boutique leader : ${leaders.join(" / ")} (${leaderValue})</div>`;
     }
-
     let detailHTML = "";
     if(hasTileOverview()){
       sectorStores.forEach(name => {
@@ -876,30 +860,22 @@ function display(){
         detailHTML += `<div style="font-size:12px;margin-top:2px;line-height:1.15;">${name} : ${val}</div>`;
       });
     }
-
     const cancelAllowed = !!(cancelTimers[item] && Date.now() < cancelTimers[item]);
     const canSell = !isAdmin();
-
     const div = document.createElement("div");
     div.className = "item";
-
     if(hasObjective){
       if(percentText >= 120){ div.style.background = "#1e7e34"; div.classList.add("glow"); }
       else if(percentText >= 100){ div.style.background = "#66cc88"; }
       else { div.style.background = "#ff7a00"; }
-    } else {
-      div.style.background = "#ff7a00";
-    }
-
+    } else { div.style.background = "#ff7a00"; }
     if(hasTileOverview() && leaderValue > 0 &&
        previousLeaderKeys[item] !== undefined && previousLeaderKeys[item] !== leaderKey){
       div.classList.add("leader-flash");
     }
-
     const objectifText = sectorInitial > 0
       ? (diff >= 0 ? `Objectif restant : <strong>${diff}</strong>` : `Objectif dépassé de : <strong>${-diff}</strong>`)
       : "";
-
     const objectiveBlock = hasObjective && sectorInitial > 0 ? `
       <p>${objectifText}</p>
       ${isManager() ? `
@@ -914,7 +890,6 @@ function display(){
       <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
       <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
     ` : ``);
-
     let extraManagerLines = "";
     if(isManager()){
       extraManagerLines = `
@@ -922,12 +897,10 @@ function display(){
         <div class="personal-line">Boutique aujourd'hui : <strong>${storeTodayValue}</strong></div>
       `;
     }
-
     const weeklyText   = hasTileOverview() ? "Ventes du secteur semaine"     : "Ventes de la boutique semaine";
     const personalText = hasTileOverview() ? "Ventes du secteur aujourd'hui" : "Ventes de la boutique aujourd'hui";
     const weeklyUserValue = hasTileOverview() ? weeklySector : (globalData.weeklyPersonal?.[currentUser]?.[item] || 0);
     const userValue       = hasTileOverview() ? todaySectorValue : (globalData.personal?.[currentUser]?.[item] || 0);
-
     let buttonsHTML = "";
     if(canSell){
       if(isManager()){
@@ -943,7 +916,6 @@ function display(){
           <button class="cancel" ${!cancelAllowed?"disabled":""} onclick="cancelSale('${item}')">Annuler</button>`;
       }
     }
-
     div.innerHTML = `
       <h3>${item}</h3>
       ${objectiveBlock}
@@ -955,10 +927,8 @@ function display(){
       ${leaderHTML}
       ${buttonsHTML}
     `;
-
     container.appendChild(div);
   });
-
   previousLeaderKeys = nextLeaderKeys;
 }
 
@@ -969,26 +939,20 @@ function renderStoreTracking(){
   if(!panel || !title || !content || !currentStore) return;
   panel.classList.remove("hidden");
   title.textContent = `Suivi boutique — ${currentStore}`;
-
-  const storeObjectives = globalData.boutiqueObjectives?.[currentStore] || {};
-  const storeInitial    = globalData.boutiqueInitial?.[currentStore]    || {};
-  const storeProgress   = globalData.boutiqueProgress?.[currentStore]   || {};
-
+  const storeInitial  = globalData.boutiqueInitial?.[currentStore]  || {};
+  const storeProgress = globalData.boutiqueProgress?.[currentStore] || {};
   content.innerHTML = boutiqueDisplayList.map(item => {
     const initial   = storeInitial[item] ?? 0;
     const progress  = storeProgress[item] ?? 0;
     const diff      = initial - progress;
     const percentText = initial > 0 ? (progress / initial) * 100 : 0;
     const percentBar  = Math.min(percentText, 100);
-
     let bgColor = "#ff7a00", textColor = "#ff7a00", extraClass = "";
     if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
     else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
-
     const metaText = initial > 0
       ? (diff >= 0 ? `Reste : ${diff} • ${progress}/${initial}` : `Dépassé : ${-diff} • ${progress}/${initial}`)
       : `Aucun objectif • ${progress}`;
-
     return `
       <div class="store-progress-row ${extraClass}" style="background:${bgColor};">
         <div class="store-progress-head">
@@ -1007,23 +971,18 @@ function renderTx(){
   const panel   = document.getElementById("txPanel");
   const content = document.getElementById("txContent");
   if(!panel || !content || !currentStore) return;
-
   let todayTotal = 0;
   managerItemsList.forEach(item => todayTotal += globalData.personal?.[currentStore]?.[item] || 0);
-
   const objective   = globalData.dailyObjective?.[currentStore] || 0;
   const diff        = objective - todayTotal;
   const percentText = objective > 0 ? (todayTotal / objective) * 100 : 0;
   const percentBar  = Math.min(percentText, 100);
-
   let bgColor = "#ff7a00", textColor = "#ff7a00", glowClass = "";
   if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; glowClass = "glow"; }
   else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
-
   const metaText = objective > 0
     ? (diff >= 0 ? `Reste : ${diff} • ${todayTotal}/${objective}` : `Dépassé de : ${-diff} • ${todayTotal}/${objective}`)
     : `Aucun objectif • ${todayTotal} placement${todayTotal>1?"s":""} aujourd'hui`;
-
   content.innerHTML = `
     <div class="store-progress-row ${glowClass}" style="background:${bgColor};">
       <div class="store-progress-head">
@@ -1095,6 +1054,19 @@ function renderDirector(){
           return `<div style="font-size:11px;margin-top:2px;line-height:1.3;">${name} : <strong>${val}</strong></div>`;
         }).join("");
 
+        /* Leader */
+        let leaderValue = 0, leaders = [];
+        sectorStores.forEach(name => {
+          const val = globalData.personal?.[name]?.[item] || 0;
+          if(val > leaderValue){ leaderValue = val; leaders = [name]; }
+          else if(val === leaderValue && val > 0){ leaders.push(name); }
+        });
+        const leaderHTML = leaderValue > 0 ? `
+          <div style="font-size:11px;margin-top:6px;font-weight:700;color:#FFD700;
+            text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+            🏆 ${leaders.join(" / ")} (${leaderValue})
+          </div>` : "";
+
         const objectifText = sectorInitial > 0
           ? (todayTotal <= sectorInitial
             ? `Reste : ${sectorInitial - todayTotal}`
@@ -1105,6 +1077,7 @@ function renderDirector(){
           <div class="director-kpi-row ${extraClass}" style="background:${bgColor};">
             <div class="director-kpi-title" style="font-size:13px;margin-bottom:6px;">${item}</div>
             ${detailHTML}
+            ${leaderHTML}
             <div style="margin-top:6px;font-size:12px;font-weight:700;">
               Total : ${todayTotal}${sectorInitial > 0 ? ` / ${sectorInitial}` : ""}
               &nbsp;•&nbsp; Semaine : ${weeklyTotal}
@@ -1124,55 +1097,30 @@ function renderDirector(){
 window.decrement = async function(item){
   if(isAdmin()) return;
   if(!confirm("Confirmer cette vente ?")) return;
-
   cancelTimers[item] = Date.now() + 20000;
   if(cancelTimerTimeouts[item]) clearTimeout(cancelTimerTimeouts[item]);
-  cancelTimerTimeouts[item] = setTimeout(() => {
-    cancelTimers[item] = null;
-    display();
-  }, 20000);
-
+  cancelTimerTimeouts[item] = setTimeout(() => { cancelTimers[item] = null; display(); }, 20000);
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
     if(!snap.exists()) return;
     const data = snap.data();
-
     const targetStore  = isManager() ? currentStore : currentUser;
     const targetSector = currentSector;
-
     const cP   = data.personal            || {};
     const cWP  = data.weeklyPersonal       || {};
     const cST  = data.sectorTotals         || {};
     const cWST = data.weeklySectorTotals   || {};
     const cBP  = data.boutiqueProgress     || {};
-
     const payload = {
-      personal: {
-        ...cP,
-        [targetStore]: { ...(cP[targetStore]||{}), [item]: (cP[targetStore]?.[item]||0)+1 }
-      },
-      weeklyPersonal: {
-        ...cWP,
-        [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
-      },
-      sectorTotals: {
-        ...cST,
-        [targetSector]: { ...(cST[targetSector]||{}), [item]: (cST[targetSector]?.[item]||0)+1 }
-      },
-      weeklySectorTotals: {
-        ...cWST,
-        [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
-      }
+      personal:           { ...cP,   [targetStore]:  { ...(cP[targetStore]||{}),   [item]: (cP[targetStore]?.[item]||0)+1 } },
+      weeklyPersonal:     { ...cWP,  [targetStore]:  { ...(cWP[targetStore]||{}),  [item]: (cWP[targetStore]?.[item]||0)+1 } },
+      sectorTotals:       { ...cST,  [targetSector]: { ...(cST[targetSector]||{}), [item]: (cST[targetSector]?.[item]||0)+1 } },
+      weeklySectorTotals: { ...cWST, [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 } }
     };
-
     if(managerItemsList.includes(item)){
       const bpm = cBP[targetStore] || {};
-      payload.boutiqueProgress = {
-        ...cBP,
-        [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
-      };
+      payload.boutiqueProgress = { ...cBP, [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 } };
     }
-
     transaction.set(ref, payload, { merge:true });
   });
 };
@@ -1180,51 +1128,29 @@ window.decrement = async function(item){
 window.cancelSale = async function(item){
   if(isAdmin()) return;
   if(!cancelTimers[item] || Date.now() > cancelTimers[item]) return;
-
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
     if(!snap.exists()) return;
     const data = snap.data();
-
     const targetStore  = isManager() ? currentStore : currentUser;
     const targetSector = currentSector;
-
     const cP   = data.personal            || {};
     const cWP  = data.weeklyPersonal       || {};
     const cST  = data.sectorTotals         || {};
     const cWST = data.weeklySectorTotals   || {};
     const cBP  = data.boutiqueProgress     || {};
-
     const payload = {
-      personal: {
-        ...cP,
-        [targetStore]: { ...(cP[targetStore]||{}), [item]: Math.max((cP[targetStore]?.[item]||0)-1,0) }
-      },
-      weeklyPersonal: {
-        ...cWP,
-        [targetStore]: { ...(cWP[targetStore]||{}), [item]: Math.max((cWP[targetStore]?.[item]||0)-1,0) }
-      },
-      sectorTotals: {
-        ...cST,
-        [targetSector]: { ...(cST[targetSector]||{}), [item]: Math.max((cST[targetSector]?.[item]||0)-1,0) }
-      },
-      weeklySectorTotals: {
-        ...cWST,
-        [targetSector]: { ...(cWST[targetSector]||{}), [item]: Math.max((cWST[targetSector]?.[item]||0)-1,0) }
-      }
+      personal:           { ...cP,   [targetStore]:  { ...(cP[targetStore]||{}),   [item]: Math.max((cP[targetStore]?.[item]||0)-1,0) } },
+      weeklyPersonal:     { ...cWP,  [targetStore]:  { ...(cWP[targetStore]||{}),  [item]: Math.max((cWP[targetStore]?.[item]||0)-1,0) } },
+      sectorTotals:       { ...cST,  [targetSector]: { ...(cST[targetSector]||{}), [item]: Math.max((cST[targetSector]?.[item]||0)-1,0) } },
+      weeklySectorTotals: { ...cWST, [targetSector]: { ...(cWST[targetSector]||{}), [item]: Math.max((cWST[targetSector]?.[item]||0)-1,0) } }
     };
-
     if(managerItemsList.includes(item)){
       const bpm = cBP[targetStore] || {};
-      payload.boutiqueProgress = {
-        ...cBP,
-        [targetStore]: { ...bpm, [item]: Math.max((bpm[item]||0)-1,0) }
-      };
+      payload.boutiqueProgress = { ...cBP, [targetStore]: { ...bpm, [item]: Math.max((bpm[item]||0)-1,0) } };
     }
-
     transaction.set(ref, payload, { merge:true });
   });
-
   cancelTimers[item] = null;
   if(cancelTimerTimeouts[item]){ clearTimeout(cancelTimerTimeouts[item]); cancelTimerTimeouts[item] = null; }
 };
@@ -1232,38 +1158,21 @@ window.cancelSale = async function(item){
 window.catchUpSale = async function(item){
   if(!isManager()) return;
   if(!confirm("Rattraper une vente semaine pour " + item + " ?")) return;
-
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
     if(!snap.exists()) return;
     const data = snap.data();
-
-    const targetStore  = currentStore;
-    const targetSector = currentSector;
-
     const cWP  = data.weeklyPersonal     || {};
     const cWST = data.weeklySectorTotals || {};
     const cBP  = data.boutiqueProgress   || {};
-
     const payload = {
-      weeklyPersonal: {
-        ...cWP,
-        [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
-      },
-      weeklySectorTotals: {
-        ...cWST,
-        [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
-      }
+      weeklyPersonal:     { ...cWP,  [currentStore]:  { ...(cWP[currentStore]||{}),   [item]: (cWP[currentStore]?.[item]||0)+1 } },
+      weeklySectorTotals: { ...cWST, [currentSector]: { ...(cWST[currentSector]||{}), [item]: (cWST[currentSector]?.[item]||0)+1 } }
     };
-
     if(managerItemsList.includes(item)){
-      const bpm = cBP[targetStore] || {};
-      payload.boutiqueProgress = {
-        ...cBP,
-        [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
-      };
+      const bpm = cBP[currentStore] || {};
+      payload.boutiqueProgress = { ...cBP, [currentStore]: { ...bpm, [item]: (bpm[item]||0)+1 } };
     }
-
     transaction.set(ref, payload, { merge:true });
   });
 };
@@ -1272,25 +1181,18 @@ function renderAdmin(){
   const div   = document.getElementById("adminInputs");
   const title = document.getElementById("adminTitle");
   div.innerHTML = "";
-
   if(isAdmin()){
     title.textContent = `Administration — ${sectors[currentSector]?.label}`;
     const sectorInitial = globalData.sectorInitial?.[currentSector] || {};
     boutiqueDisplayList.forEach(item => {
-      div.innerHTML += `
-        <div>
-          ${item} :
-          <input type="number" id="obj-${item}" value="${sectorInitial[item] || 0}">
-        </div>`;
+      div.innerHTML += `<div>${item} : <input type="number" id="obj-${item}" value="${sectorInitial[item] || 0}"></div>`;
     });
     return;
   }
-
   if(isManager()){
     title.textContent = `Administration boutique — ${currentStore}`;
     const boutiqueObjectives    = globalData.boutiqueObjectives?.[currentStore] || {};
     const currentDailyObjective = globalData.dailyObjective?.[currentStore] || 0;
-
     div.innerHTML += `
       <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #444;">
         🎯 Objectif journalier (total placements) :
@@ -1298,51 +1200,34 @@ function renderAdmin(){
         <br>
         <button onclick="saveDailyObjective()" style="background:#ffd700;color:#000;margin-top:8px;">Valider objectif journalier</button>
       </div>`;
-
     boutiqueDisplayList.forEach(item => {
-      div.innerHTML += `
-        <div>
-          ${item} :
-          <input type="number" id="obj-${item}" value="${boutiqueObjectives[item] || 0}">
-        </div>`;
+      div.innerHTML += `<div>${item} : <input type="number" id="obj-${item}" value="${boutiqueObjectives[item] || 0}"></div>`;
     });
   }
 }
 
 window.saveObjectives = async function(){
   if(!confirm("Valider les nouveaux objectifs ?")) return;
-
   if(isAdmin()){
     const currentSectorInitial = globalData.sectorInitial || {};
     const updatedSectorInitial = { ...(currentSectorInitial[currentSector] || {}) };
-
     boutiqueDisplayList.forEach(item => {
-      const val = parseInt(document.getElementById("obj-" + item).value) || 0;
-      updatedSectorInitial[item] = val;
+      updatedSectorInitial[item] = parseInt(document.getElementById("obj-" + item).value) || 0;
     });
-
-    await setDoc(ref, {
-      sectorInitial: { ...currentSectorInitial, [currentSector]: updatedSectorInitial }
-    }, { merge:true });
+    await setDoc(ref, { sectorInitial: { ...currentSectorInitial, [currentSector]: updatedSectorInitial } }, { merge:true });
     return;
   }
-
   if(isManager()){
     const cBO = globalData.boutiqueObjectives || {};
     const cBI = globalData.boutiqueInitial    || {};
     const cBP = globalData.boutiqueProgress   || {};
-
     const updatedObj  = { ...(cBO[currentStore] || {}) };
     const updatedInit = { ...(cBI[currentStore] || {}) };
     const resetProg   = { ...(cBP[currentStore] || {}) };
-
     boutiqueDisplayList.forEach(item => {
       const val = parseInt(document.getElementById("obj-" + item).value) || 0;
-      updatedObj[item]  = val;
-      updatedInit[item] = val;
-      resetProg[item]   = 0;
+      updatedObj[item] = val; updatedInit[item] = val; resetProg[item] = 0;
     });
-
     await setDoc(ref, {
       boutiqueObjectives: { ...cBO, [currentStore]: updatedObj },
       boutiqueInitial:    { ...cBI, [currentStore]: updatedInit },
@@ -1354,74 +1239,44 @@ window.saveObjectives = async function(){
 window.saveDailyObjective = async function(){
   if(!isManager()) return;
   if(!confirm("Valider l'objectif journalier ?")) return;
-
   const dailyVal = parseInt(document.getElementById("obj-daily").value) || 0;
   const cDO = globalData.dailyObjective || {};
-
-  await setDoc(ref, {
-    dailyObjective: { ...cDO, [currentStore]: dailyVal }
-  }, { merge:true });
+  await setDoc(ref, { dailyObjective: { ...cDO, [currentStore]: dailyVal } }, { merge:true });
 };
 
 window.resetWeekly = async function(){
   if(!confirm("Réinitialiser tous les objectifs ?")) return;
-
   if(isAdmin()){
     await runTransaction(db, async (transaction) => {
       const snap = await transaction.get(ref);
       if(!snap.exists()) return;
       const data = snap.data();
-
       const cST  = data.sectorTotals        || {};
       const cWST = data.weeklySectorTotals   || {};
       const cSI  = data.sectorInitial        || {};
-
       const newST  = { ...cST,  [currentSector]: {} };
       const newWST = { ...cWST, [currentSector]: {} };
       const newSI  = { ...cSI,  [currentSector]: {} };
-      itemsList.forEach(item => {
-        newST[currentSector][item]  = 0;
-        newWST[currentSector][item] = 0;
-        newSI[currentSector][item]  = 0;
-      });
-
+      itemsList.forEach(item => { newST[currentSector][item] = 0; newWST[currentSector][item] = 0; newSI[currentSector][item] = 0; });
       const cWP = data.weeklyPersonal || {};
       const newWP = { ...cWP };
-      sectors[currentSector].stores.forEach(store => {
-        newWP[store] = {};
-        itemsList.forEach(item => newWP[store][item] = 0);
-      });
-
-      transaction.set(ref, {
-        sectorTotals:       newST,
-        weeklySectorTotals: newWST,
-        sectorInitial:      newSI,
-        weeklyPersonal:     newWP
-      }, { merge:true });
+      sectors[currentSector].stores.forEach(store => { newWP[store] = {}; itemsList.forEach(item => newWP[store][item] = 0); });
+      transaction.set(ref, { sectorTotals: newST, weeklySectorTotals: newWST, sectorInitial: newSI, weeklyPersonal: newWP }, { merge:true });
     });
     return;
   }
-
   if(isManager()){
     await runTransaction(db, async (transaction) => {
       const snap = await transaction.get(ref);
       if(!snap.exists()) return;
       const data = snap.data();
-
       const cBO = data.boutiqueObjectives || {};
       const cBI = data.boutiqueInitial    || {};
       const cBP = data.boutiqueProgress   || {};
-
       const resetObj  = { ...(cBO[currentStore] || {}) };
       const resetInit = { ...(cBI[currentStore] || {}) };
       const resetProg = { ...(cBP[currentStore] || {}) };
-
-      boutiqueDisplayList.forEach(item => {
-        resetObj[item]  = 0;
-        resetInit[item] = 0;
-        resetProg[item] = 0;
-      });
-
+      boutiqueDisplayList.forEach(item => { resetObj[item] = 0; resetInit[item] = 0; resetProg[item] = 0; });
       transaction.set(ref, {
         boutiqueObjectives: { ...cBO, [currentStore]: resetObj },
         boutiqueInitial:    { ...cBI, [currentStore]: resetInit },
