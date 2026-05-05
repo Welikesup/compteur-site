@@ -9,52 +9,52 @@
 
 <style>
 body{
- font-family:'Inter',sans-serif;
- background:#0f0f0f;
- color:white;
- margin:0;
+  font-family:'Inter',sans-serif;
+  background:#0f0f0f;
+  color:white;
+  margin:0;
 }
 
 .header{
- background:#000;
- padding:20px;
- text-align:center;
- box-shadow:0 5px 20px rgba(0,0,0,0.6);
+  background:#000;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 5px 20px rgba(0,0,0,0.6);
 }
 
 .header img{height:60px;}
 
 .header h1{
- margin:10px 0 0 0;
- font-weight:600;
- font-size:22px;
- letter-spacing:1px;
- color:#ff7a00;
+  margin:10px 0 0 0;
+  font-weight:600;
+  font-size:22px;
+  letter-spacing:1px;
+  color:#ff7a00;
 }
 
 .container{
- margin-top:60px;
- text-align:center;
- padding:10px;
+  margin-top:60px;
+  text-align:center;
+  padding:10px;
 }
 
 input{
- padding:8px;
- width:80px;
- border-radius:8px;
- border:none;
- margin:4px;
- text-align:center;
+  padding:8px;
+  width:80px;
+  border-radius:8px;
+  border:none;
+  margin:4px;
+  text-align:center;
 }
 
 button{
- padding:10px 15px;
- margin-top:10px;
- border:none;
- border-radius:8px;
- font-weight:600;
- cursor:pointer;
- max-width:100%;
+  padding:10px 15px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  max-width:100%;
 }
 
 button.validate{background:white;color:black;}
@@ -63,157 +63,157 @@ button.cancel:disabled{opacity:0.3;cursor:not-allowed;}
 button.catchup{background:#444;color:#ffd700;margin-left:8px;}
 
 .btn-row{
- display:flex;
- flex-wrap:wrap;
- justify-content:center;
- gap:0px;
- margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:0px;
+  margin-top:10px;
 }
 
 .btn-row button{
- margin-top:0;
- flex:1 1 0;
- min-width:0;
- font-size:12px;
- padding:8px 6px;
+  margin-top:0;
+  flex:1 1 0;
+  min-width:0;
+  font-size:12px;
+  padding:8px 6px;
 }
 
 .hidden{display:none;}
 
 #welcome{
- text-align:center;
- margin-top:30px;
- font-weight:600;
+  text-align:center;
+  margin-top:30px;
+  font-weight:600;
 }
 
 #items{
- display:flex;
- flex-wrap:wrap;
- justify-content:center;
- padding:30px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:30px;
 }
 
 .item{
- background:#ff7a00;
- padding:14px 18px 16px 18px;
- margin:15px;
- border-radius:18px;
- width:260px;
- box-shadow:0 10px 25px rgba(0,0,0,0.4);
- transition:0.2s;
+  background:#ff7a00;
+  padding:14px 18px 16px 18px;
+  margin:15px;
+  border-radius:18px;
+  width:260px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  transition:0.2s;
 }
 
 .item:hover{transform:translateY(-6px);}
 
 .item.glow{
- box-shadow:
-   0 0 10px rgba(30,126,52,0.7),
-   0 0 20px rgba(30,126,52,0.6),
-   0 0 30px rgba(30,126,52,0.5);
+  box-shadow:
+    0 0 10px rgba(30,126,52,0.7),
+    0 0 20px rgba(30,126,52,0.6),
+    0 0 30px rgba(30,126,52,0.5);
 }
 
 @keyframes leaderFlash{
- 0%{transform:scale(1);}
- 50%{transform:scale(1.05);}
- 100%{transform:scale(1);}
+  0%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+  100%{transform:scale(1);}
 }
 
 .item.leader-flash{
- animation:leaderFlash 1s ease;
+  animation:leaderFlash 1s ease;
 }
 
 .item h3{
- margin:4px 0 8px 0;
- font-size:18px;
+  margin:4px 0 8px 0;
+  font-size:18px;
 }
 
 .item p{
- margin:0 0 8px 0;
+  margin:0 0 8px 0;
 }
 
 .progress-container{
- background:rgba(255,255,255,0.3);
- border-radius:20px;
- height:20px;
- margin-top:10px;
- overflow:hidden;
- position:relative;
+  background:rgba(255,255,255,0.3);
+  border-radius:20px;
+  height:20px;
+  margin-top:10px;
+  overflow:hidden;
+  position:relative;
 }
 
 .progress-bar{
- height:100%;
- width:0%;
- transition:width 0.5s ease;
- position:absolute;
- top:0;
- left:0;
- border-radius:20px;
- background:white;
+  height:100%;
+  width:0%;
+  transition:width 0.5s ease;
+  position:absolute;
+  top:0;
+  left:0;
+  border-radius:20px;
+  background:white;
 }
 
 .progress-text{
- position:relative;
- z-index:1;
- text-align:center;
- width:100%;
- line-height:20px;
- font-size:12px;
- font-weight:600;
+  position:relative;
+  z-index:1;
+  text-align:center;
+  width:100%;
+  line-height:20px;
+  font-size:12px;
+  font-weight:600;
 }
 
 .personal-line{
- font-size:14px;
- margin-top:4px;
- margin-bottom:0;
- font-weight:700;
- white-space:nowrap;
- line-height:1.2;
+  font-size:14px;
+  margin-top:4px;
+  margin-bottom:0;
+  font-weight:700;
+  white-space:nowrap;
+  line-height:1.2;
 }
 
 .personal-line strong{
- font-size:16px;
+  font-size:16px;
 }
 
 .admin-panel,
 .ranking-panel,
 .store-panel{
- background:#1c1c1c;
- padding:20px;
- margin:30px;
- border-radius:15px;
+  background:#1c1c1c;
+  padding:20px;
+  margin:30px;
+  border-radius:15px;
 }
 
 .sector-block{
- background:#111;
- border-radius:12px;
- padding:16px;
- margin-bottom:20px;
+  background:#111;
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:20px;
 }
 
 .sector-block h2{
- margin:0 0 14px 0;
- font-size:16px;
- font-weight:700;
- color:#ff7a00;
- letter-spacing:1px;
+  margin:0 0 14px 0;
+  font-size:16px;
+  font-weight:700;
+  color:#ff7a00;
+  letter-spacing:1px;
 }
 
 .ranking-panel h3,
 .store-panel h3{
- margin-top:0;
- margin-bottom:12px;
+  margin-top:0;
+  margin-bottom:12px;
 }
 
 .ranking-row{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:12px;
- padding:8px 10px;
- border-radius:10px;
- margin-bottom:8px;
- background:rgba(255,255,255,0.06);
- font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:10px;
+  margin-bottom:8px;
+  background:rgba(255,255,255,0.06);
+  font-size:14px;
 }
 
 .ranking-row.top1{background:rgba(255,215,0,0.16);}
@@ -221,151 +221,151 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
 .ranking-row.top3{background:rgba(205,127,50,0.16);}
 
 .ranking-left{
- display:flex;
- align-items:center;
- gap:8px;
- min-width:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
 }
 
 .ranking-rank{
- font-weight:700;
- width:26px;
- text-align:center;
+  font-weight:700;
+  width:26px;
+  text-align:center;
 }
 
 .ranking-name{
- font-weight:600;
+  font-weight:600;
 }
 
 .ranking-score{
- font-weight:700;
+  font-weight:700;
 }
 
 .store-progress-list{
- display:grid;
- grid-template-columns:repeat(2, minmax(0, 1fr));
- gap:10px 12px;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px 12px;
 }
 
 .store-progress-row{
- border-radius:12px;
- padding:10px 12px;
- box-shadow:0 8px 18px rgba(0,0,0,0.25);
- transition:0.2s;
+  border-radius:12px;
+  padding:10px 12px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.25);
+  transition:0.2s;
 }
 
 .store-progress-row:hover{
- transform:translateY(-2px);
+  transform:translateY(-2px);
 }
 
 .store-progress-row.glow{
- box-shadow:
-   0 0 10px rgba(30,126,52,0.7),
-   0 0 20px rgba(30,126,52,0.6),
-   0 8px 18px rgba(0,0,0,0.25);
+  box-shadow:
+    0 0 10px rgba(30,126,52,0.7),
+    0 0 20px rgba(30,126,52,0.6),
+    0 8px 18px rgba(0,0,0,0.25);
 }
 
 .store-progress-head{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
 }
 
 .store-progress-title{
- font-size:13px;
- font-weight:700;
+  font-size:13px;
+  font-weight:700;
 }
 
 .store-progress-meta{
- font-size:11px;
- text-align:right;
- white-space:nowrap;
- font-weight:600;
+  font-size:11px;
+  text-align:right;
+  white-space:nowrap;
+  font-weight:600;
 }
 
 .store-progress-container{
- background:rgba(255,255,255,0.3);
- border-radius:999px;
- height:14px;
- overflow:hidden;
- position:relative;
+  background:rgba(255,255,255,0.3);
+  border-radius:999px;
+  height:14px;
+  overflow:hidden;
+  position:relative;
 }
 
 .store-progress-bar{
- height:100%;
- width:0%;
- transition:width 0.5s ease;
- border-radius:999px;
- background:white;
+  height:100%;
+  width:0%;
+  transition:width 0.5s ease;
+  border-radius:999px;
+  background:white;
 }
 
 .store-progress-text{
- position:absolute;
- top:50%;
- left:50%;
- transform:translate(-50%,-50%);
- font-size:10px;
- font-weight:700;
- pointer-events:none;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:10px;
+  font-weight:700;
+  pointer-events:none;
 }
 
 .director-grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:20px;
- padding:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  padding:20px;
 }
 
 .director-sector{
- background:#1c1c1c;
- border-radius:15px;
- padding:20px;
+  background:#1c1c1c;
+  border-radius:15px;
+  padding:20px;
 }
 
 .director-sector h2{
- margin:0 0 14px 0;
- font-size:16px;
- font-weight:700;
- color:#ff7a00;
- text-align:center;
+  margin:0 0 14px 0;
+  font-size:16px;
+  font-weight:700;
+  color:#ff7a00;
+  text-align:center;
 }
 
 .director-kpi-grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
 .director-kpi-row{
- border-radius:10px;
- padding:8px 10px;
- background:#ff7a00;
+  border-radius:10px;
+  padding:8px 10px;
+  background:#ff7a00;
 }
 
 .director-kpi-title{
- font-size:12px;
- font-weight:700;
- margin-bottom:4px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:4px;
 }
 
 .director-kpi-values{
- font-size:11px;
- opacity:0.9;
+  font-size:11px;
+  opacity:0.9;
 }
 
 @media(max-width:768px){
- .item{width:90%;}
- button{font-size:18px;padding:14px;}
- .btn-row button{font-size:12px;padding:8px 6px;}
- .container{margin-top:40px;}
- .ranking-row{font-size:15px;}
- .store-progress-list{grid-template-columns:1fr;}
- .store-progress-head{flex-direction:column;align-items:flex-start;}
- .store-progress-meta{text-align:left;white-space:normal;}
- .director-grid{grid-template-columns:1fr;}
- .director-kpi-grid{grid-template-columns:1fr;}
+  .item{width:90%;}
+  button{font-size:18px;padding:14px;}
+  .btn-row button{font-size:12px;padding:8px 6px;}
+  .container{margin-top:40px;}
+  .ranking-row{font-size:15px;}
+  .store-progress-list{grid-template-columns:1fr;}
+  .store-progress-head{flex-direction:column;align-items:flex-start;}
+  .store-progress-meta{text-align:left;white-space:normal;}
+  .director-grid{grid-template-columns:1fr;}
+  .director-kpi-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -373,59 +373,58 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
 <body>
 
 <div class="header">
- <img src="logo-stn.png">
- <h1>Suivi des ventes</h1>
+  <img src="logo-stn.png">
+  <h1>Suivi des ventes</h1>
 </div>
 
 <div id="login" class="container">
- <h2>Connexion</h2>
- <input type="password" id="password" placeholder="Mot de passe">
- <br>
- <button onclick="login()">Entrer</button>
- <p id="error" style="color:red;"></p>
+  <h2>Connexion</h2>
+  <input type="password" id="password" placeholder="Mot de passe">
+  <br>
+  <button onclick="login()">Entrer</button>
+  <p id="error" style="color:red;"></p>
 </div>
 
 <div id="app" class="hidden">
- <h2 id="welcome"></h2>
+  <h2 id="welcome"></h2>
 
- <div id="adminPanel" class="admin-panel hidden">
-   <h3 id="adminTitle">Administration</h3>
-   <div id="adminInputs"></div>
-   <button onclick="saveObjectives()">Valider tous les objectifs</button>
-   <button onclick="resetWeekly()">Réinitialiser les objectifs</button>
-   <button id="saveDailyBtn" onclick="saveDailyObjective()" class="hidden" style="background:#ffd700;color:#000;margin-left:8px;">Valider objectif journalier</button>
- </div>
+  <div id="adminPanel" class="admin-panel hidden">
+    <h3 id="adminTitle">Administration</h3>
+    <div id="adminInputs"></div>
+    <button onclick="saveObjectives()">Valider tous les objectifs</button>
+    <button onclick="resetWeekly()">Réinitialiser les objectifs</button>
+  </div>
 
- <div id="rankingPanel" class="ranking-panel hidden">
-   <h3 id="rankingTitle">Classement du jour</h3>
-   <div id="rankingContent"></div>
- </div>
+  <div id="rankingPanel" class="ranking-panel hidden">
+    <h3 id="rankingTitle">Classement du jour</h3>
+    <div id="rankingContent"></div>
+  </div>
 
- <div id="items"></div>
+  <div id="items"></div>
 
- <div id="txPanel" class="store-panel hidden">
-   <div id="txContent"></div>
- </div>
+  <div id="txPanel" class="store-panel hidden">
+    <div id="txContent"></div>
+  </div>
 
- <div id="storeTrackingPanel" class="store-panel hidden">
-   <h3 id="storeTrackingTitle">Suivi boutique</h3>
-   <div id="storeTrackingContent" class="store-progress-list"></div>
- </div>
+  <div id="storeTrackingPanel" class="store-panel hidden">
+    <h3 id="storeTrackingTitle">Suivi boutique</h3>
+    <div id="storeTrackingContent" class="store-progress-list"></div>
+  </div>
 
- <div id="directorPanel" class="hidden">
-   <div class="director-grid">
-     <div class="director-sector">
-       <h2>⚡ Secteur Terres Normandes — Mariama</h2>
-       <div id="directorRanking1" style="margin-bottom:16px;"></div>
-       <div id="directorKpi1" class="director-kpi-grid"></div>
-     </div>
-     <div class="director-sector">
-       <h2>⚡ Secteur Rives Royales — Julien</h2>
-       <div id="directorRanking2" style="margin-bottom:16px;"></div>
-       <div id="directorKpi2" class="director-kpi-grid"></div>
-     </div>
-   </div>
- </div>
+  <div id="directorPanel" class="hidden">
+    <div class="director-grid">
+      <div class="director-sector">
+        <h2>⚡ Secteur Terres Normandes — Mariama</h2>
+        <div id="directorRanking1" style="margin-bottom:16px;"></div>
+        <div id="directorKpi1" class="director-kpi-grid"></div>
+      </div>
+      <div class="director-sector">
+        <h2>⚡ Secteur Rives Royales — Julien</h2>
+        <div id="directorRanking2" style="margin-bottom:16px;"></div>
+        <div id="directorKpi2" class="director-kpi-grid"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="module">
@@ -433,12 +432,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, doc, setDoc, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
- apiKey:"AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
- authDomain:"compteur-stn.firebaseapp.com",
- projectId:"compteur-stn",
- storageBucket:"compteur-stn.firebasestorage.app",
- messagingSenderId:"661197584248",
- appId:"1:661197584248:web:1dc33900c4422df4c53a8d"
+  apiKey:"AIzaSyA3nNMv12lIJcVrYyldg8dtNeRFKMldAo4",
+  authDomain:"compteur-stn.firebaseapp.com",
+  projectId:"compteur-stn",
+  storageBucket:"compteur-stn.firebasestorage.app",
+  messagingSenderId:"661197584248",
+  appId:"1:661197584248:web:1dc33900c4422df4c53a8d"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -446,21 +445,21 @@ const db = getFirestore(app);
 const ref = doc(db,"global","objectifs");
 
 const sectors = {
- "secteur1": {
-   label: "Secteur Terres Normandes",
-   admin: "Mariama",
-   stores: ["Le Havre","Evreux","Mondeville","Caen","La Glacerie","Rouen"]
- },
- "secteur2": {
-   label: "Secteur Rives Royales",
-   admin: "Julien",
-   stores: ["Orléans","Chartres","Tours","Châteauroux","Blois"]
- }
+  "secteur1": {
+    label: "Secteur Terres Normandes",
+    admin: "Mariama",
+    stores: ["Le Havre","Evreux","Mondeville","Caen","La Glacerie","Rouen"]
+  },
+  "secteur2": {
+    label: "Secteur Rives Royales",
+    admin: "Julien",
+    stores: ["Orléans","Chartres","Tours","Châteauroux","Blois"]
+  }
 };
 
 const allStoreUsers = [
- "Le Havre","Evreux","Mondeville","Caen","La Glacerie","Rouen",
- "Orléans","Chartres","Tours","Châteauroux","Blois"
+  "Le Havre","Evreux","Mondeville","Caen","La Glacerie","Rouen",
+  "Orléans","Chartres","Tours","Châteauroux","Blois"
 ];
 
 const allAdmins = ["Mariama","Julien"];
@@ -472,58 +471,58 @@ const managerItemsList      = ["Broadband","Socle Mobiles","MEV","Terminaux","As
 const boutiqueDisplayList   = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros"];
 
 /* =====================================================================
-  COMPTES
-  Secteur Terres Normandes :
-    medine       = Le Havre        medine*      = Manager Le Havre
-    dembele      = Evreux          dembele*     = Manager Evreux
-    johannes     = Mondeville      johannes*    = Manager Mondeville
-    orelsan      = Caen            orelsan*     = Manager Caen
-    lincheneau   = La Glacerie     lincheneau*  = Manager La Glacerie
-    riles        = Rouen           riles*       = Manager Rouen
-    secteurstn   = Mariama
+   COMPTES
+   Secteur Terres Normandes :
+     medine       = Le Havre        medine*      = Manager Le Havre
+     dembele      = Evreux          dembele*     = Manager Evreux
+     johannes     = Mondeville      johannes*    = Manager Mondeville
+     orelsan      = Caen            orelsan*     = Manager Caen
+     lincheneau   = La Glacerie     lincheneau*  = Manager La Glacerie
+     riles        = Rouen           riles*       = Manager Rouen
+     secteurstn   = Mariama
 
-  Secteur Rives Royales :
-    jeanne       = Orléans         jeanne*      = Manager Orléans
-    moulin       = Chartres        moulin*      = Manager Chartres
-    giroud       = Tours           giroud*      = Manager Tours
-    denisot      = Châteauroux     denisot*     = Manager Châteauroux
-    niro         = Blois           niro*        = Manager Blois
-    secteurrr    = Julien
+   Secteur Rives Royales :
+     jeanne       = Orléans         jeanne*      = Manager Orléans
+     moulin       = Chartres        moulin*      = Manager Chartres
+     giroud       = Tours           giroud*      = Manager Tours
+     denisot      = Châteauroux     denisot*     = Manager Châteauroux
+     niro         = Blois           niro*        = Manager Blois
+     secteurrr    = Julien
 
-  Directeur :
-    normandiedcr = Christophe
-  ===================================================================== */
+   Directeur :
+     normandiedcr = Christophe
+   ===================================================================== */
 const accounts = {
- /* --- Secteur Terres Normandes --- */
- "afe8313a1e09a01060434b852c5a9679f9b18c9c58672f589dc013600ed353a8": { name:"Le Havre",    role:"store",   sector:"secteur1", store:"Le Havre" },
- "dbf90070098b8093beb40ecdf86c0d2c219a24cafc12744c38ee52db3387d3e1": { name:"Evreux",      role:"store",   sector:"secteur1", store:"Evreux" },
- "1d4b41c9db9172e5f151e4a5fe3c57ca3f98b8e6ba807450b10d1897c84ce72b": { name:"Mondeville",  role:"store",   sector:"secteur1", store:"Mondeville" },
- "1fdfb74477e81470d893db1862fbe6e13541ed6c4af7dc4bcd69d937adb4a4b5": { name:"Caen",        role:"store",   sector:"secteur1", store:"Caen" },
- "aecfc167335c1252cb0f17429f02bc728aeb76de696050e0df03c5a0a512bf45": { name:"La Glacerie", role:"store",   sector:"secteur1", store:"La Glacerie" },
- "68521fc55ffa717c695ede130a105c51a0222fc6b7961b4a608addbca974229d": { name:"Rouen",       role:"store",   sector:"secteur1", store:"Rouen" },
- "014dbcb988488832f44b00a9ca5c716b6db105b7d766a1c5344d8fe3be8b5067": { name:"Mariama",     role:"admin",   sector:"secteur1", store:null },
- "615ab1a5cc9a1f4c83c47069d81d434994a8f2192d797af4f591b27d622b9cd9": { name:"Manager Le Havre",   role:"manager", sector:"secteur1", store:"Le Havre" },
- "a875f3510cbf54ff5d7d5c03a0586304c3586b2843093b62043298a0d872aae5": { name:"Manager Evreux",      role:"manager", sector:"secteur1", store:"Evreux" },
- "8fa15ebbbad0cb023c171c394a52ab25dcb860e22fbb87a8d84aa5f9fc042e9c": { name:"Manager Mondeville",  role:"manager", sector:"secteur1", store:"Mondeville" },
- "9699d449c7f3202610a19fc7ccdfa7c044f74279292e6bdf665c1ee2a5c629d6": { name:"Manager Caen",        role:"manager", sector:"secteur1", store:"Caen" },
- "29f3f6ea1d212686c8c92d18c8064752c6be34f28ef87f7273ba20eb8c35977b": { name:"Manager La Glacerie", role:"manager", sector:"secteur1", store:"La Glacerie" },
- "945c5688d0fa7d50852f530933a772045755509b2fd867de368d7e3ab08d4773": { name:"Manager Rouen",       role:"manager", sector:"secteur1", store:"Rouen" },
+  /* --- Secteur Terres Normandes --- */
+  "afe8313a1e09a01060434b852c5a9679f9b18c9c58672f589dc013600ed353a8": { name:"Le Havre",    role:"store",   sector:"secteur1", store:"Le Havre" },
+  "dbf90070098b8093beb40ecdf86c0d2c219a24cafc12744c38ee52db3387d3e1": { name:"Evreux",      role:"store",   sector:"secteur1", store:"Evreux" },
+  "1d4b41c9db9172e5f151e4a5fe3c57ca3f98b8e6ba807450b10d1897c84ce72b": { name:"Mondeville",  role:"store",   sector:"secteur1", store:"Mondeville" },
+  "1fdfb74477e81470d893db1862fbe6e13541ed6c4af7dc4bcd69d937adb4a4b5": { name:"Caen",        role:"store",   sector:"secteur1", store:"Caen" },
+  "aecfc167335c1252cb0f17429f02bc728aeb76de696050e0df03c5a0a512bf45": { name:"La Glacerie", role:"store",   sector:"secteur1", store:"La Glacerie" },
+  "68521fc55ffa717c695ede130a105c51a0222fc6b7961b4a608addbca974229d": { name:"Rouen",       role:"store",   sector:"secteur1", store:"Rouen" },
+  "014dbcb988488832f44b00a9ca5c716b6db105b7d766a1c5344d8fe3be8b5067": { name:"Mariama",     role:"admin",   sector:"secteur1", store:null },
+  "615ab1a5cc9a1f4c83c47069d81d434994a8f2192d797af4f591b27d622b9cd9": { name:"Manager Le Havre",   role:"manager", sector:"secteur1", store:"Le Havre" },
+  "a875f3510cbf54ff5d7d5c03a0586304c3586b2843093b62043298a0d872aae5": { name:"Manager Evreux",      role:"manager", sector:"secteur1", store:"Evreux" },
+  "8fa15ebbbad0cb023c171c394a52ab25dcb860e22fbb87a8d84aa5f9fc042e9c": { name:"Manager Mondeville",  role:"manager", sector:"secteur1", store:"Mondeville" },
+  "9699d449c7f3202610a19fc7ccdfa7c044f74279292e6bdf665c1ee2a5c629d6": { name:"Manager Caen",        role:"manager", sector:"secteur1", store:"Caen" },
+  "29f3f6ea1d212686c8c92d18c8064752c6be34f28ef87f7273ba20eb8c35977b": { name:"Manager La Glacerie", role:"manager", sector:"secteur1", store:"La Glacerie" },
+  "945c5688d0fa7d50852f530933a772045755509b2fd867de368d7e3ab08d4773": { name:"Manager Rouen",       role:"manager", sector:"secteur1", store:"Rouen" },
 
- /* --- Secteur Rives Royales --- */
- "397b0066107f06a1f9025849f51e5e9d13075bddd40945bbaf011bbe94e6b524": { name:"Orléans",      role:"store",   sector:"secteur2", store:"Orléans" },
- "a319b07f627c969fd67f535f4d921cae786374b101c3f1ec58c38f1b8eccfc19": { name:"Chartres",      role:"store",   sector:"secteur2", store:"Chartres" },
- "cefa323812ca6b6293457811d27fdfd6045bfe92920163ae52f895b0bebab051": { name:"Tours",         role:"store",   sector:"secteur2", store:"Tours" },
- "3c14310cf906c815bdf22a0d7d824253121f303806f11c12542504bdf5f9e740": { name:"Châteauroux",   role:"store",   sector:"secteur2", store:"Châteauroux" },
- "87cb181342f6e36145efdf677891c03ce0f087dce803a0d5a2440c4dc54dc954": { name:"Blois",         role:"store",   sector:"secteur2", store:"Blois" },
- "b2d21972ee7b2d78238e01b653995f0407afc34f0029c032f871391440c0f128": { name:"Julien",        role:"admin",   sector:"secteur2", store:null },
- "64b12f7bb3af9b43f53e2f8b833fe8ccfd595de17ba579dbaf2d889bd9ffae10": { name:"Manager Orléans",      role:"manager", sector:"secteur2", store:"Orléans" },
- "7fa53a4ef4d0ed224f09290e9bd52b3b063f6486383fe4a5117f489dd34b0880": { name:"Manager Chartres",      role:"manager", sector:"secteur2", store:"Chartres" },
- "e7dd41865184a552f9668fbf7b8a10896a3d3f0777bed4e13ac346e4a072d78d": { name:"Manager Tours",         role:"manager", sector:"secteur2", store:"Tours" },
- "e5ca591a19f3201d447fdf161a1b3e7328fbcac865a9d333f30e072b1c6caa69": { name:"Manager Châteauroux",   role:"manager", sector:"secteur2", store:"Châteauroux" },
- "7f6d74eb007accfea036b9ac91b69b57e975b2293d59bfbf2a55284b22c46789": { name:"Manager Blois",         role:"manager", sector:"secteur2", store:"Blois" },
+  /* --- Secteur Rives Royales --- */
+  "397b0066107f06a1f9025849f51e5e9d13075bddd40945bbaf011bbe94e6b524": { name:"Orléans",      role:"store",   sector:"secteur2", store:"Orléans" },
+  "a319b07f627c969fd67f535f4d921cae786374b101c3f1ec58c38f1b8eccfc19": { name:"Chartres",      role:"store",   sector:"secteur2", store:"Chartres" },
+  "cefa323812ca6b6293457811d27fdfd6045bfe92920163ae52f895b0bebab051": { name:"Tours",         role:"store",   sector:"secteur2", store:"Tours" },
+  "3c14310cf906c815bdf22a0d7d824253121f303806f11c12542504bdf5f9e740": { name:"Châteauroux",   role:"store",   sector:"secteur2", store:"Châteauroux" },
+  "87cb181342f6e36145efdf677891c03ce0f087dce803a0d5a2440c4dc54dc954": { name:"Blois",         role:"store",   sector:"secteur2", store:"Blois" },
+  "b2d21972ee7b2d78238e01b653995f0407afc34f0029c032f871391440c0f128": { name:"Julien",        role:"admin",   sector:"secteur2", store:null },
+  "64b12f7bb3af9b43f53e2f8b833fe8ccfd595de17ba579dbaf2d889bd9ffae10": { name:"Manager Orléans",      role:"manager", sector:"secteur2", store:"Orléans" },
+  "7fa53a4ef4d0ed224f09290e9bd52b3b063f6486383fe4a5117f489dd34b0880": { name:"Manager Chartres",      role:"manager", sector:"secteur2", store:"Chartres" },
+  "e7dd41865184a552f9668fbf7b8a10896a3d3f0777bed4e13ac346e4a072d78d": { name:"Manager Tours",         role:"manager", sector:"secteur2", store:"Tours" },
+  "e5ca591a19f3201d447fdf161a1b3e7328fbcac865a9d333f30e072b1c6caa69": { name:"Manager Châteauroux",   role:"manager", sector:"secteur2", store:"Châteauroux" },
+  "7f6d74eb007accfea036b9ac91b69b57e975b2293d59bfbf2a55284b22c46789": { name:"Manager Blois",         role:"manager", sector:"secteur2", store:"Blois" },
 
- /* --- Directeur --- */
- "3fa31ab736078f1c16cbd557bb2fd84fe1c7df1c3d1ce4b9af4647652aa4091d": { name:"Christophe", role:"director", sector:null, store:null }
+  /* --- Directeur --- */
+  "3fa31ab736078f1c16cbd557bb2fd84fe1c7df1c3d1ce4b9af4647652aa4091d": { name:"Christophe", role:"director", sector:null, store:null }
 };
 
 let currentUser   = "";
@@ -544,906 +543,906 @@ function hasTileOverview(){ return isAdmin() || isManager(); }
 function getCurrentSectorStores(){ return sectors[currentSector]?.stores || []; }
 
 function getToday(){
- return new Date().toLocaleDateString("fr-CA",{timeZone:"Europe/Paris"});
+  return new Date().toLocaleDateString("fr-CA",{timeZone:"Europe/Paris"});
 }
 
 async function hashPassword(password){
- const encoder = new TextEncoder();
- const data = encoder.encode(password);
- const hashBuffer = await crypto.subtle.digest("SHA-256", data);
- const hashArray = Array.from(new Uint8Array(hashBuffer));
- return hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
 }
 
 function buildEmptyPersonal(){
- const p = {};
- allUsers.forEach(u => {
-   p[u] = {};
-   itemsList.forEach(i => p[u][i] = 0);
- });
- return p;
+  const p = {};
+  allUsers.forEach(u => {
+    p[u] = {};
+    itemsList.forEach(i => p[u][i] = 0);
+  });
+  return p;
 }
 
 function buildEmptyWeeklyPersonal(){
- const p = {};
- allUsers.forEach(u => {
-   p[u] = {};
-   itemsList.forEach(i => p[u][i] = 0);
- });
- return p;
+  const p = {};
+  allUsers.forEach(u => {
+    p[u] = {};
+    itemsList.forEach(i => p[u][i] = 0);
+  });
+  return p;
 }
 
 function buildEmptySectorTotals(){
- const m = {};
- Object.keys(sectors).forEach(sk => {
-   m[sk] = {};
-   itemsList.forEach(i => m[sk][i] = 0);
- });
- return m;
+  const m = {};
+  Object.keys(sectors).forEach(sk => {
+    m[sk] = {};
+    itemsList.forEach(i => m[sk][i] = 0);
+  });
+  return m;
 }
 
 function buildEmptyWeeklySectorTotals(){
- const m = {};
- Object.keys(sectors).forEach(sk => {
-   m[sk] = {};
-   itemsList.forEach(i => m[sk][i] = 0);
- });
- return m;
+  const m = {};
+  Object.keys(sectors).forEach(sk => {
+    m[sk] = {};
+    itemsList.forEach(i => m[sk][i] = 0);
+  });
+  return m;
 }
 
 function buildEmptyManagerStoreMap(){
- const m = {};
- allStoreUsers.forEach(store => {
-   m[store] = {};
-   managerItemsList.forEach(i => m[store][i] = 0);
- });
- return m;
+  const m = {};
+  allStoreUsers.forEach(store => {
+    m[store] = {};
+    managerItemsList.forEach(i => m[store][i] = 0);
+  });
+  return m;
 }
 
 function buildEmptyDailyObjective(){
- const m = {};
- allStoreUsers.forEach(store => m[store] = 0);
- return m;
+  const m = {};
+  allStoreUsers.forEach(store => m[store] = 0);
+  return m;
 }
 
 async function ensureDataStructure(){
- await runTransaction(db, async (transaction) => {
-   const snap = await transaction.get(ref);
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(ref);
 
-   if(!snap.exists()){
-     const data = {
-       personal:           buildEmptyPersonal(),
-       weeklyPersonal:     buildEmptyWeeklyPersonal(),
-       sectorTotals:       buildEmptySectorTotals(),
-       weeklySectorTotals: buildEmptyWeeklySectorTotals(),
-       boutiqueObjectives: buildEmptyManagerStoreMap(),
-       boutiqueInitial:    buildEmptyManagerStoreMap(),
-       boutiqueProgress:   buildEmptyManagerStoreMap(),
-       dailyObjective:     buildEmptyDailyObjective(),
-       lastPersonalReset:  getToday()
-     };
-     transaction.set(ref, data);
-     return;
-   }
+    if(!snap.exists()){
+      const data = {
+        personal:           buildEmptyPersonal(),
+        weeklyPersonal:     buildEmptyWeeklyPersonal(),
+        sectorTotals:       buildEmptySectorTotals(),
+        weeklySectorTotals: buildEmptyWeeklySectorTotals(),
+        boutiqueObjectives: buildEmptyManagerStoreMap(),
+        boutiqueInitial:    buildEmptyManagerStoreMap(),
+        boutiqueProgress:   buildEmptyManagerStoreMap(),
+        dailyObjective:     buildEmptyDailyObjective(),
+        lastPersonalReset:  getToday()
+      };
+      transaction.set(ref, data);
+      return;
+    }
 
-   const data = snap.data();
-   let patch = {};
-   let needsPatch = false;
+    const data = snap.data();
+    let patch = {};
+    let needsPatch = false;
 
-   const safePersonal = data.personal || {};
-   let patchedPersonal = null;
-   let personalChanged = false;
-   allUsers.forEach(u => {
-     if(!safePersonal[u]){
-       if(!patchedPersonal) patchedPersonal = structuredClone(safePersonal);
-       patchedPersonal[u] = {};
-       itemsList.forEach(i => patchedPersonal[u][i] = 0);
-       personalChanged = true;
-       return;
-     }
-     itemsList.forEach(i => {
-       if(typeof safePersonal[u][i] !== "number"){
-         if(!patchedPersonal) patchedPersonal = structuredClone(safePersonal);
-         if(!patchedPersonal[u]) patchedPersonal[u] = {};
-         patchedPersonal[u][i] = 0;
-         personalChanged = true;
-       }
-     });
-   });
-   if(personalChanged){ patch.personal = patchedPersonal; needsPatch = true; }
+    const safePersonal = data.personal || {};
+    let patchedPersonal = null;
+    let personalChanged = false;
+    allUsers.forEach(u => {
+      if(!safePersonal[u]){
+        if(!patchedPersonal) patchedPersonal = structuredClone(safePersonal);
+        patchedPersonal[u] = {};
+        itemsList.forEach(i => patchedPersonal[u][i] = 0);
+        personalChanged = true;
+        return;
+      }
+      itemsList.forEach(i => {
+        if(typeof safePersonal[u][i] !== "number"){
+          if(!patchedPersonal) patchedPersonal = structuredClone(safePersonal);
+          if(!patchedPersonal[u]) patchedPersonal[u] = {};
+          patchedPersonal[u][i] = 0;
+          personalChanged = true;
+        }
+      });
+    });
+    if(personalChanged){ patch.personal = patchedPersonal; needsPatch = true; }
 
-   const safeWeekly = data.weeklyPersonal || {};
-   let patchedWeekly = null;
-   let weeklyChanged = false;
-   allUsers.forEach(u => {
-     if(!safeWeekly[u]){
-       if(!patchedWeekly) patchedWeekly = structuredClone(safeWeekly);
-       patchedWeekly[u] = {};
-       itemsList.forEach(i => patchedWeekly[u][i] = 0);
-       weeklyChanged = true;
-       return;
-     }
-     itemsList.forEach(i => {
-       if(typeof safeWeekly[u][i] !== "number"){
-         if(!patchedWeekly) patchedWeekly = structuredClone(safeWeekly);
-         if(!patchedWeekly[u]) patchedWeekly[u] = {};
-         patchedWeekly[u][i] = 0;
-         weeklyChanged = true;
-       }
-     });
-   });
-   if(weeklyChanged){ patch.weeklyPersonal = patchedWeekly; needsPatch = true; }
+    const safeWeekly = data.weeklyPersonal || {};
+    let patchedWeekly = null;
+    let weeklyChanged = false;
+    allUsers.forEach(u => {
+      if(!safeWeekly[u]){
+        if(!patchedWeekly) patchedWeekly = structuredClone(safeWeekly);
+        patchedWeekly[u] = {};
+        itemsList.forEach(i => patchedWeekly[u][i] = 0);
+        weeklyChanged = true;
+        return;
+      }
+      itemsList.forEach(i => {
+        if(typeof safeWeekly[u][i] !== "number"){
+          if(!patchedWeekly) patchedWeekly = structuredClone(safeWeekly);
+          if(!patchedWeekly[u]) patchedWeekly[u] = {};
+          patchedWeekly[u][i] = 0;
+          weeklyChanged = true;
+        }
+      });
+    });
+    if(weeklyChanged){ patch.weeklyPersonal = patchedWeekly; needsPatch = true; }
 
-   const safeST = data.sectorTotals || {};
-   let patchedST = structuredClone(safeST);
-   let stChanged = false;
-   Object.keys(sectors).forEach(sk => {
-     if(!patchedST[sk]){ patchedST[sk] = {}; stChanged = true; }
-     itemsList.forEach(i => {
-       if(typeof patchedST[sk][i] !== "number"){ patchedST[sk][i] = 0; stChanged = true; }
-     });
-   });
-   if(stChanged){ patch.sectorTotals = patchedST; needsPatch = true; }
+    const safeST = data.sectorTotals || {};
+    let patchedST = structuredClone(safeST);
+    let stChanged = false;
+    Object.keys(sectors).forEach(sk => {
+      if(!patchedST[sk]){ patchedST[sk] = {}; stChanged = true; }
+      itemsList.forEach(i => {
+        if(typeof patchedST[sk][i] !== "number"){ patchedST[sk][i] = 0; stChanged = true; }
+      });
+    });
+    if(stChanged){ patch.sectorTotals = patchedST; needsPatch = true; }
 
-   const safeWST = data.weeklySectorTotals || {};
-   let patchedWST = structuredClone(safeWST);
-   let wstChanged = false;
-   Object.keys(sectors).forEach(sk => {
-     if(!patchedWST[sk]){ patchedWST[sk] = {}; wstChanged = true; }
-     itemsList.forEach(i => {
-       if(typeof patchedWST[sk][i] !== "number"){ patchedWST[sk][i] = 0; wstChanged = true; }
-     });
-   });
-   if(wstChanged){ patch.weeklySectorTotals = patchedWST; needsPatch = true; }
+    const safeWST = data.weeklySectorTotals || {};
+    let patchedWST = structuredClone(safeWST);
+    let wstChanged = false;
+    Object.keys(sectors).forEach(sk => {
+      if(!patchedWST[sk]){ patchedWST[sk] = {}; wstChanged = true; }
+      itemsList.forEach(i => {
+        if(typeof patchedWST[sk][i] !== "number"){ patchedWST[sk][i] = 0; wstChanged = true; }
+      });
+    });
+    if(wstChanged){ patch.weeklySectorTotals = patchedWST; needsPatch = true; }
 
-   const safeBO = data.boutiqueObjectives || {};
-   const safeBI = data.boutiqueInitial    || {};
-   const safeBP = data.boutiqueProgress   || {};
-   let pBO = structuredClone(safeBO);
-   let pBI = structuredClone(safeBI);
-   let pBP = structuredClone(safeBP);
-   let bChanged = false;
-   allStoreUsers.forEach(store => {
-     if(!pBO[store]){ pBO[store] = {}; bChanged = true; }
-     if(!pBI[store]){ pBI[store] = {}; bChanged = true; }
-     if(!pBP[store]){ pBP[store] = {}; bChanged = true; }
-     managerItemsList.forEach(i => {
-       if(typeof pBO[store][i] !== "number"){ pBO[store][i] = 0; bChanged = true; }
-       if(typeof pBI[store][i] !== "number"){ pBI[store][i] = 0; bChanged = true; }
-       if(typeof pBP[store][i] !== "number"){ pBP[store][i] = 0; bChanged = true; }
-     });
-   });
-   if(bChanged){
-     patch.boutiqueObjectives = pBO;
-     patch.boutiqueInitial    = pBI;
-     patch.boutiqueProgress   = pBP;
-     needsPatch = true;
-   }
+    const safeBO = data.boutiqueObjectives || {};
+    const safeBI = data.boutiqueInitial    || {};
+    const safeBP = data.boutiqueProgress   || {};
+    let pBO = structuredClone(safeBO);
+    let pBI = structuredClone(safeBI);
+    let pBP = structuredClone(safeBP);
+    let bChanged = false;
+    allStoreUsers.forEach(store => {
+      if(!pBO[store]){ pBO[store] = {}; bChanged = true; }
+      if(!pBI[store]){ pBI[store] = {}; bChanged = true; }
+      if(!pBP[store]){ pBP[store] = {}; bChanged = true; }
+      managerItemsList.forEach(i => {
+        if(typeof pBO[store][i] !== "number"){ pBO[store][i] = 0; bChanged = true; }
+        if(typeof pBI[store][i] !== "number"){ pBI[store][i] = 0; bChanged = true; }
+        if(typeof pBP[store][i] !== "number"){ pBP[store][i] = 0; bChanged = true; }
+      });
+    });
+    if(bChanged){
+      patch.boutiqueObjectives = pBO;
+      patch.boutiqueInitial    = pBI;
+      patch.boutiqueProgress   = pBP;
+      needsPatch = true;
+    }
 
-   const safeDO = data.dailyObjective || {};
-   let pDO = { ...safeDO };
-   let doChanged = false;
-   allStoreUsers.forEach(store => {
-     if(typeof pDO[store] !== "number"){ pDO[store] = 0; doChanged = true; }
-   });
-   if(doChanged){ patch.dailyObjective = pDO; needsPatch = true; }
+    const safeDO = data.dailyObjective || {};
+    let pDO = { ...safeDO };
+    let doChanged = false;
+    allStoreUsers.forEach(store => {
+      if(typeof pDO[store] !== "number"){ pDO[store] = 0; doChanged = true; }
+    });
+    if(doChanged){ patch.dailyObjective = pDO; needsPatch = true; }
 
-   if(typeof data.lastPersonalReset !== "string"){
-     patch.lastPersonalReset = getToday();
-     needsPatch = true;
-   }
+    if(typeof data.lastPersonalReset !== "string"){
+      patch.lastPersonalReset = getToday();
+      needsPatch = true;
+    }
 
-   if(needsPatch) transaction.set(ref, patch, { merge:true });
- });
+    if(needsPatch) transaction.set(ref, patch, { merge:true });
+  });
 }
 
 async function resetDailyPersonalIfNeeded(){
- const today = getToday();
- await runTransaction(db, async (transaction) => {
-   const snap = await transaction.get(ref);
-   if(!snap.exists()) return;
-   const data = snap.data();
-   if(data.lastPersonalReset === today) return;
-   transaction.set(ref, {
-     personal: buildEmptyPersonal(),
-     lastPersonalReset: today
-   }, { merge:true });
- });
+  const today = getToday();
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(ref);
+    if(!snap.exists()) return;
+    const data = snap.data();
+    if(data.lastPersonalReset === today) return;
+    transaction.set(ref, {
+      personal: buildEmptyPersonal(),
+      lastPersonalReset: today
+    }, { merge:true });
+  });
 }
 
 window.login = async function(){
- const pass = document.getElementById("password").value;
- if(!window.crypto || !window.crypto.subtle){
-   alert("Navigateur non compatible. Utilisez Chrome ou Safari récent.");
-   return;
- }
- try{
-   const hashed = await hashPassword(pass);
-   const account = accounts[hashed];
-   if(!account){
-     document.getElementById("error").innerText = "Mot de passe incorrect";
-     return;
-   }
-   currentUser   = account.name;
-   currentRole   = account.role;
-   currentSector = account.sector;
-   currentStore  = account.store;
+  const pass = document.getElementById("password").value;
+  if(!window.crypto || !window.crypto.subtle){
+    alert("Navigateur non compatible. Utilisez Chrome ou Safari récent.");
+    return;
+  }
+  try{
+    const hashed = await hashPassword(pass);
+    const account = accounts[hashed];
+    if(!account){
+      document.getElementById("error").innerText = "Mot de passe incorrect";
+      return;
+    }
+    currentUser   = account.name;
+    currentRole   = account.role;
+    currentSector = account.sector;
+    currentStore  = account.store;
 
-   document.getElementById("login").classList.add("hidden");
-   document.getElementById("app").classList.remove("hidden");
-   document.getElementById("welcome").innerText = "Bienvenue " + currentUser;
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.getElementById("welcome").innerText = "Bienvenue " + currentUser;
 
-   if(isAdmin() || isManager()){
-     document.getElementById("adminPanel").classList.remove("hidden");
-     document.getElementById("rankingPanel").classList.remove("hidden");
-   }
+    if(isAdmin() || isManager()){
+      document.getElementById("adminPanel").classList.remove("hidden");
+      document.getElementById("rankingPanel").classList.remove("hidden");
+    }
 
-   if(isStore() || isManager()){
-     document.getElementById("txPanel").classList.remove("hidden");
-     document.getElementById("storeTrackingPanel").classList.remove("hidden");
-   }
+    if(isStore() || isManager()){
+      document.getElementById("txPanel").classList.remove("hidden");
+      document.getElementById("storeTrackingPanel").classList.remove("hidden");
+    }
 
-   if(isDirector()){
-     document.getElementById("directorPanel").classList.remove("hidden");
-   }
+    if(isDirector()){
+      document.getElementById("directorPanel").classList.remove("hidden");
+    }
 
-   await initData();
- }catch(e){
-   console.error(e);
-   alert("Erreur lors de la connexion.");
- }
+    await initData();
+  }catch(e){
+    console.error(e);
+    alert("Erreur lors de la connexion.");
+  }
 };
 
 async function initData(){
- await ensureDataStructure();
- if(unsubscribeSnapshot){ unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+  await ensureDataStructure();
+  if(unsubscribeSnapshot){ unsubscribeSnapshot(); unsubscribeSnapshot = null; }
 
- unsubscribeSnapshot = onSnapshot(ref, (docSnap) => {
-   globalData = docSnap.data() || {};
+  unsubscribeSnapshot = onSnapshot(ref, (docSnap) => {
+    globalData = docSnap.data() || {};
 
-   if(isDirector()){
-     renderDirector();
-   } else {
-     display();
-     if(isAdmin() || isManager()){ renderAdmin(); renderRanking(); }
-     if(isStore() || isManager()){ renderStoreTracking(); renderTx(); }
-   }
- });
+    if(isDirector()){
+      renderDirector();
+    } else {
+      display();
+      if(isAdmin() || isManager()){ renderAdmin(); renderRanking(); }
+      if(isStore() || isManager()){ renderStoreTracking(); renderTx(); }
+    }
+  });
 
- await resetDailyPersonalIfNeeded();
+  await resetDailyPersonalIfNeeded();
 }
 
 function renderRanking(){
- const rankingContent = document.getElementById("rankingContent");
- if(!rankingContent) return;
+  const rankingContent = document.getElementById("rankingContent");
+  if(!rankingContent) return;
 
- const sectorStores = getCurrentSectorStores();
- const rankingData = sectorStores.map(name => {
-   let total = 0;
-   itemsList.forEach(item => total += globalData.personal?.[name]?.[item] || 0);
-   return { name, total };
- });
- rankingData.sort((a,b) => b.total !== a.total ? b.total - a.total : a.name.localeCompare(b.name,"fr"));
+  const sectorStores = getCurrentSectorStores();
+  const rankingData = sectorStores.map(name => {
+    let total = 0;
+    itemsList.forEach(item => total += globalData.personal?.[name]?.[item] || 0);
+    return { name, total };
+  });
+  rankingData.sort((a,b) => b.total !== a.total ? b.total - a.total : a.name.localeCompare(b.name,"fr"));
 
- const hasSales = rankingData.some(r => r.total > 0);
- if(!hasSales){
-   rankingContent.innerHTML = `<div style="opacity:0.8;">Aucune vente aujourd'hui</div>`;
-   return;
- }
+  const hasSales = rankingData.some(r => r.total > 0);
+  if(!hasSales){
+    rankingContent.innerHTML = `<div style="opacity:0.8;">Aucune vente aujourd'hui</div>`;
+    return;
+  }
 
- rankingContent.innerHTML = rankingData.map((row,index) => {
-   let extraClass = "", medal = "";
-   if(index === 0){ extraClass = "top1"; medal = "🥇"; }
-   else if(index === 1){ extraClass = "top2"; medal = "🥈"; }
-   else if(index === 2){ extraClass = "top3"; medal = "🥉"; }
-   return `
-     <div class="ranking-row ${extraClass}">
-       <div class="ranking-left">
-         <div class="ranking-rank">${medal || (index+1)}</div>
-         <div class="ranking-name">${row.name}</div>
-       </div>
-       <div class="ranking-score">${row.total}</div>
-     </div>`;
- }).join("");
+  rankingContent.innerHTML = rankingData.map((row,index) => {
+    let extraClass = "", medal = "";
+    if(index === 0){ extraClass = "top1"; medal = "🥇"; }
+    else if(index === 1){ extraClass = "top2"; medal = "🥈"; }
+    else if(index === 2){ extraClass = "top3"; medal = "🥉"; }
+    return `
+      <div class="ranking-row ${extraClass}">
+        <div class="ranking-left">
+          <div class="ranking-rank">${medal || (index+1)}</div>
+          <div class="ranking-name">${row.name}</div>
+        </div>
+        <div class="ranking-score">${row.total}</div>
+      </div>`;
+  }).join("");
 }
 
 function display(){
- const container = document.getElementById("items");
- container.innerHTML = "";
- const nextLeaderKeys = {};
- const sectorStores = getCurrentSectorStores();
+  const container = document.getElementById("items");
+  container.innerHTML = "";
+  const nextLeaderKeys = {};
+  const sectorStores = getCurrentSectorStores();
 
- itemsList.forEach(item => {
-   const hasObjective = !itemsWithoutObjective.includes(item);
+  itemsList.forEach(item => {
+    const hasObjective = !itemsWithoutObjective.includes(item);
 
-   const sectorTotal  = globalData.sectorTotals?.[currentSector]?.[item] || 0;
-   const weeklySector = globalData.weeklySectorTotals?.[currentSector]?.[item] || 0;
+    const sectorTotal  = globalData.sectorTotals?.[currentSector]?.[item] || 0;
+    const weeklySector = globalData.weeklySectorTotals?.[currentSector]?.[item] || 0;
 
-   let todaySectorValue = 0;
-   sectorStores.forEach(name => todaySectorValue += globalData.personal?.[name]?.[item] || 0);
+    let todaySectorValue = 0;
+    sectorStores.forEach(name => todaySectorValue += globalData.personal?.[name]?.[item] || 0);
 
-   const storeTodayValue = currentStore ? (globalData.personal?.[currentStore]?.[item] || 0) : 0;
-   const storeWeekValue  = currentStore ? (globalData.weeklyPersonal?.[currentStore]?.[item] || 0) : 0;
+    const storeTodayValue = currentStore ? (globalData.personal?.[currentStore]?.[item] || 0) : 0;
+    const storeWeekValue  = currentStore ? (globalData.weeklyPersonal?.[currentStore]?.[item] || 0) : 0;
 
-   const sectorInitial = globalData.sectorInitial?.[currentSector]?.[item] || 0;
-   const diff          = sectorInitial - sectorTotal;
-   const percentBar    = Math.min(sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0, 100);
-   const percentText   = sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0;
+    const sectorInitial = globalData.sectorInitial?.[currentSector]?.[item] || 0;
+    const diff          = sectorInitial - sectorTotal;
+    const percentBar    = Math.min(sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0, 100);
+    const percentText   = sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0;
 
-   let percentColor = "#ff7a00";
-   if(percentText >= 100 && percentText < 120) percentColor = "#66cc88";
-   if(percentText >= 120) percentColor = "#1e7e34";
+    let percentColor = "#ff7a00";
+    if(percentText >= 100 && percentText < 120) percentColor = "#66cc88";
+    if(percentText >= 120) percentColor = "#1e7e34";
 
-   let leaderValue = 0, leaders = [];
-   sectorStores.forEach(name => {
-     const val = globalData.personal?.[name]?.[item] || 0;
-     if(val > leaderValue){ leaderValue = val; leaders = [name]; }
-     else if(val === leaderValue && val > 0){ leaders.push(name); }
-   });
-   const leaderKey = leaderValue > 0 ? `${leaders.join("|")}::${leaderValue}` : "";
-   nextLeaderKeys[item] = leaderKey;
+    let leaderValue = 0, leaders = [];
+    sectorStores.forEach(name => {
+      const val = globalData.personal?.[name]?.[item] || 0;
+      if(val > leaderValue){ leaderValue = val; leaders = [name]; }
+      else if(val === leaderValue && val > 0){ leaders.push(name); }
+    });
+    const leaderKey = leaderValue > 0 ? `${leaders.join("|")}::${leaderValue}` : "";
+    nextLeaderKeys[item] = leaderKey;
 
-   let leaderHTML = "";
-   if(hasTileOverview() && leaderValue > 0){
-     const leaderNames = leaders.join(" / ");
-     leaderHTML = `<div style="font-size:13px;margin-top:6px;font-weight:700;color:#FFD700;
-       text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-       🏆 Boutique leader : ${leaderNames} (${leaderValue})</div>`;
-   }
+    let leaderHTML = "";
+    if(hasTileOverview() && leaderValue > 0){
+      const leaderNames = leaders.join(" / ");
+      leaderHTML = `<div style="font-size:13px;margin-top:6px;font-weight:700;color:#FFD700;
+        text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+        🏆 Boutique leader : ${leaderNames} (${leaderValue})</div>`;
+    }
 
-   let detailHTML = "";
-   if(hasTileOverview()){
-     sectorStores.forEach(name => {
-       if(currentStore && name === currentStore) return;
-       const val = globalData.personal?.[name]?.[item] || 0;
-       detailHTML += `<div style="font-size:12px;margin-top:2px;line-height:1.15;">${name} : ${val}</div>`;
-     });
-   }
+    let detailHTML = "";
+    if(hasTileOverview()){
+      sectorStores.forEach(name => {
+        if(currentStore && name === currentStore) return;
+        const val = globalData.personal?.[name]?.[item] || 0;
+        detailHTML += `<div style="font-size:12px;margin-top:2px;line-height:1.15;">${name} : ${val}</div>`;
+      });
+    }
 
-   const cancelAllowed = !!(cancelTimers[item] && Date.now() < cancelTimers[item]);
-   const canSell = !isAdmin();
+    const cancelAllowed = !!(cancelTimers[item] && Date.now() < cancelTimers[item]);
+    const canSell = !isAdmin();
 
-   const div = document.createElement("div");
-   div.className = "item";
+    const div = document.createElement("div");
+    div.className = "item";
 
-   if(hasObjective){
-     if(percentText >= 120){ div.style.background = "#1e7e34"; div.classList.add("glow"); }
-     else if(percentText >= 100){ div.style.background = "#66cc88"; }
-     else { div.style.background = "#ff7a00"; }
-   } else {
-     div.style.background = "#ff7a00";
-   }
+    if(hasObjective){
+      if(percentText >= 120){ div.style.background = "#1e7e34"; div.classList.add("glow"); }
+      else if(percentText >= 100){ div.style.background = "#66cc88"; }
+      else { div.style.background = "#ff7a00"; }
+    } else {
+      div.style.background = "#ff7a00";
+    }
 
-   if(hasTileOverview() && leaderValue > 0 &&
-      previousLeaderKeys[item] !== undefined && previousLeaderKeys[item] !== leaderKey){
-     div.classList.add("leader-flash");
-   }
+    if(hasTileOverview() && leaderValue > 0 &&
+       previousLeaderKeys[item] !== undefined && previousLeaderKeys[item] !== leaderKey){
+      div.classList.add("leader-flash");
+    }
 
-   const objectifText = sectorInitial > 0
-     ? (diff >= 0 ? `Objectif restant : <strong>${diff}</strong>` : `Objectif dépassé de : <strong>${-diff}</strong>`)
-     : "";
+    const objectifText = sectorInitial > 0
+      ? (diff >= 0 ? `Objectif restant : <strong>${diff}</strong>` : `Objectif dépassé de : <strong>${-diff}</strong>`)
+      : "";
 
-   const objectiveBlock = hasObjective && sectorInitial > 0 ? `
-     <p>${objectifText}</p>
-     ${isManager() ? `
-       <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
-       <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
-     ` : ``}
-     <div class="progress-container">
-       <div class="progress-bar" style="width:${percentBar}%"></div>
-       <div class="progress-text" style="color:${percentColor}">${percentText.toFixed(0)}%</div>
-     </div>
-   ` : (hasObjective && isManager() ? `
-     <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
-     <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
-   ` : ``);
+    const objectiveBlock = hasObjective && sectorInitial > 0 ? `
+      <p>${objectifText}</p>
+      ${isManager() ? `
+        <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
+        <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
+      ` : ``}
+      <div class="progress-container">
+        <div class="progress-bar" style="width:${percentBar}%"></div>
+        <div class="progress-text" style="color:${percentColor}">${percentText.toFixed(0)}%</div>
+      </div>
+    ` : (hasObjective && isManager() ? `
+      <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
+      <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
+    ` : ``);
 
-   let extraManagerLines = "";
-   if(isManager()){
-     extraManagerLines = `
-       <div class="personal-line">Boutique semaine : <strong>${storeWeekValue}</strong></div>
-       <div class="personal-line">Boutique aujourd'hui : <strong>${storeTodayValue}</strong></div>
-     `;
-   }
+    let extraManagerLines = "";
+    if(isManager()){
+      extraManagerLines = `
+        <div class="personal-line">Boutique semaine : <strong>${storeWeekValue}</strong></div>
+        <div class="personal-line">Boutique aujourd'hui : <strong>${storeTodayValue}</strong></div>
+      `;
+    }
 
-   const weeklyText   = hasTileOverview() ? "Ventes du secteur semaine"     : "Ventes de la boutique semaine";
-   const personalText = hasTileOverview() ? "Ventes du secteur aujourd'hui" : "Ventes de la boutique aujourd'hui";
-   const weeklyUserValue = hasTileOverview() ? weeklySector : (globalData.weeklyPersonal?.[currentUser]?.[item] || 0);
-   const userValue       = hasTileOverview() ? todaySectorValue : (globalData.personal?.[currentUser]?.[item] || 0);
+    const weeklyText   = hasTileOverview() ? "Ventes du secteur semaine"     : "Ventes de la boutique semaine";
+    const personalText = hasTileOverview() ? "Ventes du secteur aujourd'hui" : "Ventes de la boutique aujourd'hui";
+    const weeklyUserValue = hasTileOverview() ? weeklySector : (globalData.weeklyPersonal?.[currentUser]?.[item] || 0);
+    const userValue       = hasTileOverview() ? todaySectorValue : (globalData.personal?.[currentUser]?.[item] || 0);
 
-   let buttonsHTML = "";
-   if(canSell){
-     if(isManager()){
-       buttonsHTML = `
-         <div class="btn-row">
-           <button class="validate" onclick="decrement('${item}')">Valider</button>
-           <button class="cancel" ${!cancelAllowed?"disabled":""} onclick="cancelSale('${item}')">Annuler</button>
-           <button class="catchup" onclick="catchUpSale('${item}')">Rattraper</button>
-         </div>`;
-     } else {
-       buttonsHTML = `
-         <button class="validate" onclick="decrement('${item}')">Valider une vente</button>
-         <button class="cancel" ${!cancelAllowed?"disabled":""} onclick="cancelSale('${item}')">Annuler</button>`;
-     }
-   }
+    let buttonsHTML = "";
+    if(canSell){
+      if(isManager()){
+        buttonsHTML = `
+          <div class="btn-row">
+            <button class="validate" onclick="decrement('${item}')">Valider</button>
+            <button class="cancel" ${!cancelAllowed?"disabled":""} onclick="cancelSale('${item}')">Annuler</button>
+            <button class="catchup" onclick="catchUpSale('${item}')">Rattraper</button>
+          </div>`;
+      } else {
+        buttonsHTML = `
+          <button class="validate" onclick="decrement('${item}')">Valider une vente</button>
+          <button class="cancel" ${!cancelAllowed?"disabled":""} onclick="cancelSale('${item}')">Annuler</button>`;
+      }
+    }
 
-   div.innerHTML = `
-     <h3>${item}</h3>
-     ${objectiveBlock}
-     ${isManager() ? extraManagerLines : `
-       <div class="personal-line">${weeklyText} : <strong>${weeklyUserValue}</strong></div>
-       <div class="personal-line">${personalText} : <strong>${userValue}</strong></div>
-     `}
-     ${detailHTML}
-     ${leaderHTML}
-     ${buttonsHTML}
-   `;
+    div.innerHTML = `
+      <h3>${item}</h3>
+      ${objectiveBlock}
+      ${isManager() ? extraManagerLines : `
+        <div class="personal-line">${weeklyText} : <strong>${weeklyUserValue}</strong></div>
+        <div class="personal-line">${personalText} : <strong>${userValue}</strong></div>
+      `}
+      ${detailHTML}
+      ${leaderHTML}
+      ${buttonsHTML}
+    `;
 
-   container.appendChild(div);
- });
+    container.appendChild(div);
+  });
 
- previousLeaderKeys = nextLeaderKeys;
+  previousLeaderKeys = nextLeaderKeys;
 }
 
 function renderStoreTracking(){
- const panel   = document.getElementById("storeTrackingPanel");
- const title   = document.getElementById("storeTrackingTitle");
- const content = document.getElementById("storeTrackingContent");
- if(!panel || !title || !content || !currentStore) return;
- panel.classList.remove("hidden");
- title.textContent = `Suivi boutique — ${currentStore}`;
+  const panel   = document.getElementById("storeTrackingPanel");
+  const title   = document.getElementById("storeTrackingTitle");
+  const content = document.getElementById("storeTrackingContent");
+  if(!panel || !title || !content || !currentStore) return;
+  panel.classList.remove("hidden");
+  title.textContent = `Suivi boutique — ${currentStore}`;
 
- const storeObjectives = globalData.boutiqueObjectives?.[currentStore] || {};
- const storeInitial    = globalData.boutiqueInitial?.[currentStore]    || {};
- const storeProgress   = globalData.boutiqueProgress?.[currentStore]   || {};
+  const storeObjectives = globalData.boutiqueObjectives?.[currentStore] || {};
+  const storeInitial    = globalData.boutiqueInitial?.[currentStore]    || {};
+  const storeProgress   = globalData.boutiqueProgress?.[currentStore]   || {};
 
- content.innerHTML = boutiqueDisplayList.map(item => {
-   const initial   = storeInitial[item] ?? 0;
-   const progress  = storeProgress[item] ?? 0;
-   const diff      = initial - progress;
-   const percentText = initial > 0 ? (progress / initial) * 100 : 0;
-   const percentBar  = Math.min(percentText, 100);
+  content.innerHTML = boutiqueDisplayList.map(item => {
+    const initial   = storeInitial[item] ?? 0;
+    const progress  = storeProgress[item] ?? 0;
+    const diff      = initial - progress;
+    const percentText = initial > 0 ? (progress / initial) * 100 : 0;
+    const percentBar  = Math.min(percentText, 100);
 
-   let bgColor = "#ff7a00", textColor = "#ff7a00", extraClass = "";
-   if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
-   else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
+    let bgColor = "#ff7a00", textColor = "#ff7a00", extraClass = "";
+    if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
+    else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
 
-   const metaText = initial > 0
-     ? (diff >= 0 ? `Reste : ${diff} • ${progress}/${initial}` : `Dépassé : ${-diff} • ${progress}/${initial}`)
-     : `Aucun objectif • ${progress}`;
+    const metaText = initial > 0
+      ? (diff >= 0 ? `Reste : ${diff} • ${progress}/${initial}` : `Dépassé : ${-diff} • ${progress}/${initial}`)
+      : `Aucun objectif • ${progress}`;
 
-   return `
-     <div class="store-progress-row ${extraClass}" style="background:${bgColor};">
-       <div class="store-progress-head">
-         <div class="store-progress-title">${item}</div>
-         <div class="store-progress-meta">${metaText}</div>
-       </div>
-       <div class="store-progress-container">
-         <div class="store-progress-bar" style="width:${percentBar}%;"></div>
-         <div class="store-progress-text" style="color:${textColor};">${initial > 0 ? percentText.toFixed(0)+"%" : "0%"}</div>
-       </div>
-     </div>`;
- }).join("");
+    return `
+      <div class="store-progress-row ${extraClass}" style="background:${bgColor};">
+        <div class="store-progress-head">
+          <div class="store-progress-title">${item}</div>
+          <div class="store-progress-meta">${metaText}</div>
+        </div>
+        <div class="store-progress-container">
+          <div class="store-progress-bar" style="width:${percentBar}%;"></div>
+          <div class="store-progress-text" style="color:${textColor};">${initial > 0 ? percentText.toFixed(0)+"%" : "0%"}</div>
+        </div>
+      </div>`;
+  }).join("");
 }
 
 function renderTx(){
- const panel   = document.getElementById("txPanel");
- const content = document.getElementById("txContent");
- if(!panel || !content || !currentStore) return;
+  const panel   = document.getElementById("txPanel");
+  const content = document.getElementById("txContent");
+  if(!panel || !content || !currentStore) return;
 
- let todayTotal = 0;
- managerItemsList.forEach(item => todayTotal += globalData.personal?.[currentStore]?.[item] || 0);
+  let todayTotal = 0;
+  managerItemsList.forEach(item => todayTotal += globalData.personal?.[currentStore]?.[item] || 0);
 
- const objective   = globalData.dailyObjective?.[currentStore] || 0;
- const diff        = objective - todayTotal;
- const percentText = objective > 0 ? (todayTotal / objective) * 100 : 0;
- const percentBar  = Math.min(percentText, 100);
+  const objective   = globalData.dailyObjective?.[currentStore] || 0;
+  const diff        = objective - todayTotal;
+  const percentText = objective > 0 ? (todayTotal / objective) * 100 : 0;
+  const percentBar  = Math.min(percentText, 100);
 
- let bgColor = "#ff7a00", textColor = "#ff7a00", glowClass = "";
- if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; glowClass = "glow"; }
- else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
+  let bgColor = "#ff7a00", textColor = "#ff7a00", glowClass = "";
+  if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; glowClass = "glow"; }
+  else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
 
- const metaText = objective > 0
-   ? (diff >= 0 ? `Reste : ${diff} • ${todayTotal}/${objective}` : `Dépassé de : ${-diff} • ${todayTotal}/${objective}`)
-   : `Aucun objectif • ${todayTotal} placement${todayTotal>1?"s":""} aujourd'hui`;
+  const metaText = objective > 0
+    ? (diff >= 0 ? `Reste : ${diff} • ${todayTotal}/${objective}` : `Dépassé de : ${-diff} • ${todayTotal}/${objective}`)
+    : `Aucun objectif • ${todayTotal} placement${todayTotal>1?"s":""} aujourd'hui`;
 
- content.innerHTML = `
-   <div class="store-progress-row ${glowClass}" style="background:${bgColor};">
-     <div class="store-progress-head">
-       <div class="store-progress-title" style="font-size:15px;">🎯 Taux de Transformation</div>
-       <div class="store-progress-meta">${metaText}</div>
-     </div>
-     <div class="store-progress-container">
-       <div class="store-progress-bar" style="width:${percentBar}%;"></div>
-       <div class="store-progress-text" style="color:${textColor};">${objective > 0 ? percentText.toFixed(0)+"%" : "—"}</div>
-     </div>
-   </div>`;
+  content.innerHTML = `
+    <div class="store-progress-row ${glowClass}" style="background:${bgColor};">
+      <div class="store-progress-head">
+        <div class="store-progress-title" style="font-size:15px;">🎯 Taux de Transformation</div>
+        <div class="store-progress-meta">${metaText}</div>
+      </div>
+      <div class="store-progress-container">
+        <div class="store-progress-bar" style="width:${percentBar}%;"></div>
+        <div class="store-progress-text" style="color:${textColor};">${objective > 0 ? percentText.toFixed(0)+"%" : "—"}</div>
+      </div>
+    </div>`;
 }
 
 function renderDirector(){
- Object.keys(sectors).forEach((sk, idx) => {
-   const num = idx + 1;
-   const sectorStores = sectors[sk].stores;
+  Object.keys(sectors).forEach((sk, idx) => {
+    const num = idx + 1;
+    const sectorStores = sectors[sk].stores;
 
-   const rankingData = sectorStores.map(name => {
-     let total = 0;
-     itemsList.forEach(item => total += globalData.personal?.[name]?.[item] || 0);
-     return { name, total };
-   }).sort((a,b) => b.total - a.total);
+    const rankingData = sectorStores.map(name => {
+      let total = 0;
+      itemsList.forEach(item => total += globalData.personal?.[name]?.[item] || 0);
+      return { name, total };
+    }).sort((a,b) => b.total - a.total);
 
-   const hasSales = rankingData.some(r => r.total > 0);
-   const rankingEl = document.getElementById(`directorRanking${num}`);
-   if(rankingEl){
-     if(!hasSales){
-       rankingEl.innerHTML = `<div style="opacity:0.6;font-size:13px;">Aucune vente aujourd'hui</div>`;
-     } else {
-       rankingEl.innerHTML = rankingData.map((row, index) => {
-         let extraClass = "", medal = "";
-         if(index === 0){ extraClass = "top1"; medal = "🥇"; }
-         else if(index === 1){ extraClass = "top2"; medal = "🥈"; }
-         else if(index === 2){ extraClass = "top3"; medal = "🥉"; }
-         return `
-           <div class="ranking-row ${extraClass}">
-             <div class="ranking-left">
-               <div class="ranking-rank">${medal || (index+1)}</div>
-               <div class="ranking-name">${row.name}</div>
-             </div>
-             <div class="ranking-score">${row.total}</div>
-           </div>`;
-       }).join("");
-     }
-   }
+    const hasSales = rankingData.some(r => r.total > 0);
+    const rankingEl = document.getElementById(`directorRanking${num}`);
+    if(rankingEl){
+      if(!hasSales){
+        rankingEl.innerHTML = `<div style="opacity:0.6;font-size:13px;">Aucune vente aujourd'hui</div>`;
+      } else {
+        rankingEl.innerHTML = rankingData.map((row, index) => {
+          let extraClass = "", medal = "";
+          if(index === 0){ extraClass = "top1"; medal = "🥇"; }
+          else if(index === 1){ extraClass = "top2"; medal = "🥈"; }
+          else if(index === 2){ extraClass = "top3"; medal = "🥉"; }
+          return `
+            <div class="ranking-row ${extraClass}">
+              <div class="ranking-left">
+                <div class="ranking-rank">${medal || (index+1)}</div>
+                <div class="ranking-name">${row.name}</div>
+              </div>
+              <div class="ranking-score">${row.total}</div>
+            </div>`;
+        }).join("");
+      }
+    }
 
-   const kpiEl = document.getElementById(`directorKpi${num}`);
-   if(kpiEl){
-     kpiEl.innerHTML = boutiqueDisplayList.map(item => {
-       let todayTotal = 0, weeklyTotal = 0;
-       sectorStores.forEach(name => {
-         todayTotal  += globalData.personal?.[name]?.[item]       || 0;
-         weeklyTotal += globalData.weeklyPersonal?.[name]?.[item] || 0;
-       });
+    const kpiEl = document.getElementById(`directorKpi${num}`);
+    if(kpiEl){
+      kpiEl.innerHTML = boutiqueDisplayList.map(item => {
+        let todayTotal = 0, weeklyTotal = 0;
+        sectorStores.forEach(name => {
+          todayTotal  += globalData.personal?.[name]?.[item]       || 0;
+          weeklyTotal += globalData.weeklyPersonal?.[name]?.[item] || 0;
+        });
 
-       const sectorInitial = globalData.sectorInitial?.[sk]?.[item] || 0;
-       const percentText   = sectorInitial > 0 ? (todayTotal / sectorInitial) * 100 : 0;
-       const percentBar    = Math.min(percentText, 100);
+        const sectorInitial = globalData.sectorInitial?.[sk]?.[item] || 0;
+        const percentText   = sectorInitial > 0 ? (todayTotal / sectorInitial) * 100 : 0;
+        const percentBar    = Math.min(percentText, 100);
 
-       let bgColor = "#ff7a00", textColor = "#ff7a00", extraClass = "";
-       if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
-       else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
+        let bgColor = "#ff7a00", textColor = "#ff7a00", extraClass = "";
+        if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
+        else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
 
-       return `
-         <div class="director-kpi-row ${extraClass}" style="background:${bgColor};">
-           <div class="director-kpi-title">${item}</div>
-           <div class="director-kpi-values">
-             Aujourd'hui : <strong>${todayTotal}</strong>${sectorInitial > 0 ? ` / ${sectorInitial}` : ""}
-             &nbsp;|&nbsp; Semaine : <strong>${weeklyTotal}</strong>
-           </div>
-           ${sectorInitial > 0 ? `
-           <div class="store-progress-container" style="margin-top:6px;">
-             <div class="store-progress-bar" style="width:${percentBar}%;"></div>
-             <div class="store-progress-text" style="color:${textColor};">${percentText.toFixed(0)}%</div>
-           </div>` : ""}
-         </div>`;
-     }).join("");
-   }
- });
+        return `
+          <div class="director-kpi-row ${extraClass}" style="background:${bgColor};">
+            <div class="director-kpi-title">${item}</div>
+            <div class="director-kpi-values">
+              Aujourd'hui : <strong>${todayTotal}</strong>${sectorInitial > 0 ? ` / ${sectorInitial}` : ""}
+              &nbsp;|&nbsp; Semaine : <strong>${weeklyTotal}</strong>
+            </div>
+            ${sectorInitial > 0 ? `
+            <div class="store-progress-container" style="margin-top:6px;">
+              <div class="store-progress-bar" style="width:${percentBar}%;"></div>
+              <div class="store-progress-text" style="color:${textColor};">${percentText.toFixed(0)}%</div>
+            </div>` : ""}
+          </div>`;
+      }).join("");
+    }
+  });
 }
 
 window.decrement = async function(item){
- if(isAdmin()) return;
- if(!confirm("Confirmer cette vente ?")) return;
+  if(isAdmin()) return;
+  if(!confirm("Confirmer cette vente ?")) return;
 
- cancelTimers[item] = Date.now() + 20000;
- if(cancelTimerTimeouts[item]) clearTimeout(cancelTimerTimeouts[item]);
- cancelTimerTimeouts[item] = setTimeout(() => {
-   cancelTimers[item] = null;
-   display();
- }, 20000);
+  cancelTimers[item] = Date.now() + 20000;
+  if(cancelTimerTimeouts[item]) clearTimeout(cancelTimerTimeouts[item]);
+  cancelTimerTimeouts[item] = setTimeout(() => {
+    cancelTimers[item] = null;
+    display();
+  }, 20000);
 
- await runTransaction(db, async (transaction) => {
-   const snap = await transaction.get(ref);
-   if(!snap.exists()) return;
-   const data = snap.data();
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(ref);
+    if(!snap.exists()) return;
+    const data = snap.data();
 
-   const targetStore  = isManager() ? currentStore : currentUser;
-   const targetSector = currentSector;
+    const targetStore  = isManager() ? currentStore : currentUser;
+    const targetSector = currentSector;
 
-   const cP   = data.personal            || {};
-   const cWP  = data.weeklyPersonal       || {};
-   const cST  = data.sectorTotals         || {};
-   const cWST = data.weeklySectorTotals   || {};
-   const cBP  = data.boutiqueProgress     || {};
+    const cP   = data.personal            || {};
+    const cWP  = data.weeklyPersonal       || {};
+    const cST  = data.sectorTotals         || {};
+    const cWST = data.weeklySectorTotals   || {};
+    const cBP  = data.boutiqueProgress     || {};
 
-   const payload = {
-     personal: {
-       ...cP,
-       [targetStore]: { ...(cP[targetStore]||{}), [item]: (cP[targetStore]?.[item]||0)+1 }
-     },
-     weeklyPersonal: {
-       ...cWP,
-       [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
-     },
-     sectorTotals: {
-       ...cST,
-       [targetSector]: { ...(cST[targetSector]||{}), [item]: (cST[targetSector]?.[item]||0)+1 }
-     },
-     weeklySectorTotals: {
-       ...cWST,
-       [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
-     }
-   };
+    const payload = {
+      personal: {
+        ...cP,
+        [targetStore]: { ...(cP[targetStore]||{}), [item]: (cP[targetStore]?.[item]||0)+1 }
+      },
+      weeklyPersonal: {
+        ...cWP,
+        [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
+      },
+      sectorTotals: {
+        ...cST,
+        [targetSector]: { ...(cST[targetSector]||{}), [item]: (cST[targetSector]?.[item]||0)+1 }
+      },
+      weeklySectorTotals: {
+        ...cWST,
+        [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
+      }
+    };
 
-   if(managerItemsList.includes(item)){
-     const bpm = cBP[targetStore] || {};
-     payload.boutiqueProgress = {
-       ...cBP,
-       [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
-     };
-   }
+    if(managerItemsList.includes(item)){
+      const bpm = cBP[targetStore] || {};
+      payload.boutiqueProgress = {
+        ...cBP,
+        [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
+      };
+    }
 
-   transaction.set(ref, payload, { merge:true });
- });
+    transaction.set(ref, payload, { merge:true });
+  });
 };
 
 window.cancelSale = async function(item){
- if(isAdmin()) return;
- if(!cancelTimers[item] || Date.now() > cancelTimers[item]) return;
+  if(isAdmin()) return;
+  if(!cancelTimers[item] || Date.now() > cancelTimers[item]) return;
 
- await runTransaction(db, async (transaction) => {
-   const snap = await transaction.get(ref);
-   if(!snap.exists()) return;
-   const data = snap.data();
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(ref);
+    if(!snap.exists()) return;
+    const data = snap.data();
 
-   const targetStore  = isManager() ? currentStore : currentUser;
-   const targetSector = currentSector;
+    const targetStore  = isManager() ? currentStore : currentUser;
+    const targetSector = currentSector;
 
-   const cP   = data.personal            || {};
-   const cWP  = data.weeklyPersonal       || {};
-   const cST  = data.sectorTotals         || {};
-   const cWST = data.weeklySectorTotals   || {};
-   const cBP  = data.boutiqueProgress     || {};
+    const cP   = data.personal            || {};
+    const cWP  = data.weeklyPersonal       || {};
+    const cST  = data.sectorTotals         || {};
+    const cWST = data.weeklySectorTotals   || {};
+    const cBP  = data.boutiqueProgress     || {};
 
-   const payload = {
-     personal: {
-       ...cP,
-       [targetStore]: { ...(cP[targetStore]||{}), [item]: Math.max((cP[targetStore]?.[item]||0)-1,0) }
-     },
-     weeklyPersonal: {
-       ...cWP,
-       [targetStore]: { ...(cWP[targetStore]||{}), [item]: Math.max((cWP[targetStore]?.[item]||0)-1,0) }
-     },
-     sectorTotals: {
-       ...cST,
-       [targetSector]: { ...(cST[targetSector]||{}), [item]: Math.max((cST[targetSector]?.[item]||0)-1,0) }
-     },
-     weeklySectorTotals: {
-       ...cWST,
-       [targetSector]: { ...(cWST[targetSector]||{}), [item]: Math.max((cWST[targetSector]?.[item]||0)-1,0) }
-     }
-   };
+    const payload = {
+      personal: {
+        ...cP,
+        [targetStore]: { ...(cP[targetStore]||{}), [item]: Math.max((cP[targetStore]?.[item]||0)-1,0) }
+      },
+      weeklyPersonal: {
+        ...cWP,
+        [targetStore]: { ...(cWP[targetStore]||{}), [item]: Math.max((cWP[targetStore]?.[item]||0)-1,0) }
+      },
+      sectorTotals: {
+        ...cST,
+        [targetSector]: { ...(cST[targetSector]||{}), [item]: Math.max((cST[targetSector]?.[item]||0)-1,0) }
+      },
+      weeklySectorTotals: {
+        ...cWST,
+        [targetSector]: { ...(cWST[targetSector]||{}), [item]: Math.max((cWST[targetSector]?.[item]||0)-1,0) }
+      }
+    };
 
-   if(managerItemsList.includes(item)){
-     const bpm = cBP[targetStore] || {};
-     payload.boutiqueProgress = {
-       ...cBP,
-       [targetStore]: { ...bpm, [item]: Math.max((bpm[item]||0)-1,0) }
-     };
-   }
+    if(managerItemsList.includes(item)){
+      const bpm = cBP[targetStore] || {};
+      payload.boutiqueProgress = {
+        ...cBP,
+        [targetStore]: { ...bpm, [item]: Math.max((bpm[item]||0)-1,0) }
+      };
+    }
 
-   transaction.set(ref, payload, { merge:true });
- });
+    transaction.set(ref, payload, { merge:true });
+  });
 
- cancelTimers[item] = null;
- if(cancelTimerTimeouts[item]){ clearTimeout(cancelTimerTimeouts[item]); cancelTimerTimeouts[item] = null; }
+  cancelTimers[item] = null;
+  if(cancelTimerTimeouts[item]){ clearTimeout(cancelTimerTimeouts[item]); cancelTimerTimeouts[item] = null; }
 };
 
 window.catchUpSale = async function(item){
- if(!isManager()) return;
- if(!confirm("Rattraper une vente semaine pour " + item + " ?")) return;
+  if(!isManager()) return;
+  if(!confirm("Rattraper une vente semaine pour " + item + " ?")) return;
 
- await runTransaction(db, async (transaction) => {
-   const snap = await transaction.get(ref);
-   if(!snap.exists()) return;
-   const data = snap.data();
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(ref);
+    if(!snap.exists()) return;
+    const data = snap.data();
 
-   const targetStore  = currentStore;
-   const targetSector = currentSector;
+    const targetStore  = currentStore;
+    const targetSector = currentSector;
 
-   const cWP  = data.weeklyPersonal     || {};
-   const cWST = data.weeklySectorTotals || {};
-   const cBP  = data.boutiqueProgress   || {};
+    const cWP  = data.weeklyPersonal     || {};
+    const cWST = data.weeklySectorTotals || {};
+    const cBP  = data.boutiqueProgress   || {};
 
-   const payload = {
-     weeklyPersonal: {
-       ...cWP,
-       [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
-     },
-     weeklySectorTotals: {
-       ...cWST,
-       [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
-     }
-   };
+    const payload = {
+      weeklyPersonal: {
+        ...cWP,
+        [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
+      },
+      weeklySectorTotals: {
+        ...cWST,
+        [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
+      }
+    };
 
-   if(managerItemsList.includes(item)){
-     const bpm = cBP[targetStore] || {};
-     payload.boutiqueProgress = {
-       ...cBP,
-       [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
-     };
-   }
+    if(managerItemsList.includes(item)){
+      const bpm = cBP[targetStore] || {};
+      payload.boutiqueProgress = {
+        ...cBP,
+        [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
+      };
+    }
 
-   transaction.set(ref, payload, { merge:true });
- });
+    transaction.set(ref, payload, { merge:true });
+  });
 };
 
 function renderAdmin(){
- const div   = document.getElementById("adminInputs");
- const title = document.getElementById("adminTitle");
- div.innerHTML = "";
+  const div   = document.getElementById("adminInputs");
+  const title = document.getElementById("adminTitle");
+  div.innerHTML = "";
 
- if(isAdmin()){
-   title.textContent = `Administration — ${sectors[currentSector]?.label}`;
-   const sectorInitial = globalData.sectorInitial?.[currentSector] || {};
-   boutiqueDisplayList.forEach(item => {
-     div.innerHTML += `
-       <div>
-         ${item} :
-         <input type="number" id="obj-${item}" value="${sectorInitial[item] || 0}">
-       </div>`;
-   });
-   return;
- }
+  if(isAdmin()){
+    title.textContent = `Administration — ${sectors[currentSector]?.label}`;
+    const sectorInitial = globalData.sectorInitial?.[currentSector] || {};
+    boutiqueDisplayList.forEach(item => {
+      div.innerHTML += `
+        <div>
+          ${item} :
+          <input type="number" id="obj-${item}" value="${sectorInitial[item] || 0}">
+        </div>`;
+    });
+    return;
+  }
 
- if(isManager()){
-   title.textContent = `Administration boutique — ${currentStore}`;
-   const boutiqueObjectives    = globalData.boutiqueObjectives?.[currentStore] || {};
-   const currentDailyObjective = globalData.dailyObjective?.[currentStore] || 0;
+  if(isManager()){
+    title.textContent = `Administration boutique — ${currentStore}`;
+    const boutiqueObjectives    = globalData.boutiqueObjectives?.[currentStore] || {};
+    const currentDailyObjective = globalData.dailyObjective?.[currentStore] || 0;
 
-   document.getElementById("saveDailyBtn").classList.remove("hidden");
+    div.innerHTML += `
+      <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #444;">
+        🎯 Objectif journalier (total placements) :
+        <input type="number" id="obj-daily" value="${currentDailyObjective}">
+        <br>
+        <button onclick="saveDailyObjective()" style="background:#ffd700;color:#000;margin-top:8px;">Valider objectif journalier</button>
+      </div>`;
 
-   div.innerHTML += `
-     <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #444;">
-       🎯 Objectif journalier (total placements) :
-       <input type="number" id="obj-daily" value="${currentDailyObjective}">
-     </div>`;
-
-   boutiqueDisplayList.forEach(item => {
-     div.innerHTML += `
-       <div>
-         ${item} :
-         <input type="number" id="obj-${item}" value="${boutiqueObjectives[item] || 0}">
-       </div>`;
-   });
- }
+    boutiqueDisplayList.forEach(item => {
+      div.innerHTML += `
+        <div>
+          ${item} :
+          <input type="number" id="obj-${item}" value="${boutiqueObjectives[item] || 0}">
+        </div>`;
+    });
+  }
 }
 
 window.saveObjectives = async function(){
- if(!confirm("Valider les nouveaux objectifs ?")) return;
+  if(!confirm("Valider les nouveaux objectifs ?")) return;
 
- if(isAdmin()){
-   const currentSectorInitial = globalData.sectorInitial || {};
-   const updatedSectorInitial = { ...(currentSectorInitial[currentSector] || {}) };
+  if(isAdmin()){
+    const currentSectorInitial = globalData.sectorInitial || {};
+    const updatedSectorInitial = { ...(currentSectorInitial[currentSector] || {}) };
 
-   boutiqueDisplayList.forEach(item => {
-     const val = parseInt(document.getElementById("obj-" + item).value) || 0;
-     updatedSectorInitial[item] = val;
-   });
+    boutiqueDisplayList.forEach(item => {
+      const val = parseInt(document.getElementById("obj-" + item).value) || 0;
+      updatedSectorInitial[item] = val;
+    });
 
-   await setDoc(ref, {
-     sectorInitial: { ...currentSectorInitial, [currentSector]: updatedSectorInitial }
-   }, { merge:true });
-   return;
- }
+    await setDoc(ref, {
+      sectorInitial: { ...currentSectorInitial, [currentSector]: updatedSectorInitial }
+    }, { merge:true });
+    return;
+  }
 
- if(isManager()){
-   const cBO = globalData.boutiqueObjectives || {};
-   const cBI = globalData.boutiqueInitial    || {};
-   const cBP = globalData.boutiqueProgress   || {};
+  if(isManager()){
+    const cBO = globalData.boutiqueObjectives || {};
+    const cBI = globalData.boutiqueInitial    || {};
+    const cBP = globalData.boutiqueProgress   || {};
 
-   const updatedObj  = { ...(cBO[currentStore] || {}) };
-   const updatedInit = { ...(cBI[currentStore] || {}) };
-   const resetProg   = { ...(cBP[currentStore] || {}) };
+    const updatedObj  = { ...(cBO[currentStore] || {}) };
+    const updatedInit = { ...(cBI[currentStore] || {}) };
+    const resetProg   = { ...(cBP[currentStore] || {}) };
 
-   boutiqueDisplayList.forEach(item => {
-     const val = parseInt(document.getElementById("obj-" + item).value) || 0;
-     updatedObj[item]  = val;
-     updatedInit[item] = val;
-     resetProg[item]   = 0;
-   });
+    boutiqueDisplayList.forEach(item => {
+      const val = parseInt(document.getElementById("obj-" + item).value) || 0;
+      updatedObj[item]  = val;
+      updatedInit[item] = val;
+      resetProg[item]   = 0;
+    });
 
-   await setDoc(ref, {
-     boutiqueObjectives: { ...cBO, [currentStore]: updatedObj },
-     boutiqueInitial:    { ...cBI, [currentStore]: updatedInit },
-     boutiqueProgress:   { ...cBP, [currentStore]: resetProg }
-   }, { merge:true });
- }
+    await setDoc(ref, {
+      boutiqueObjectives: { ...cBO, [currentStore]: updatedObj },
+      boutiqueInitial:    { ...cBI, [currentStore]: updatedInit },
+      boutiqueProgress:   { ...cBP, [currentStore]: resetProg }
+    }, { merge:true });
+  }
 };
 
 /* =====================================================================
-  SAVE DAILY OBJECTIVE (bouton séparé — ne remet pas les KPI à zéro)
-  ===================================================================== */
+   SAVE DAILY OBJECTIVE (bouton séparé — ne remet pas les KPI à zéro)
+   ===================================================================== */
 window.saveDailyObjective = async function(){
- if(!isManager()) return;
- if(!confirm("Valider l'objectif journalier ?")) return;
+  if(!isManager()) return;
+  if(!confirm("Valider l'objectif journalier ?")) return;
 
- const dailyVal = parseInt(document.getElementById("obj-daily").value) || 0;
- const cDO = globalData.dailyObjective || {};
+  const dailyVal = parseInt(document.getElementById("obj-daily").value) || 0;
+  const cDO = globalData.dailyObjective || {};
 
- await setDoc(ref, {
-   dailyObjective: { ...cDO, [currentStore]: dailyVal }
- }, { merge:true });
+  await setDoc(ref, {
+    dailyObjective: { ...cDO, [currentStore]: dailyVal }
+  }, { merge:true });
 };
 
 window.resetWeekly = async function(){
- if(!confirm("Réinitialiser tous les objectifs ?")) return;
+  if(!confirm("Réinitialiser tous les objectifs ?")) return;
 
- if(isAdmin()){
-   await runTransaction(db, async (transaction) => {
-     const snap = await transaction.get(ref);
-     if(!snap.exists()) return;
-     const data = snap.data();
+  if(isAdmin()){
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(ref);
+      if(!snap.exists()) return;
+      const data = snap.data();
 
-     const cST  = data.sectorTotals        || {};
-     const cWST = data.weeklySectorTotals   || {};
-     const cSI  = data.sectorInitial        || {};
+      const cST  = data.sectorTotals        || {};
+      const cWST = data.weeklySectorTotals   || {};
+      const cSI  = data.sectorInitial        || {};
 
-     const newST  = { ...cST,  [currentSector]: {} };
-     const newWST = { ...cWST, [currentSector]: {} };
-     const newSI  = { ...cSI,  [currentSector]: {} };
-     itemsList.forEach(item => {
-       newST[currentSector][item]  = 0;
-       newWST[currentSector][item] = 0;
-       newSI[currentSector][item]  = 0;
-     });
+      const newST  = { ...cST,  [currentSector]: {} };
+      const newWST = { ...cWST, [currentSector]: {} };
+      const newSI  = { ...cSI,  [currentSector]: {} };
+      itemsList.forEach(item => {
+        newST[currentSector][item]  = 0;
+        newWST[currentSector][item] = 0;
+        newSI[currentSector][item]  = 0;
+      });
 
-     const cWP = data.weeklyPersonal || {};
-     const newWP = { ...cWP };
-     sectors[currentSector].stores.forEach(store => {
-       newWP[store] = {};
-       itemsList.forEach(item => newWP[store][item] = 0);
-     });
+      const cWP = data.weeklyPersonal || {};
+      const newWP = { ...cWP };
+      sectors[currentSector].stores.forEach(store => {
+        newWP[store] = {};
+        itemsList.forEach(item => newWP[store][item] = 0);
+      });
 
-     transaction.set(ref, {
-       sectorTotals:       newST,
-       weeklySectorTotals: newWST,
-       sectorInitial:      newSI,
-       weeklyPersonal:     newWP
-     }, { merge:true });
-   });
-   return;
- }
+      transaction.set(ref, {
+        sectorTotals:       newST,
+        weeklySectorTotals: newWST,
+        sectorInitial:      newSI,
+        weeklyPersonal:     newWP
+      }, { merge:true });
+    });
+    return;
+  }
 
- if(isManager()){
-   await runTransaction(db, async (transaction) => {
-     const snap = await transaction.get(ref);
-     if(!snap.exists()) return;
-     const data = snap.data();
+  if(isManager()){
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(ref);
+      if(!snap.exists()) return;
+      const data = snap.data();
 
-     const cBO = data.boutiqueObjectives || {};
-     const cBI = data.boutiqueInitial    || {};
-     const cBP = data.boutiqueProgress   || {};
+      const cBO = data.boutiqueObjectives || {};
+      const cBI = data.boutiqueInitial    || {};
+      const cBP = data.boutiqueProgress   || {};
 
-     const resetObj  = { ...(cBO[currentStore] || {}) };
-     const resetInit = { ...(cBI[currentStore] || {}) };
-     const resetProg = { ...(cBP[currentStore] || {}) };
+      const resetObj  = { ...(cBO[currentStore] || {}) };
+      const resetInit = { ...(cBI[currentStore] || {}) };
+      const resetProg = { ...(cBP[currentStore] || {}) };
 
-     boutiqueDisplayList.forEach(item => {
-       resetObj[item]  = 0;
-       resetInit[item] = 0;
-       resetProg[item] = 0;
-     });
+      boutiqueDisplayList.forEach(item => {
+        resetObj[item]  = 0;
+        resetInit[item] = 0;
+        resetProg[item] = 0;
+      });
 
-     transaction.set(ref, {
-       boutiqueObjectives: { ...cBO, [currentStore]: resetObj },
-       boutiqueInitial:    { ...cBI, [currentStore]: resetInit },
-       boutiqueProgress:   { ...cBP, [currentStore]: resetProg }
-     }, { merge:true });
-   });
- }
+      transaction.set(ref, {
+        boutiqueObjectives: { ...cBO, [currentStore]: resetObj },
+        boutiqueInitial:    { ...cBI, [currentStore]: resetInit },
+        boutiqueProgress:   { ...cBP, [currentStore]: resetProg }
+      }, { merge:true });
+    });
+  }
 };
 
 document.getElementById("password").addEventListener("keydown", function(event){
- if(event.key === "Enter"){ event.preventDefault(); login(); }
+  if(event.key === "Enter"){ event.preventDefault(); login(); }
 });
 </script>
 
