@@ -470,28 +470,6 @@ const itemsWithoutObjective = ["Autre"];
 const managerItemsList      = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros","Autre"];
 const boutiqueDisplayList   = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros"];
 
-/* =====================================================================
-   COMPTES
-   Secteur Terres Normandes :
-     medine       = Le Havre        medine*      = Manager Le Havre
-     dembele      = Evreux          dembele*     = Manager Evreux
-     johannes     = Mondeville      johannes*    = Manager Mondeville
-     orelsan      = Caen            orelsan*     = Manager Caen
-     lincheneau   = La Glacerie     lincheneau*  = Manager La Glacerie
-     riles        = Rouen           riles*       = Manager Rouen
-     secteurstn   = Mariama
-
-   Secteur Rives Royales :
-     jeanne       = Orléans         jeanne*      = Manager Orléans
-     moulin       = Chartres        moulin*      = Manager Chartres
-     giroud       = Tours           giroud*      = Manager Tours
-     denisot      = Châteauroux     denisot*     = Manager Châteauroux
-     niro         = Blois           niro*        = Manager Blois
-     secteurrr    = Julien
-
-   Directeur :
-     normandiedcr = Christophe
-   ===================================================================== */
 const accounts = {
   /* --- Secteur Terres Normandes --- */
   "afe8313a1e09a01060434b852c5a9679f9b18c9c58672f589dc013600ed353a8": { name:"Le Havre",    role:"store",   sector:"secteur1", store:"Le Havre" },
@@ -1064,6 +1042,7 @@ function renderDirector(){
     const num = idx + 1;
     const sectorStores = sectors[sk].stores;
 
+    /* Classement */
     const rankingData = sectorStores.map(name => {
       let total = 0;
       itemsList.forEach(item => total += globalData.personal?.[name]?.[item] || 0);
@@ -1093,6 +1072,7 @@ function renderDirector(){
       }
     }
 
+    /* KPI avec détail par boutique */
     const kpiEl = document.getElementById(`directorKpi${num}`);
     if(kpiEl){
       kpiEl.innerHTML = boutiqueDisplayList.map(item => {
@@ -1110,15 +1090,28 @@ function renderDirector(){
         if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
         else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
 
+        const detailHTML = sectorStores.map(name => {
+          const val = globalData.personal?.[name]?.[item] || 0;
+          return `<div style="font-size:11px;margin-top:2px;line-height:1.3;">${name} : <strong>${val}</strong></div>`;
+        }).join("");
+
+        const objectifText = sectorInitial > 0
+          ? (todayTotal <= sectorInitial
+            ? `Reste : ${sectorInitial - todayTotal}`
+            : `Dépassé : +${todayTotal - sectorInitial}`)
+          : "";
+
         return `
           <div class="director-kpi-row ${extraClass}" style="background:${bgColor};">
-            <div class="director-kpi-title">${item}</div>
-            <div class="director-kpi-values">
-              Aujourd'hui : <strong>${todayTotal}</strong>${sectorInitial > 0 ? ` / ${sectorInitial}` : ""}
-              &nbsp;|&nbsp; Semaine : <strong>${weeklyTotal}</strong>
+            <div class="director-kpi-title" style="font-size:13px;margin-bottom:6px;">${item}</div>
+            ${detailHTML}
+            <div style="margin-top:6px;font-size:12px;font-weight:700;">
+              Total : ${todayTotal}${sectorInitial > 0 ? ` / ${sectorInitial}` : ""}
+              &nbsp;•&nbsp; Semaine : ${weeklyTotal}
             </div>
             ${sectorInitial > 0 ? `
-            <div class="store-progress-container" style="margin-top:6px;">
+            <div style="font-size:11px;opacity:0.85;margin-bottom:4px;">${objectifText}</div>
+            <div class="store-progress-container" style="margin-top:4px;">
               <div class="store-progress-bar" style="width:${percentBar}%;"></div>
               <div class="store-progress-text" style="color:${textColor};">${percentText.toFixed(0)}%</div>
             </div>` : ""}
@@ -1358,9 +1351,6 @@ window.saveObjectives = async function(){
   }
 };
 
-/* =====================================================================
-   SAVE DAILY OBJECTIVE (bouton séparé — ne remet pas les KPI à zéro)
-   ===================================================================== */
 window.saveDailyObjective = async function(){
   if(!isManager()) return;
   if(!confirm("Valider l'objectif journalier ?")) return;
