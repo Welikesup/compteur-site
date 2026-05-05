@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -241,6 +242,7 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
   font-weight:700;
 }
 
+/* Suivi boutique compact en 2 colonnes */
 .store-progress-list{
   display:grid;
   grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -311,6 +313,7 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
   pointer-events:none;
 }
 
+/* Directeur : deux colonnes secteurs */
 .director-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -366,8 +369,10 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
   .store-progress-meta{text-align:left;white-space:normal;}
   .director-grid{grid-template-columns:1fr;}
   .director-kpi-grid{grid-template-columns:1fr;}
+  #directorSummary{grid-template-columns:repeat(2,1fr) !important;}
 }
 </style>
+
 </head>
 
 <body>
@@ -388,6 +393,8 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
 <div id="app" class="hidden">
   <h2 id="welcome"></h2>
 
+  <!-- Panneau admin (admin secteur + manager) -->
+
   <div id="adminPanel" class="admin-panel hidden">
     <h3 id="adminTitle">Administration</h3>
     <div id="adminInputs"></div>
@@ -395,35 +402,57 @@ button.catchup{background:#444;color:#ffd700;margin-left:8px;}
     <button onclick="resetWeekly()">Réinitialiser les objectifs</button>
   </div>
 
+  <!-- Classement (admin secteur + manager) -->
+
   <div id="rankingPanel" class="ranking-panel hidden">
     <h3 id="rankingTitle">Classement du jour</h3>
     <div id="rankingContent"></div>
   </div>
 
+  <!-- Tuiles KPI (store + manager + admin secteur) -->
+
   <div id="items"></div>
+
+  <!-- Taux de transformation (store + manager) -->
 
   <div id="txPanel" class="store-panel hidden">
     <div id="txContent"></div>
   </div>
+
+  <!-- Suivi boutique (store + manager) -->
 
   <div id="storeTrackingPanel" class="store-panel hidden">
     <h3 id="storeTrackingTitle">Suivi boutique</h3>
     <div id="storeTrackingContent" class="store-progress-list"></div>
   </div>
 
+  <!-- Vue directeur -->
+
   <div id="directorPanel" class="hidden">
-    <div class="director-grid">
-      <div class="director-sector">
-        <h2>⚡ Secteur Terres Normandes — Mariama</h2>
-        <div id="directorRanking1" style="margin-bottom:16px;"></div>
-        <div id="directorKpi1" class="director-kpi-grid"></div>
-      </div>
-      <div class="director-sector">
-        <h2>⚡ Secteur Rives Royales — Julien</h2>
-        <div id="directorRanking2" style="margin-bottom:16px;"></div>
-        <div id="directorKpi2" class="director-kpi-grid"></div>
-      </div>
-    </div>
+
+```
+<!-- Synthèse globale S1+S2 -->
+<div style="padding:20px 20px 0 20px;">
+  <div style="background:#1c1c1c;border-radius:15px;padding:16px 20px;">
+    <div style="font-size:13px;font-weight:700;color:#ff7a00;letter-spacing:1px;margin-bottom:12px;">🌍 SYNTHÈSE GLOBALE — S1 + S2</div>
+    <div id="directorSummary" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;"></div>
+  </div>
+</div>
+
+<div class="director-grid">
+  <div class="director-sector">
+    <h2>⚡ Secteur Terres Normandes — Mariama</h2>
+    <div id="directorRanking1" style="margin-bottom:16px;"></div>
+    <div id="directorKpi1" class="director-kpi-grid"></div>
+  </div>
+  <div class="director-sector">
+    <h2>⚡ Secteur Rives Royales — Julien</h2>
+    <div id="directorRanking2" style="margin-bottom:16px;"></div>
+    <div id="directorKpi2" class="director-kpi-grid"></div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
@@ -444,6 +473,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const ref = doc(db,"global","objectifs");
 
+/* =====================================================================
+   STRUCTURE DES SECTEURS
+   ===================================================================== */
 const sectors = {
   "secteur1": {
     label: "Secteur Terres Normandes",
@@ -463,15 +495,49 @@ const allStoreUsers = [
 ];
 
 const allAdmins = ["Mariama","Julien"];
-const allUsers  = [...allStoreUsers, ...allAdmins];
+const allUsers = [...allStoreUsers, ...allAdmins];
 
-const itemsList             = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros","Autre"];
+const itemsList = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros","Autre"];
 const itemsWithoutObjective = ["Autre"];
-const managerItemsList      = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros","Autre"];
-const boutiqueDisplayList   = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros"];
+const managerItemsList = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros","Autre"];
+const boutiqueDisplayList = ["Broadband","Socle Mobiles","MEV","Terminaux","Assurances","Cyber","MP","Pros"];
 
+/* =====================================================================
+   COMPTES
+   Mots de passe à renseigner — mettre les hash SHA-256 ci-dessous
+   Secteur 1 (inchangés) :
+     afe8313... = Le Havre (store)
+     dbf9007... = Evreux (store)
+     1d4b41c... = Mondeville (store)
+     1fdfb74... = Caen (store)
+     aecfc16... = La Glacerie (store)
+     68521fc... = Rouen (store)
+     014dbcb... = Mariama (admin secteur1)
+     615ab1a... = Manager Le Havre
+     a875f35... = Manager Evreux
+     8fa15eb... = Manager Mondeville
+     9699d44... = Manager Caen
+     29f3f6e... = Manager La Glacerie
+     945c568... = Manager Rouen
+
+   Secteur 2 (à compléter avec les vrais hash) :
+     HASH_ORLEANS        = Orléans (store)
+     HASH_CHARTRES       = Chartres (store)
+     HASH_TOURS          = Tours (store)
+     HASH_CHATEAUROUX    = Châteauroux (store)
+     HASH_BLOIS          = Blois (store)
+     HASH_JULIEN         = Julien (admin secteur2)
+     HASH_MGR_ORLEANS    = Manager Orléans
+     HASH_MGR_CHARTRES   = Manager Chartres
+     HASH_MGR_TOURS      = Manager Tours
+     HASH_MGR_CHATEAUROUX= Manager Châteauroux
+     HASH_MGR_BLOIS      = Manager Blois
+
+   Directeur :
+     HASH_CHRISTOPHE     = Christophe (director)
+   ===================================================================== */
 const accounts = {
-  /* --- Secteur Terres Normandes --- */
+  /* --- Secteur 1 --- */
   "afe8313a1e09a01060434b852c5a9679f9b18c9c58672f589dc013600ed353a8": { name:"Le Havre",    role:"store",   sector:"secteur1", store:"Le Havre" },
   "dbf90070098b8093beb40ecdf86c0d2c219a24cafc12744c38ee52db3387d3e1": { name:"Evreux",      role:"store",   sector:"secteur1", store:"Evreux" },
   "1d4b41c9db9172e5f151e4a5fe3c57ca3f98b8e6ba807450b10d1897c84ce72b": { name:"Mondeville",  role:"store",   sector:"secteur1", store:"Mondeville" },
@@ -486,7 +552,7 @@ const accounts = {
   "29f3f6ea1d212686c8c92d18c8064752c6be34f28ef87f7273ba20eb8c35977b": { name:"Manager La Glacerie", role:"manager", sector:"secteur1", store:"La Glacerie" },
   "945c5688d0fa7d50852f530933a772045755509b2fd867de368d7e3ab08d4773": { name:"Manager Rouen",       role:"manager", sector:"secteur1", store:"Rouen" },
 
-  /* --- Secteur Rives Royales --- */
+  /* --- Secteur 2 --- */
   "397b0066107f06a1f9025849f51e5e9d13075bddd40945bbaf011bbe94e6b524": { name:"Orléans",      role:"store",   sector:"secteur2", store:"Orléans" },
   "a319b07f627c969fd67f535f4d921cae786374b101c3f1ec58c38f1b8eccfc19": { name:"Chartres",      role:"store",   sector:"secteur2", store:"Chartres" },
   "cefa323812ca6b6293457811d27fdfd6045bfe92920163ae52f895b0bebab051": { name:"Tours",         role:"store",   sector:"secteur2", store:"Tours" },
@@ -503,6 +569,9 @@ const accounts = {
   "3fa31ab736078f1c16cbd557bb2fd84fe1c7df1c3d1ce4b9af4647652aa4091d": { name:"Christophe", role:"director", sector:null, store:null }
 };
 
+/* =====================================================================
+   ÉTAT COURANT
+   ===================================================================== */
 let currentUser   = "";
 let currentRole   = "";
 let currentSector = null;
@@ -513,17 +582,37 @@ let cancelTimerTimeouts = {};
 let unsubscribeSnapshot = null;
 let previousLeaderKeys  = {};
 
+/* =====================================================================
+   HELPERS RÔLES
+   ===================================================================== */
 function isAdmin()    { return currentRole === "admin"; }
 function isManager()  { return currentRole === "manager"; }
 function isStore()    { return currentRole === "store"; }
 function isDirector() { return currentRole === "director"; }
-function hasTileOverview(){ return isAdmin() || isManager(); }
-function getCurrentSectorStores(){ return sectors[currentSector]?.stores || []; }
 
+function getSectorStores(sectorKey){
+  return sectors[sectorKey]?.stores || [];
+}
+
+function getCurrentSectorStores(){
+  return getSectorStores(currentSector);
+}
+
+/* Pour les tuiles : admin secteur voit ses boutiques, manager voit la sienne */
+function hasTileOverview(){
+  return isAdmin() || isManager();
+}
+
+/* =====================================================================
+   DATE
+   ===================================================================== */
 function getToday(){
   return new Date().toLocaleDateString("fr-CA",{timeZone:"Europe/Paris"});
 }
 
+/* =====================================================================
+   HASH
+   ===================================================================== */
 async function hashPassword(password){
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
@@ -532,6 +621,9 @@ async function hashPassword(password){
   return hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
 }
 
+/* =====================================================================
+   BUILDERS STRUCTURE VIDE
+   ===================================================================== */
 function buildEmptyPersonal(){
   const p = {};
   allUsers.forEach(u => {
@@ -550,7 +642,14 @@ function buildEmptyWeeklyPersonal(){
   return p;
 }
 
+function buildEmptyItemMap(){
+  const m = {};
+  itemsList.forEach(i => m[i] = 0);
+  return m;
+}
+
 function buildEmptySectorTotals(){
+  /* sectorTotals[sectorKey][item] = number */
   const m = {};
   Object.keys(sectors).forEach(sk => {
     m[sk] = {};
@@ -583,21 +682,51 @@ function buildEmptyDailyObjective(){
   return m;
 }
 
+/* =====================================================================
+   COMPUTE SECTOR TOTALS FROM PERSONAL
+   ===================================================================== */
+function computeSectorTotals(personal){
+  const totals = buildEmptySectorTotals();
+  Object.keys(sectors).forEach(sk => {
+    itemsList.forEach(item => {
+      let t = 0;
+      sectors[sk].stores.forEach(store => t += personal?.[store]?.[item] || 0);
+      totals[sk][item] = t;
+    });
+  });
+  return totals;
+}
+
+function computeWeeklySectorTotals(weeklyPersonal){
+  const totals = buildEmptyWeeklySectorTotals();
+  Object.keys(sectors).forEach(sk => {
+    itemsList.forEach(item => {
+      let t = 0;
+      sectors[sk].stores.forEach(store => t += weeklyPersonal?.[store]?.[item] || 0);
+      totals[sk][item] = t;
+    });
+  });
+  return totals;
+}
+
+/* =====================================================================
+   ENSURE DATA STRUCTURE
+   ===================================================================== */
 async function ensureDataStructure(){
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
 
     if(!snap.exists()){
       const data = {
-        personal:           buildEmptyPersonal(),
-        weeklyPersonal:     buildEmptyWeeklyPersonal(),
-        sectorTotals:       buildEmptySectorTotals(),
-        weeklySectorTotals: buildEmptyWeeklySectorTotals(),
-        boutiqueObjectives: buildEmptyManagerStoreMap(),
-        boutiqueInitial:    buildEmptyManagerStoreMap(),
-        boutiqueProgress:   buildEmptyManagerStoreMap(),
-        dailyObjective:     buildEmptyDailyObjective(),
-        lastPersonalReset:  getToday()
+        personal:            buildEmptyPersonal(),
+        weeklyPersonal:      buildEmptyWeeklyPersonal(),
+        sectorTotals:        buildEmptySectorTotals(),
+        weeklySectorTotals:  buildEmptyWeeklySectorTotals(),
+        boutiqueObjectives:  buildEmptyManagerStoreMap(),
+        boutiqueInitial:     buildEmptyManagerStoreMap(),
+        boutiqueProgress:    buildEmptyManagerStoreMap(),
+        dailyObjective:      buildEmptyDailyObjective(),
+        lastPersonalReset:   getToday()
       };
       transaction.set(ref, data);
       return;
@@ -607,6 +736,7 @@ async function ensureDataStructure(){
     let patch = {};
     let needsPatch = false;
 
+    /* personal */
     const safePersonal = data.personal || {};
     let patchedPersonal = null;
     let personalChanged = false;
@@ -629,6 +759,7 @@ async function ensureDataStructure(){
     });
     if(personalChanged){ patch.personal = patchedPersonal; needsPatch = true; }
 
+    /* weeklyPersonal */
     const safeWeekly = data.weeklyPersonal || {};
     let patchedWeekly = null;
     let weeklyChanged = false;
@@ -651,6 +782,7 @@ async function ensureDataStructure(){
     });
     if(weeklyChanged){ patch.weeklyPersonal = patchedWeekly; needsPatch = true; }
 
+    /* sectorTotals */
     const safeST = data.sectorTotals || {};
     let patchedST = structuredClone(safeST);
     let stChanged = false;
@@ -662,6 +794,7 @@ async function ensureDataStructure(){
     });
     if(stChanged){ patch.sectorTotals = patchedST; needsPatch = true; }
 
+    /* weeklySectorTotals */
     const safeWST = data.weeklySectorTotals || {};
     let patchedWST = structuredClone(safeWST);
     let wstChanged = false;
@@ -673,6 +806,7 @@ async function ensureDataStructure(){
     });
     if(wstChanged){ patch.weeklySectorTotals = patchedWST; needsPatch = true; }
 
+    /* boutiqueObjectives / Initial / Progress */
     const safeBO = data.boutiqueObjectives || {};
     const safeBI = data.boutiqueInitial    || {};
     const safeBP = data.boutiqueProgress   || {};
@@ -697,6 +831,7 @@ async function ensureDataStructure(){
       needsPatch = true;
     }
 
+    /* dailyObjective */
     const safeDO = data.dailyObjective || {};
     let pDO = { ...safeDO };
     let doChanged = false;
@@ -714,6 +849,9 @@ async function ensureDataStructure(){
   });
 }
 
+/* =====================================================================
+   RESET DAILY PERSONAL
+   ===================================================================== */
 async function resetDailyPersonalIfNeeded(){
   const today = getToday();
   await runTransaction(db, async (transaction) => {
@@ -728,6 +866,9 @@ async function resetDailyPersonalIfNeeded(){
   });
 }
 
+/* =====================================================================
+   LOGIN
+   ===================================================================== */
 window.login = async function(){
   const pass = document.getElementById("password").value;
   if(!window.crypto || !window.crypto.subtle){
@@ -771,12 +912,16 @@ window.login = async function(){
   }
 };
 
+/* =====================================================================
+   INIT DATA
+   ===================================================================== */
 async function initData(){
   await ensureDataStructure();
   if(unsubscribeSnapshot){ unsubscribeSnapshot(); unsubscribeSnapshot = null; }
 
   unsubscribeSnapshot = onSnapshot(ref, (docSnap) => {
     globalData = docSnap.data() || {};
+
     if(isDirector()){
       renderDirector();
     } else {
@@ -789,18 +934,29 @@ async function initData(){
   await resetDailyPersonalIfNeeded();
 }
 
+/* =====================================================================
+   RENDER RANKING (admin secteur + manager)
+   ===================================================================== */
 function renderRanking(){
   const rankingContent = document.getElementById("rankingContent");
   if(!rankingContent) return;
+
   const sectorStores = getCurrentSectorStores();
+
   const rankingData = sectorStores.map(name => {
     let total = 0;
     itemsList.forEach(item => total += globalData.personal?.[name]?.[item] || 0);
     return { name, total };
   });
+
   rankingData.sort((a,b) => b.total !== a.total ? b.total - a.total : a.name.localeCompare(b.name,"fr"));
+
   const hasSales = rankingData.some(r => r.total > 0);
-  if(!hasSales){ rankingContent.innerHTML = `<div style="opacity:0.8;">Aucune vente aujourd'hui</div>`; return; }
+  if(!hasSales){
+    rankingContent.innerHTML = `<div style="opacity:0.8;">Aucune vente aujourd'hui</div>`;
+    return;
+  }
+
   rankingContent.innerHTML = rankingData.map((row,index) => {
     let extraClass = "", medal = "";
     if(index === 0){ extraClass = "top1"; medal = "🥇"; }
@@ -817,6 +973,9 @@ function renderRanking(){
   }).join("");
 }
 
+/* =====================================================================
+   DISPLAY TUILES KPI
+   ===================================================================== */
 function display(){
   const container = document.getElementById("items");
   container.innerHTML = "";
@@ -825,19 +984,33 @@ function display(){
 
   itemsList.forEach(item => {
     const hasObjective = !itemsWithoutObjective.includes(item);
-    const sectorTotal  = globalData.sectorTotals?.[currentSector]?.[item] || 0;
-    const weeklySector = globalData.weeklySectorTotals?.[currentSector]?.[item] || 0;
+
+    /* Totaux secteur */
+    const sectorTotal   = globalData.sectorTotals?.[currentSector]?.[item] || 0;
+    const weeklySector  = globalData.weeklySectorTotals?.[currentSector]?.[item] || 0;
+
+    /* Objectif secteur (admin uniquement — stocké dans sectorTotals initial) */
+    const initial       = globalData.boutiqueObjectives?.[currentStore]?.["__sectorInitial__"] || 0;
+
+    /* Totaux du jour pour ce secteur */
     let todaySectorValue = 0;
     sectorStores.forEach(name => todaySectorValue += globalData.personal?.[name]?.[item] || 0);
+
+    /* Valeurs boutique courante */
     const storeTodayValue = currentStore ? (globalData.personal?.[currentStore]?.[item] || 0) : 0;
     const storeWeekValue  = currentStore ? (globalData.weeklyPersonal?.[currentStore]?.[item] || 0) : 0;
-    const sectorInitial = globalData.sectorInitial?.[currentSector]?.[item] || 0;
-    const diff          = sectorInitial - sectorTotal;
-    const percentBar    = Math.min(sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0, 100);
-    const percentText   = sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0;
+
+    /* Objectif secteur = sectorTotals initial (géré par admin via un champ dédié) */
+    const sectorInitial  = globalData.sectorInitial?.[currentSector]?.[item] || 0;
+    const diff           = sectorInitial - sectorTotal;
+    const percentBar     = Math.min(sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0, 100);
+    const percentText    = sectorInitial > 0 ? (sectorTotal / sectorInitial) * 100 : 0;
+
     let percentColor = "#ff7a00";
     if(percentText >= 100 && percentText < 120) percentColor = "#66cc88";
     if(percentText >= 120) percentColor = "#1e7e34";
+
+    /* Leader parmi les boutiques du secteur */
     let leaderValue = 0, leaders = [];
     sectorStores.forEach(name => {
       const val = globalData.personal?.[name]?.[item] || 0;
@@ -846,12 +1019,16 @@ function display(){
     });
     const leaderKey = leaderValue > 0 ? `${leaders.join("|")}::${leaderValue}` : "";
     nextLeaderKeys[item] = leaderKey;
+
     let leaderHTML = "";
     if(hasTileOverview() && leaderValue > 0){
+      const leaderNames = leaders.join(" / ");
       leaderHTML = `<div style="font-size:13px;margin-top:6px;font-weight:700;color:#FFD700;
         text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-        🏆 Boutique leader : ${leaders.join(" / ")} (${leaderValue})</div>`;
+        🏆 Boutique leader : ${leaderNames} (${leaderValue})</div>`;
     }
+
+    /* Détail par boutique (admin + manager) */
     let detailHTML = "";
     if(hasTileOverview()){
       sectorStores.forEach(name => {
@@ -860,22 +1037,30 @@ function display(){
         detailHTML += `<div style="font-size:12px;margin-top:2px;line-height:1.15;">${name} : ${val}</div>`;
       });
     }
+
     const cancelAllowed = !!(cancelTimers[item] && Date.now() < cancelTimers[item]);
     const canSell = !isAdmin();
+
     const div = document.createElement("div");
     div.className = "item";
+
     if(hasObjective){
       if(percentText >= 120){ div.style.background = "#1e7e34"; div.classList.add("glow"); }
       else if(percentText >= 100){ div.style.background = "#66cc88"; }
       else { div.style.background = "#ff7a00"; }
-    } else { div.style.background = "#ff7a00"; }
+    } else {
+      div.style.background = "#ff7a00";
+    }
+
     if(hasTileOverview() && leaderValue > 0 &&
        previousLeaderKeys[item] !== undefined && previousLeaderKeys[item] !== leaderKey){
       div.classList.add("leader-flash");
     }
+
     const objectifText = sectorInitial > 0
       ? (diff >= 0 ? `Objectif restant : <strong>${diff}</strong>` : `Objectif dépassé de : <strong>${-diff}</strong>`)
       : "";
+
     const objectiveBlock = hasObjective && sectorInitial > 0 ? `
       <p>${objectifText}</p>
       ${isManager() ? `
@@ -887,9 +1072,12 @@ function display(){
         <div class="progress-text" style="color:${percentColor}">${percentText.toFixed(0)}%</div>
       </div>
     ` : (hasObjective && isManager() ? `
-      <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
-      <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
+      ${isManager() ? `
+        <div class="personal-line">Secteur semaine : <strong>${weeklySector}</strong></div>
+        <div class="personal-line">Secteur aujourd'hui : <strong>${todaySectorValue}</strong></div>
+      ` : ``}
     ` : ``);
+
     let extraManagerLines = "";
     if(isManager()){
       extraManagerLines = `
@@ -897,10 +1085,12 @@ function display(){
         <div class="personal-line">Boutique aujourd'hui : <strong>${storeTodayValue}</strong></div>
       `;
     }
-    const weeklyText   = hasTileOverview() ? "Ventes du secteur semaine"     : "Ventes de la boutique semaine";
-    const personalText = hasTileOverview() ? "Ventes du secteur aujourd'hui" : "Ventes de la boutique aujourd'hui";
+
+    const weeklyText  = hasTileOverview() ? "Ventes du secteur semaine"     : "Ventes de la boutique semaine";
+    const personalText= hasTileOverview() ? "Ventes du secteur aujourd'hui" : "Ventes de la boutique aujourd'hui";
     const weeklyUserValue = hasTileOverview() ? weeklySector : (globalData.weeklyPersonal?.[currentUser]?.[item] || 0);
     const userValue       = hasTileOverview() ? todaySectorValue : (globalData.personal?.[currentUser]?.[item] || 0);
+
     let buttonsHTML = "";
     if(canSell){
       if(isManager()){
@@ -916,6 +1106,7 @@ function display(){
           <button class="cancel" ${!cancelAllowed?"disabled":""} onclick="cancelSale('${item}')">Annuler</button>`;
       }
     }
+
     div.innerHTML = `
       <h3>${item}</h3>
       ${objectiveBlock}
@@ -927,11 +1118,16 @@ function display(){
       ${leaderHTML}
       ${buttonsHTML}
     `;
+
     container.appendChild(div);
   });
+
   previousLeaderKeys = nextLeaderKeys;
 }
 
+/* =====================================================================
+   RENDER STORE TRACKING
+   ===================================================================== */
 function renderStoreTracking(){
   const panel   = document.getElementById("storeTrackingPanel");
   const title   = document.getElementById("storeTrackingTitle");
@@ -939,20 +1135,26 @@ function renderStoreTracking(){
   if(!panel || !title || !content || !currentStore) return;
   panel.classList.remove("hidden");
   title.textContent = `Suivi boutique — ${currentStore}`;
-  const storeInitial  = globalData.boutiqueInitial?.[currentStore]  || {};
-  const storeProgress = globalData.boutiqueProgress?.[currentStore] || {};
+
+  const storeObjectives = globalData.boutiqueObjectives?.[currentStore] || {};
+  const storeInitial    = globalData.boutiqueInitial?.[currentStore]    || {};
+  const storeProgress   = globalData.boutiqueProgress?.[currentStore]   || {};
+
   content.innerHTML = boutiqueDisplayList.map(item => {
     const initial   = storeInitial[item] ?? 0;
     const progress  = storeProgress[item] ?? 0;
     const diff      = initial - progress;
     const percentText = initial > 0 ? (progress / initial) * 100 : 0;
     const percentBar  = Math.min(percentText, 100);
+
     let bgColor = "#ff7a00", textColor = "#ff7a00", extraClass = "";
     if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; extraClass = "glow"; }
     else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
+
     const metaText = initial > 0
       ? (diff >= 0 ? `Reste : ${diff} • ${progress}/${initial}` : `Dépassé : ${-diff} • ${progress}/${initial}`)
       : `Aucun objectif • ${progress}`;
+
     return `
       <div class="store-progress-row ${extraClass}" style="background:${bgColor};">
         <div class="store-progress-head">
@@ -967,22 +1169,30 @@ function renderStoreTracking(){
   }).join("");
 }
 
+/* =====================================================================
+   RENDER TX (Taux de Transformation)
+   ===================================================================== */
 function renderTx(){
   const panel   = document.getElementById("txPanel");
   const content = document.getElementById("txContent");
   if(!panel || !content || !currentStore) return;
+
   let todayTotal = 0;
   managerItemsList.forEach(item => todayTotal += globalData.personal?.[currentStore]?.[item] || 0);
+
   const objective   = globalData.dailyObjective?.[currentStore] || 0;
   const diff        = objective - todayTotal;
   const percentText = objective > 0 ? (todayTotal / objective) * 100 : 0;
   const percentBar  = Math.min(percentText, 100);
+
   let bgColor = "#ff7a00", textColor = "#ff7a00", glowClass = "";
   if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; glowClass = "glow"; }
   else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
+
   const metaText = objective > 0
     ? (diff >= 0 ? `Reste : ${diff} • ${todayTotal}/${objective}` : `Dépassé de : ${-diff} • ${todayTotal}/${objective}`)
     : `Aucun objectif • ${todayTotal} placement${todayTotal>1?"s":""} aujourd'hui`;
+
   content.innerHTML = `
     <div class="store-progress-row ${glowClass}" style="background:${bgColor};">
       <div class="store-progress-head">
@@ -996,7 +1206,49 @@ function renderTx(){
     </div>`;
 }
 
+/* =====================================================================
+   RENDER DIRECTOR
+   ===================================================================== */
+function renderDirectorSummary(){
+  const summaryEl = document.getElementById("directorSummary");
+  if(!summaryEl) return;
+
+  summaryEl.innerHTML = boutiqueDisplayList.map(item => {
+    let todayTotal = 0, weeklyTotal = 0, objectiveTotal = 0;
+
+    Object.keys(sectors).forEach(sk => {
+      sectors[sk].stores.forEach(name => {
+        todayTotal  += globalData.personal?.[name]?.[item]       || 0;
+        weeklyTotal += globalData.weeklyPersonal?.[name]?.[item] || 0;
+      });
+      objectiveTotal += globalData.sectorInitial?.[sk]?.[item] || 0;
+    });
+
+    const percentText = objectiveTotal > 0 ? (weeklyTotal / objectiveTotal) * 100 : 0;
+    const percentBar  = Math.min(percentText, 100);
+
+    let bgColor = "#ff7a00", textColor = "#ff7a00", glowClass = "";
+    if(percentText >= 120){ bgColor = "#1e7e34"; textColor = "#1e7e34"; glowClass = "glow"; }
+    else if(percentText >= 100){ bgColor = "#66cc88"; textColor = "#66cc88"; }
+
+    return `
+      <div class="store-progress-row ${glowClass}" style="background:${bgColor};padding:8px 10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div style="font-size:12px;font-weight:700;">${item}</div>
+          <div style="font-size:10px;font-weight:600;text-align:right;">
+            J : ${todayTotal} &nbsp;•&nbsp; S : ${weeklyTotal}${objectiveTotal > 0 ? `/${objectiveTotal}` : ""}
+          </div>
+        </div>
+        <div class="store-progress-container">
+          <div class="store-progress-bar" style="width:${percentBar}%;"></div>
+          <div class="store-progress-text" style="color:${textColor};">${objectiveTotal > 0 ? percentText.toFixed(0)+"%" : "—"}</div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
 function renderDirector(){
+  renderDirectorSummary();
   Object.keys(sectors).forEach((sk, idx) => {
     const num = idx + 1;
     const sectorStores = sectors[sk].stores;
@@ -1094,105 +1346,192 @@ function renderDirector(){
   });
 }
 
+/* =====================================================================
+   DECREMENT (valider une vente)
+   ===================================================================== */
 window.decrement = async function(item){
   if(isAdmin()) return;
   if(!confirm("Confirmer cette vente ?")) return;
+
   cancelTimers[item] = Date.now() + 20000;
   if(cancelTimerTimeouts[item]) clearTimeout(cancelTimerTimeouts[item]);
-  cancelTimerTimeouts[item] = setTimeout(() => { cancelTimers[item] = null; display(); }, 20000);
+  cancelTimerTimeouts[item] = setTimeout(() => {
+    cancelTimers[item] = null;
+    display();
+  }, 20000);
+
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
     if(!snap.exists()) return;
     const data = snap.data();
+
     const targetStore  = isManager() ? currentStore : currentUser;
     const targetSector = currentSector;
-    const cP   = data.personal            || {};
-    const cWP  = data.weeklyPersonal       || {};
-    const cST  = data.sectorTotals         || {};
-    const cWST = data.weeklySectorTotals   || {};
-    const cBP  = data.boutiqueProgress     || {};
+
+    const cP  = data.personal            || {};
+    const cWP = data.weeklyPersonal       || {};
+    const cST = data.sectorTotals         || {};
+    const cWST= data.weeklySectorTotals   || {};
+    const cBP = data.boutiqueProgress     || {};
+
     const payload = {
-      personal:           { ...cP,   [targetStore]:  { ...(cP[targetStore]||{}),   [item]: (cP[targetStore]?.[item]||0)+1 } },
-      weeklyPersonal:     { ...cWP,  [targetStore]:  { ...(cWP[targetStore]||{}),  [item]: (cWP[targetStore]?.[item]||0)+1 } },
-      sectorTotals:       { ...cST,  [targetSector]: { ...(cST[targetSector]||{}), [item]: (cST[targetSector]?.[item]||0)+1 } },
-      weeklySectorTotals: { ...cWST, [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 } }
+      personal: {
+        ...cP,
+        [targetStore]: { ...(cP[targetStore]||{}), [item]: (cP[targetStore]?.[item]||0)+1 }
+      },
+      weeklyPersonal: {
+        ...cWP,
+        [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
+      },
+      sectorTotals: {
+        ...cST,
+        [targetSector]: { ...(cST[targetSector]||{}), [item]: (cST[targetSector]?.[item]||0)+1 }
+      },
+      weeklySectorTotals: {
+        ...cWST,
+        [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
+      }
     };
+
     if(managerItemsList.includes(item)){
       const bpm = cBP[targetStore] || {};
-      payload.boutiqueProgress = { ...cBP, [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 } };
+      payload.boutiqueProgress = {
+        ...cBP,
+        [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
+      };
     }
+
     transaction.set(ref, payload, { merge:true });
   });
 };
 
+/* =====================================================================
+   CANCEL SALE
+   ===================================================================== */
 window.cancelSale = async function(item){
   if(isAdmin()) return;
   if(!cancelTimers[item] || Date.now() > cancelTimers[item]) return;
+
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
     if(!snap.exists()) return;
     const data = snap.data();
+
     const targetStore  = isManager() ? currentStore : currentUser;
     const targetSector = currentSector;
-    const cP   = data.personal            || {};
-    const cWP  = data.weeklyPersonal       || {};
-    const cST  = data.sectorTotals         || {};
-    const cWST = data.weeklySectorTotals   || {};
-    const cBP  = data.boutiqueProgress     || {};
+
+    const cP  = data.personal            || {};
+    const cWP = data.weeklyPersonal       || {};
+    const cST = data.sectorTotals         || {};
+    const cWST= data.weeklySectorTotals   || {};
+    const cBP = data.boutiqueProgress     || {};
+
     const payload = {
-      personal:           { ...cP,   [targetStore]:  { ...(cP[targetStore]||{}),   [item]: Math.max((cP[targetStore]?.[item]||0)-1,0) } },
-      weeklyPersonal:     { ...cWP,  [targetStore]:  { ...(cWP[targetStore]||{}),  [item]: Math.max((cWP[targetStore]?.[item]||0)-1,0) } },
-      sectorTotals:       { ...cST,  [targetSector]: { ...(cST[targetSector]||{}), [item]: Math.max((cST[targetSector]?.[item]||0)-1,0) } },
-      weeklySectorTotals: { ...cWST, [targetSector]: { ...(cWST[targetSector]||{}), [item]: Math.max((cWST[targetSector]?.[item]||0)-1,0) } }
+      personal: {
+        ...cP,
+        [targetStore]: { ...(cP[targetStore]||{}), [item]: Math.max((cP[targetStore]?.[item]||0)-1,0) }
+      },
+      weeklyPersonal: {
+        ...cWP,
+        [targetStore]: { ...(cWP[targetStore]||{}), [item]: Math.max((cWP[targetStore]?.[item]||0)-1,0) }
+      },
+      sectorTotals: {
+        ...cST,
+        [targetSector]: { ...(cST[targetSector]||{}), [item]: Math.max((cST[targetSector]?.[item]||0)-1,0) }
+      },
+      weeklySectorTotals: {
+        ...cWST,
+        [targetSector]: { ...(cWST[targetSector]||{}), [item]: Math.max((cWST[targetSector]?.[item]||0)-1,0) }
+      }
     };
+
     if(managerItemsList.includes(item)){
       const bpm = cBP[targetStore] || {};
-      payload.boutiqueProgress = { ...cBP, [targetStore]: { ...bpm, [item]: Math.max((bpm[item]||0)-1,0) } };
+      payload.boutiqueProgress = {
+        ...cBP,
+        [targetStore]: { ...bpm, [item]: Math.max((bpm[item]||0)-1,0) }
+      };
     }
+
     transaction.set(ref, payload, { merge:true });
   });
+
   cancelTimers[item] = null;
   if(cancelTimerTimeouts[item]){ clearTimeout(cancelTimerTimeouts[item]); cancelTimerTimeouts[item] = null; }
 };
 
+/* =====================================================================
+   CATCH UP SALE (rattraper semaine)
+   ===================================================================== */
 window.catchUpSale = async function(item){
   if(!isManager()) return;
   if(!confirm("Rattraper une vente semaine pour " + item + " ?")) return;
+
   await runTransaction(db, async (transaction) => {
     const snap = await transaction.get(ref);
     if(!snap.exists()) return;
     const data = snap.data();
-    const cWP  = data.weeklyPersonal     || {};
-    const cWST = data.weeklySectorTotals || {};
-    const cBP  = data.boutiqueProgress   || {};
+
+    const targetStore  = currentStore;
+    const targetSector = currentSector;
+
+    const cWP = data.weeklyPersonal     || {};
+    const cWST= data.weeklySectorTotals || {};
+    const cBP = data.boutiqueProgress   || {};
+
     const payload = {
-      weeklyPersonal:     { ...cWP,  [currentStore]:  { ...(cWP[currentStore]||{}),   [item]: (cWP[currentStore]?.[item]||0)+1 } },
-      weeklySectorTotals: { ...cWST, [currentSector]: { ...(cWST[currentSector]||{}), [item]: (cWST[currentSector]?.[item]||0)+1 } }
+      weeklyPersonal: {
+        ...cWP,
+        [targetStore]: { ...(cWP[targetStore]||{}), [item]: (cWP[targetStore]?.[item]||0)+1 }
+      },
+      weeklySectorTotals: {
+        ...cWST,
+        [targetSector]: { ...(cWST[targetSector]||{}), [item]: (cWST[targetSector]?.[item]||0)+1 }
+      }
     };
+
     if(managerItemsList.includes(item)){
-      const bpm = cBP[currentStore] || {};
-      payload.boutiqueProgress = { ...cBP, [currentStore]: { ...bpm, [item]: (bpm[item]||0)+1 } };
+      const bpm = cBP[targetStore] || {};
+      payload.boutiqueProgress = {
+        ...cBP,
+        [targetStore]: { ...bpm, [item]: (bpm[item]||0)+1 }
+      };
     }
+
     transaction.set(ref, payload, { merge:true });
   });
 };
 
+/* =====================================================================
+   RENDER ADMIN
+   ===================================================================== */
 function renderAdmin(){
   const div   = document.getElementById("adminInputs");
   const title = document.getElementById("adminTitle");
   div.innerHTML = "";
+
   if(isAdmin()){
     title.textContent = `Administration — ${sectors[currentSector]?.label}`;
+
+    /* Objectifs secteur par KPI */
     const sectorInitial = globalData.sectorInitial?.[currentSector] || {};
     boutiqueDisplayList.forEach(item => {
-      div.innerHTML += `<div>${item} : <input type="number" id="obj-${item}" value="${sectorInitial[item] || 0}"></div>`;
+      div.innerHTML += `
+        <div>
+          ${item} :
+          <input type="number" id="obj-${item}" value="${sectorInitial[item] || 0}">
+        </div>`;
     });
     return;
   }
+
   if(isManager()){
     title.textContent = `Administration boutique — ${currentStore}`;
-    const boutiqueObjectives    = globalData.boutiqueObjectives?.[currentStore] || {};
+    const boutiqueObjectives = globalData.boutiqueObjectives?.[currentStore] || {};
     const currentDailyObjective = globalData.dailyObjective?.[currentStore] || 0;
+
+    document.getElementById("saveDailyBtn").classList.remove("hidden");
+
     div.innerHTML += `
       <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #444;">
         🎯 Objectif journalier (total placements) :
@@ -1200,34 +1539,57 @@ function renderAdmin(){
         <br>
         <button onclick="saveDailyObjective()" style="background:#ffd700;color:#000;margin-top:8px;">Valider objectif journalier</button>
       </div>`;
+
     boutiqueDisplayList.forEach(item => {
-      div.innerHTML += `<div>${item} : <input type="number" id="obj-${item}" value="${boutiqueObjectives[item] || 0}"></div>`;
+      div.innerHTML += `
+        <div>
+          ${item} :
+          <input type="number" id="obj-${item}" value="${boutiqueObjectives[item] || 0}">
+        </div>`;
     });
   }
 }
 
+/* =====================================================================
+   SAVE OBJECTIVES
+   ===================================================================== */
 window.saveObjectives = async function(){
   if(!confirm("Valider les nouveaux objectifs ?")) return;
+
   if(isAdmin()){
     const currentSectorInitial = globalData.sectorInitial || {};
     const updatedSectorInitial = { ...(currentSectorInitial[currentSector] || {}) };
+
     boutiqueDisplayList.forEach(item => {
-      updatedSectorInitial[item] = parseInt(document.getElementById("obj-" + item).value) || 0;
+      const val = parseInt(document.getElementById("obj-" + item).value) || 0;
+      updatedSectorInitial[item] = val;
     });
-    await setDoc(ref, { sectorInitial: { ...currentSectorInitial, [currentSector]: updatedSectorInitial } }, { merge:true });
+
+    await setDoc(ref, {
+      sectorInitial: {
+        ...currentSectorInitial,
+        [currentSector]: updatedSectorInitial
+      }
+    }, { merge:true });
     return;
   }
+
   if(isManager()){
     const cBO = globalData.boutiqueObjectives || {};
     const cBI = globalData.boutiqueInitial    || {};
     const cBP = globalData.boutiqueProgress   || {};
+
     const updatedObj  = { ...(cBO[currentStore] || {}) };
     const updatedInit = { ...(cBI[currentStore] || {}) };
     const resetProg   = { ...(cBP[currentStore] || {}) };
+
     boutiqueDisplayList.forEach(item => {
       const val = parseInt(document.getElementById("obj-" + item).value) || 0;
-      updatedObj[item] = val; updatedInit[item] = val; resetProg[item] = 0;
+      updatedObj[item]  = val;
+      updatedInit[item] = val;
+      resetProg[item]   = 0;
     });
+
     await setDoc(ref, {
       boutiqueObjectives: { ...cBO, [currentStore]: updatedObj },
       boutiqueInitial:    { ...cBI, [currentStore]: updatedInit },
@@ -1236,47 +1598,85 @@ window.saveObjectives = async function(){
   }
 };
 
+/* =====================================================================
+   SAVE DAILY OBJECTIVE (bouton séparé — ne remet pas les KPI à zéro)
+   ===================================================================== */
 window.saveDailyObjective = async function(){
   if(!isManager()) return;
   if(!confirm("Valider l'objectif journalier ?")) return;
+
   const dailyVal = parseInt(document.getElementById("obj-daily").value) || 0;
   const cDO = globalData.dailyObjective || {};
-  await setDoc(ref, { dailyObjective: { ...cDO, [currentStore]: dailyVal } }, { merge:true });
+
+  await setDoc(ref, {
+    dailyObjective: { ...cDO, [currentStore]: dailyVal }
+  }, { merge:true });
 };
 
+/* =====================================================================
+   RESET WEEKLY
+   ===================================================================== */
 window.resetWeekly = async function(){
   if(!confirm("Réinitialiser tous les objectifs ?")) return;
+
   if(isAdmin()){
     await runTransaction(db, async (transaction) => {
       const snap = await transaction.get(ref);
       if(!snap.exists()) return;
       const data = snap.data();
+
       const cST  = data.sectorTotals        || {};
       const cWST = data.weeklySectorTotals   || {};
       const cSI  = data.sectorInitial        || {};
+
       const newST  = { ...cST,  [currentSector]: {} };
       const newWST = { ...cWST, [currentSector]: {} };
       const newSI  = { ...cSI,  [currentSector]: {} };
-      itemsList.forEach(item => { newST[currentSector][item] = 0; newWST[currentSector][item] = 0; newSI[currentSector][item] = 0; });
+
+      itemsList.forEach(item => {
+        newST[currentSector][item]  = 0;
+        newWST[currentSector][item] = 0;
+        newSI[currentSector][item]  = 0;
+      });
+
+      /* Reset weeklyPersonal pour les boutiques du secteur */
       const cWP = data.weeklyPersonal || {};
       const newWP = { ...cWP };
-      sectors[currentSector].stores.forEach(store => { newWP[store] = {}; itemsList.forEach(item => newWP[store][item] = 0); });
-      transaction.set(ref, { sectorTotals: newST, weeklySectorTotals: newWST, sectorInitial: newSI, weeklyPersonal: newWP }, { merge:true });
+      sectors[currentSector].stores.forEach(store => {
+        newWP[store] = {};
+        itemsList.forEach(item => newWP[store][item] = 0);
+      });
+
+      transaction.set(ref, {
+        sectorTotals:       newST,
+        weeklySectorTotals: newWST,
+        sectorInitial:      newSI,
+        weeklyPersonal:     newWP
+      }, { merge:true });
     });
     return;
   }
+
   if(isManager()){
     await runTransaction(db, async (transaction) => {
       const snap = await transaction.get(ref);
       if(!snap.exists()) return;
       const data = snap.data();
+
       const cBO = data.boutiqueObjectives || {};
       const cBI = data.boutiqueInitial    || {};
       const cBP = data.boutiqueProgress   || {};
+
       const resetObj  = { ...(cBO[currentStore] || {}) };
       const resetInit = { ...(cBI[currentStore] || {}) };
       const resetProg = { ...(cBP[currentStore] || {}) };
-      boutiqueDisplayList.forEach(item => { resetObj[item] = 0; resetInit[item] = 0; resetProg[item] = 0; });
+
+      boutiqueDisplayList.forEach(item => {
+        resetObj[item]  = 0;
+        resetInit[item] = 0;
+        resetProg[item] = 0;
+      });
+
       transaction.set(ref, {
         boutiqueObjectives: { ...cBO, [currentStore]: resetObj },
         boutiqueInitial:    { ...cBI, [currentStore]: resetInit },
@@ -1286,6 +1686,7 @@ window.resetWeekly = async function(){
   }
 };
 
+/* Touche Entrée */
 document.getElementById("password").addEventListener("keydown", function(event){
   if(event.key === "Enter"){ event.preventDefault(); login(); }
 });
